@@ -1,0 +1,51 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--precedent-space-md);
+  flex-wrap: nowrap;
+}
+
+.inline {
+  display: inline-flex;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.gapNone {
+  gap: var(--precedent-space-none);
+}
+
+.gapXs {
+  gap: var(--precedent-space-xs);
+}
+
+.gapSm {
+  gap: var(--precedent-space-sm);
+}
+
+.gapMd {
+  gap: var(--precedent-space-md);
+}
+
+.gapLg {
+  gap: var(--precedent-space-lg);
+}
+
+.wrapNowrap {
+  flex-wrap: nowrap;
+}
+
+.wrapWrap {
+  flex-wrap: wrap;
+}
+
+.wrapWrapReverse {
+  flex-wrap: wrap-reverse;
+}
+

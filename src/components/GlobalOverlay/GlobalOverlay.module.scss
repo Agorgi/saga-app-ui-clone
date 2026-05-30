@@ -1,0 +1,11 @@
+.mainContent {
+  padding-inline: 20px;
+  margin: 0 auto;
+  max-width: 1280px;
+
+  // Add bottom padding on small viewports while bottom navbar is visible
+  // (see BottomNavbar.module.scss — .navbar-container min-height: 60px)
+  @media (max-width: 768px) {
+    padding-bottom: calc(60px + 24px + env(safe-area-inset-bottom, 0px));
+  }
+}

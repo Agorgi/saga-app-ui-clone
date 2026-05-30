@@ -1,0 +1,13 @@
+.characterCount {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--precedent-color-text-muted);
+  text-align: right;
+}
+
+.nearLimit {
+  color: var(--precedent-color-warning);
+}
+
+.atLimit {
+  color: var(--precedent-color-error);
+}

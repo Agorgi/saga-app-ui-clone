@@ -1,0 +1,19 @@
+.postActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0.75rem 0 0.25rem 0.75rem;
+  background: var(--precedent-color-surface);
+  border-radius: 0 0 8px 8px;
+  transition: background-color 0.3s ease;
+}
+
+.commentCount {
+  font-size: 0.875rem;
+  color: var(--precedent-color-text-muted);
+  margin-left: auto;
+}
+
+.collabButton {
+  margin-left: auto;
+}

@@ -1,0 +1,268 @@
+:root {
+  /* Typography */
+  --font-inter: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --precedent-font-sans: var(--font-inter);
+  --precedent-font-mono: 'Fira Code', 'SFMono-Regular', Consolas, monospace;
+
+  /* Font sizes */
+  --precedent-font-size-text-2xl: 20px;
+  --precedent-font-size-text-xl: 18px;
+  --precedent-font-size-text-lg: 16px;
+  --precedent-font-size-text-md: 14px;
+  --precedent-font-size-text-sm: 12px;
+  --precedent-font-size-text-xs: 10px;
+  --precedent-font-size-text-2xs: 8px;
+
+  /* Spacing scale */
+  --precedent-space-none: 0;
+  --precedent-space-2xs: 0.25rem;
+  --precedent-space-xs: 0.5rem;
+  // TODO: sm and md are the same...
+  --precedent-space-sm: 0.75rem;
+  --precedent-space-md: 10px;
+  --precedent-space-lg: 12px;
+  --precedent-space-xl: 16px;
+  --precedent-space-2xl: 20px;
+
+  /* Radius scale */
+  --precedent-radius-none: 0;
+  --precedent-radius-xs: 2px;
+  --precedent-radius-sm: 4px;
+  --precedent-radius-md: 8px;
+  --precedent-radius-lg: 16px;
+  --precedent-radius-fully-rounded: 9999px;
+
+  /* Dark mode colors (default) */
+  --precedent-color-primary: #7779ed;
+  --precedent-color-primary-hover: #6366f1;
+  --precedent-color-primary-muted: rgba(139, 141, 240, 0.15);
+  --precedent-color-primary-glow: rgba(119, 121, 237, 0.5);
+  /* Figma onboarding accent */
+  --precedent-color-accent-start: #5f5ff5;
+  --precedent-color-accent-end: #7678ff;
+  --precedent-color-surface: #13161b;
+  --precedent-color-surface-subtle: #0f172a;
+  --precedent-color-border: rgba(148, 163, 184, 0.2);
+  --precedent-color-border-subtle: rgba(148, 163, 184, 0.12);
+  --precedent-color-text: #f7f7f7;
+  --precedent-color-text-muted: #94979c;
+  --precedent-color-text-subtle: #94a3b8;
+  --precedent-color-text-error: #b91c1c;
+  --precedent-color-background: #0c0e12;
+  --precedent-color-on-primary: #ffffff;
+  --precedent-color-error: #dc2626;
+  --precedent-color-error-subtle: rgba(220, 38, 38, 0.08);
+  --precedent-color-error-border: rgba(220, 38, 38, 0.42);
+  --color-success: #16a34a;
+  --color-success-bg: rgba(34, 197, 94, 0.06);
+  --color-success-border: rgba(34, 197, 94, 0.2);
+  --precedent-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --precedent-shadow-md: 0 18px 40px rgba(0, 0, 0, 0.4);
+
+  /* Semantic aliases used across the codebase */
+  --precedent-color-danger: #dc2626;
+  --precedent-color-danger-subtle: rgba(220, 38, 38, 0.08);
+  --precedent-color-surface-hover: #1a1f2c;
+
+  /* Warning palette */
+  --color-warning: #d97706;
+  --color-warning-bg: rgba(245, 158, 11, 0.1);
+  --color-warning-border: rgba(245, 158, 11, 0.22);
+
+  /* Brand palette (from Soph/Figma) */
+  --brand-purple-50: #1c1f5f;
+  --brand-purple-200: #38399e;
+  --brand-purple-300: #2d31a6;
+  --brand-purple-700: #bbbbfb;
+  --brand-purple-check: #a4bcfd;
+  --brand-purple-solid: #565fd9;
+  --brand-primary: #7779ed;
+  --brand-primary-hover: #6366f1;
+  --brand-primary-rgb: 119 121 237;
+  --brand-gradient-start: #ff4405;
+  --brand-gradient-end: #7779ed;
+
+  /* Neutral palette */
+  --color-bg: #0c0e12;
+  --color-surface: #13161b;
+  --color-surface-muted: #1d2028;
+  --color-border: rgba(148, 163, 184, 0.2);
+  --color-text: #f7f7f7;
+  --color-text-muted: #94979c;
+
+  /* Semantic stat colours */
+  --color-emerald: #34d399;
+  --color-amber: #fbbf24;
+  --color-sky: #38bdf8;
+  --color-sky-rgb: 56 189 248;
+
+  /* Tinted brand text (glass UI variants) */
+  --color-indigo-300: #a5b4fc;
+  --color-purple-300: #c4b5fd;
+
+  /* Soft danger text (glass button variant) */
+  --color-danger-soft: #fca5a5;
+
+  /* Status badge — theme-aware text colours */
+  --color-pending-winner: #fb7185;
+  --color-pending-result: #fde047;
+
+  /* Tie-banner accent */
+  --color-tie-bg: rgba(254, 243, 199, 0.08);
+  --color-tie-text: #fbbf24;
+
+  /* Glass morphism surface */
+  --glass-bg: rgba(18, 18, 32, 0.72);
+  --glass-backdrop: blur(20px) saturate(160%);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --glass-shimmer: rgba(255, 255, 255, 0.15);
+
+  /* Glass pill — compact frosted control surface (sort button, segmented control) */
+  --glass-pill-bg: rgba(255, 255, 255, 0.07);
+  --glass-pill-border: rgba(255, 255, 255, 0.11);
+  --glass-pill-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --glass-pill-hover-bg: rgba(255, 255, 255, 0.12);
+  --glass-pill-hover-shadow: 0 4px 16px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  /* Glass dropdown shadow */
+  --glass-shadow-dropdown: 0 8px 32px rgba(0, 0, 0, 0.36);
+
+  /* Motion easings */
+  --easing-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --easing-spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Brand glow shadows */
+  --glow-sm: 0 0 12px rgba(119, 121, 237, 0.25);
+  --glow-md: 0 6px 24px rgba(119, 121, 237, 0.38);
+  --glow-lg: 0 8px 32px rgba(119, 121, 237, 0.45);
+
+  /* Funding tier badge colours — dark mode */
+  --tier-bronze-text: #e8a468;
+  --tier-bronze-bg: rgba(205, 127, 50, 0.18);
+  --tier-bronze-track-tick: rgba(205, 127, 50, 0.55);
+  --tier-silver-text: #c8c8c8;
+  --tier-silver-bg: rgba(192, 192, 192, 0.16);
+  --tier-silver-track-tick: rgba(192, 192, 192, 0.55);
+  --tier-gold-text: #ffd700;
+  --tier-gold-bg: rgba(255, 215, 0, 0.14);
+  --tier-gold-track-tick: rgba(255, 215, 0, 0.55);
+  --tier-platinum-text: #b8d0e8;
+  --tier-platinum-bg: rgba(184, 208, 232, 0.16);
+  --tier-platinum-track-tick: rgba(184, 208, 232, 0.55);
+}
+
+[data-theme='light'] {
+  /* Light mode colors */
+  --precedent-color-primary: #7779ed;
+  --precedent-color-primary-hover: #6366f1;
+  --precedent-color-primary-muted: rgba(37, 99, 235, 0.08);
+  --precedent-color-primary-glow: rgba(119, 121, 237, 0.4);
+  /* Figma onboarding accent */
+  --precedent-color-accent-start: #5f5ff5;
+  --precedent-color-accent-end: #7678ff;
+  --precedent-color-surface: #ffffff;
+  --precedent-color-surface-subtle: #f8fafc;
+  --precedent-color-border: rgba(148, 163, 184, 0.36);
+  --precedent-color-border-subtle: rgba(148, 163, 184, 0.22);
+  --precedent-color-text: #0f172a;
+  --precedent-color-text-muted: #475569;
+  --precedent-color-text-subtle: #94a3b8;
+  --precedent-color-text-error: #b91c1c;
+  --precedent-color-background: #f9fafb;
+  --precedent-color-on-primary: #ffffff;
+  --precedent-color-error: #dc2626;
+  --precedent-color-error-subtle: rgba(220, 38, 38, 0.06);
+  --precedent-color-error-border: rgba(220, 38, 38, 0.38);
+  --color-success: #16a34a;
+  --color-success-bg: rgba(34, 197, 94, 0.07);
+  --color-success-border: rgba(34, 197, 94, 0.22);
+  --precedent-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.12);
+  --precedent-shadow-md: 0 18px 40px rgba(15, 23, 42, 0.16);
+
+  /* Semantic aliases used across the codebase */
+  --precedent-color-danger: #dc2626;
+  --precedent-color-danger-subtle: rgba(220, 38, 38, 0.06);
+  --precedent-color-surface-hover: #f1f5f9;
+
+  /* Warning palette */
+  --color-warning: #b45309;
+  --color-warning-bg: rgba(245, 158, 11, 0.08);
+  --color-warning-border: rgba(245, 158, 11, 0.28);
+
+  /* Brand palette (base, non-precedent) */
+  --brand-purple-50: #eef0ff;
+  --brand-purple-200: #cfd4ff;
+  --brand-purple-300: #b3bbff;
+  --brand-purple-700: #3f4399;
+  --brand-purple-check: #5f68e2;
+  --brand-purple-solid: #565fd9;
+  --brand-primary: #7779ed;
+  --brand-primary-hover: #6366f1;
+  --brand-primary-rgb: 119 121 237;
+  --brand-gradient-start: #ff4405;
+  --brand-gradient-end: #7779ed;
+
+  /* Neutral palette (shared, non-precedent) */
+  --color-bg: #f9fafb;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f3f4f6;
+  --color-border: rgba(148, 163, 184, 0.36);
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+
+  /* Semantic stat colours (light mode) */
+  --color-emerald: #10b981;
+  --color-amber: #f59e0b;
+  --color-sky: #0ea5e9;
+  --color-sky-rgb: 14 165 233;
+
+  /* Tinted brand text (light mode) */
+  --color-indigo-300: #6366f1;
+  --color-purple-300: #7779ed;
+
+  /* Soft danger text (light mode) */
+  --color-danger-soft: #dc2626;
+
+  /* Status badge — theme-aware text colours */
+  --color-pending-winner: #be123c;
+  --color-pending-result: #92400e;
+
+  /* Tie-banner accent (light mode) */
+  --color-tie-bg: #fef3c7;
+  --color-tie-text: #92400e;
+
+  /* Glass morphism surface (light mode) */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-backdrop: blur(20px) saturate(120%);
+  --glass-border: rgba(0, 0, 0, 0.07);
+  --glass-shimmer: rgba(255, 255, 255, 0.6);
+
+  /* Glass pill (light mode) */
+  --glass-pill-bg: rgba(0, 0, 0, 0.05);
+  --glass-pill-border: rgba(0, 0, 0, 0.09);
+  --glass-pill-shadow: 0 1px 4px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --glass-pill-hover-bg: rgba(0, 0, 0, 0.08);
+  --glass-pill-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+
+  /* Glass dropdown shadow (light mode) */
+  --glass-shadow-dropdown: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+  /* Brand glow shadows (light mode) */
+  --glow-sm: 0 0 12px rgba(119, 121, 237, 0.18);
+  --glow-md: 0 6px 24px rgba(119, 121, 237, 0.28);
+  --glow-lg: 0 8px 32px rgba(119, 121, 237, 0.32);
+
+  /* Funding tier badge colours — light mode */
+  --tier-bronze-text: #7a3810;
+  --tier-bronze-bg: rgba(205, 127, 50, 0.14);
+  --tier-bronze-track-tick: rgba(140, 74, 30, 0.5);
+  --tier-silver-text: #424242;
+  --tier-silver-bg: rgba(100, 100, 100, 0.12);
+  --tier-silver-track-tick: rgba(80, 80, 80, 0.45);
+  --tier-gold-text: #7a5800;
+  --tier-gold-bg: rgba(218, 165, 32, 0.14);
+  --tier-gold-track-tick: rgba(184, 134, 11, 0.5);
+  --tier-platinum-text: #2c5282;
+  --tier-platinum-bg: rgba(74, 111, 165, 0.12);
+  --tier-platinum-track-tick: rgba(74, 111, 165, 0.45);
+}

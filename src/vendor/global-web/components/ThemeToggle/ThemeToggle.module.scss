@@ -1,0 +1,80 @@
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(var(--brand-primary-rgb) / 0.22);
+  border-radius: 50%;
+  background: rgba(var(--brand-primary-rgb) / 0.06);
+  box-shadow: var(--glass-pill-shadow);
+  color: var(--precedent-color-text);
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+
+  &:hover {
+    background: rgba(var(--brand-primary-rgb) / 0.1);
+    border-color: rgba(var(--brand-primary-rgb) / 0.35);
+    box-shadow: var(--glass-pill-hover-shadow);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    transition-duration: 80ms;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(var(--brand-primary-rgb) / 0.5);
+    outline-offset: 2px;
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--precedent-color-text);
+  animation: iconRotate 0.3s ease;
+}
+
+@keyframes iconRotate {
+  from {
+    transform: rotate(-180deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+
+  .themeToggle:hover & {
+    transform: rotate(15deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .themeToggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}

@@ -1,0 +1,135 @@
+.profile__details {
+  margin-top: 4rem;
+  @media (max-width: 425px) {
+    margin-top: 0;
+  }
+}
+
+.profile__header_row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  @media (max-width: 430px) {
+    justify-content: center;
+  }
+}
+
+.profile__username_row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  @media (max-width: 425px) {
+    justify-content: center;
+  }
+}
+
+.profile__username {
+  color: var(--precedent-color-primary);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.copyButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--precedent-border-radius-sm);
+  transition: all 0.2s ease;
+  color: var(--precedent-color-text-subtle);
+
+  &:hover {
+    background-color: var(--precedent-color-background-hover);
+    color: var(--precedent-color-primary);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.profile__bio {
+  margin-top: 0.5rem;
+  color: var(--precedent-color-text-subtle);
+  line-height: 1.6;
+}
+
+.profile__bio_link {
+  color: var(--precedent-color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-word;
+}
+
+.profile__actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: var(--precedent-space-sm);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  @media (max-width: 425px) {
+    justify-content: center;
+  }
+}
+
+.profile__edit_button {
+  width: fit-content;
+  padding: var(--precedent-space-xs) var(--precedent-space-sm);
+  font-size: var(--precedent-font-size-text-sm);
+}
+
+.profile__invite_button {
+  padding: var(--precedent-space-xs) var(--precedent-space-sm);
+  font-size: var(--precedent-font-size-text-sm);
+  width: fit-content;
+}
+
+// Wireframe-only: the source renders a live FollowStats component and a
+// FollowButton with its own styling. These stand-ins reproduce the visible
+// follower/following row and a static follow button over placeholder data.
+.profile__stats {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  color: var(--precedent-color-text-muted);
+  font-size: 0.875rem;
+
+  @media (max-width: 425px) {
+    justify-content: center;
+  }
+}
+
+.profile__stat {
+  font-weight: 600;
+  color: var(--precedent-color-text);
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.profile__follow_button {
+  margin-top: 1rem;
+  width: fit-content;
+
+  @media (max-width: 425px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

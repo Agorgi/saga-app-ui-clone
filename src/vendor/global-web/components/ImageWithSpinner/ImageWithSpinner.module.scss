@@ -1,0 +1,26 @@
+.wrapper {
+  width: 100%;
+  display: grid;
+
+  > * {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--precedent-color-surface-subtle);
+  min-height: 80px;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 1;
+  transition: opacity 150ms ease;
+}

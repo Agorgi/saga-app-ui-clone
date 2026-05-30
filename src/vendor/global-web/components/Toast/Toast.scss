@@ -1,0 +1,245 @@
+// Apple-style toast: glass surface, hairline border, semantic tint + icon (no heavy borders).
+// react-toastify reads --toastify-color-light in "light" mode and --toastify-color-dark in "dark" mode.
+
+:root {
+  --toastify-color-light: var(--precedent-color-surface);
+  --toastify-color-dark: var(--precedent-color-surface);
+  --toastify-toast-bd-radius: var(--precedent-radius-fully-rounded);
+  --toastify-toast-shadow: var(--precedent-shadow-sm), var(--precedent-shadow-md);
+  --toastify-text-color-light: var(--precedent-color-text);
+  --toastify-text-color-dark: var(--precedent-color-text);
+  --toastify-z-index: 10000;
+}
+
+@keyframes saga-toast-enter-bottom {
+  from {
+    opacity: 0;
+    transform: translate3d(0, calc(100% + var(--precedent-space-md)), 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, var(--y), 0);
+  }
+}
+
+@keyframes saga-toast-exit-bottom {
+  from {
+    opacity: 1;
+    transform: translate3d(0, var(--y), 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, calc(var(--y) + var(--precedent-space-md)), 0);
+  }
+}
+
+.Toastify__slide-enter--bottom-center {
+  animation-name: saga-toast-enter-bottom;
+  animation-timing-function: var(--easing-spring);
+  animation-duration: 0.32s;
+}
+
+.Toastify__slide-exit--bottom-center {
+  animation-name: saga-toast-exit-bottom;
+  animation-timing-function: ease-in;
+  animation-duration: 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Toastify__slide-enter--bottom-center,
+  .Toastify__slide-exit--bottom-center,
+  .Toastify--animate,
+  .Toastify--animate-icon {
+    animation: none !important;
+    transition: opacity 0.12s ease !important;
+  }
+}
+
+.Toastify__toast.SagaToast {
+  --toast-tint-overlay: transparent;
+  position: relative;
+  color: var(--precedent-color-text);
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-md);
+  line-height: 1.45;
+  min-height: unset;
+  padding: var(--precedent-space-sm) var(--precedent-space-xl);
+  padding-inline-end: calc(var(--precedent-space-2xl) + var(--precedent-space-md));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--precedent-radius-fully-rounded);
+  box-shadow: var(--toastify-toast-shadow);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  background: linear-gradient(
+      var(--toast-tint-overlay),
+      var(--toast-tint-overlay)
+    ),
+    var(--glass-bg);
+}
+
+.Toastify__toast.SagaToast.Toastify__toast--success {
+  --toast-tint-overlay: var(--color-success-bg);
+}
+
+.Toastify__toast.SagaToast.Toastify__toast--error {
+  --toast-tint-overlay: var(--precedent-color-error-subtle);
+}
+
+.Toastify__toast.SagaToast.Toastify__toast--warning {
+  --toast-tint-overlay: var(--color-warning-bg);
+}
+
+.Toastify__toast.SagaToast.Toastify__toast--info {
+  --toast-tint-overlay: var(--precedent-color-primary-muted);
+}
+
+.Toastify__toast.SagaToast.Toastify__toast--default {
+  --toast-tint-overlay: var(--precedent-color-primary-muted);
+}
+
+.Toastify__toast.SagaToast .Toastify__toast-icon {
+  margin-inline-end: var(--precedent-space-md);
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Toastify__toast.SagaToast .toast-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.Toastify__toast.SagaToast .toast-icon--success {
+  color: var(--color-success);
+}
+
+.Toastify__toast.SagaToast .toast-icon--error {
+  color: var(--precedent-color-error);
+}
+
+.Toastify__toast.SagaToast .toast-icon--warning {
+  color: var(--color-warning);
+}
+
+.Toastify__toast.SagaToast .toast-icon--info {
+  color: var(--precedent-color-primary);
+}
+
+.Toastify__toast.SagaToast .toast-icon--default {
+  color: var(--precedent-color-text-muted);
+}
+
+@keyframes saga-toast-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Toastify__toast.SagaToast .toast-loading-spinner {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: var(--precedent-radius-fully-rounded);
+  border: 2px solid var(--precedent-color-border);
+  border-top-color: var(--precedent-color-primary);
+  animation: saga-toast-spin 0.65s linear infinite;
+}
+
+.Toastify__toast.SagaToast .toast-close-btn {
+  position: absolute;
+  top: 50%;
+  right: var(--precedent-space-sm);
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--precedent-radius-fully-rounded);
+  background: transparent;
+  color: var(--precedent-color-text-muted);
+  cursor: pointer;
+  opacity: 0.72;
+  transition:
+    color 0.18s var(--easing-spring),
+    opacity 0.18s var(--easing-spring);
+}
+
+.Toastify__toast.SagaToast .toast-close-btn:hover,
+.Toastify__toast.SagaToast .toast-close-btn:focus-visible {
+  opacity: 1;
+  color: var(--precedent-color-text);
+  outline: none;
+}
+
+.Toastify__toast.SagaToast .toast-close-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--precedent-color-surface), 0 0 0 4px var(--precedent-color-primary);
+}
+
+.Toastify__toast.SagaToast .toast-close-btn__icon {
+  width: 14px;
+  height: 14px;
+}
+
+.Toastify__toast.SagaToast.Toastify__toast--rtl .toast-close-btn {
+  right: auto;
+  left: var(--precedent-space-sm);
+}
+
+// Tablet: centered pill, bounded width
+@media (min-width: 768px) and (max-width: 1023px) {
+  .ToastContainer.Toastify__toast-container--bottom-center {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(380px, calc(100vw - 2 * var(--precedent-space-xl)));
+    max-width: 380px;
+    padding: 0;
+  }
+
+  .ToastContainer.Toastify__toast-container--bottom-center .Toastify__toast {
+    width: 100%;
+  }
+}
+
+// Desktop: card radius (18px = lg + xs), max width
+@media (min-width: 1024px) {
+  .ToastContainer.Toastify__toast-container--bottom-center {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(420px, calc(100vw - 2 * var(--precedent-space-xl)));
+    max-width: 420px;
+    padding: 0;
+    bottom: max(var(--precedent-space-2xl), env(safe-area-inset-bottom));
+  }
+
+  .ToastContainer.Toastify__toast-container--bottom-center .Toastify__toast.SagaToast {
+    width: 100%;
+    border-radius: calc(var(--precedent-radius-lg) + var(--precedent-radius-xs));
+  }
+}
+
+// Mobile: float above the bottom navbar (54px) with side insets.
+// Matches the bottom navbar breakpoint (visible up to 768px).
+@media (max-width: 767px) {
+  .ToastContainer.Toastify__toast-container--bottom-center {
+    bottom: calc(54px + var(--precedent-space-xl));
+    left: var(--precedent-space-xl);
+    right: var(--precedent-space-xl);
+    width: auto;
+    padding: 0;
+    max-width: none;
+    transform: none;
+  }
+
+  .ToastContainer.Toastify__toast-container--bottom-center .Toastify__toast {
+    margin-bottom: var(--precedent-space-xs);
+    width: 100%;
+  }
+}

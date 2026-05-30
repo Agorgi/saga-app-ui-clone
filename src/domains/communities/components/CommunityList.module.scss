@@ -1,0 +1,25 @@
+.communitiesList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loadingMessage,
+.emptyMessage {
+  text-align: center;
+  color: var(--precedent-color-text-muted);
+  padding: 40px 20px;
+  font-size: 14px;
+}
+
+.sentinel {
+  height: 1px;
+  width: 100%;
+}
+
+.loadingMore {
+  text-align: center;
+  color: var(--precedent-color-text-muted);
+  padding: 20px;
+  font-size: var(--precedent-font-size-text-md);
+}

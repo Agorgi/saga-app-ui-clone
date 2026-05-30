@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Saga App — UI Wireframe</title>
+    <meta name="description" content="Standalone UI wireframe clone of the Saga web app. UI only, placeholder content." />
+
+    <!-- Theme bootstrap (mirrors apps/app-web). Dark is default; light via data-theme. -->
+    <script>
+      (() => {
+        try {
+          var storageKey = 'saga-theme';
+          var theme = localStorage.getItem(storageKey);
+          if (!theme) {
+            var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            theme = prefersLight ? 'light' : 'dark';
+          }
+          if (theme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

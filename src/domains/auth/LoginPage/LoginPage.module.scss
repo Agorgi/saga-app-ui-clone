@@ -1,0 +1,7 @@
+.loginPage {
+  padding: 48px 16px 80px;
+
+  @media (max-width: 768px) {
+    padding: 24px 16px 64px;
+  }
+}

@@ -1,0 +1,99 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  padding: 4px 12px 4px 10px;
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: var(--precedent-radius-fully-rounded);
+  color: var(--precedent-color-text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease,
+    transform 120ms ease;
+}
+
+.card.cardNoIcon {
+  padding: 0.25rem 0.75rem;
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: var(--brand-purple-200);
+  transform: translateY(-1px);
+}
+
+.card:focus-visible {
+  box-shadow: 0 0 0 2px var(--brand-purple-200);
+}
+
+.cardSelected {
+  border-color: var(--brand-purple-200);
+  background: var(--brand-purple-50);
+  color: var(--brand-purple-700);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  box-sizing: border-box;
+  border-radius: var(--precedent-radius-fully-rounded);
+  background: var(--precedent-color-background);
+  border: 1px solid var(--precedent-color-border);
+  font-size: 16px;
+  line-height: 1;
+  color: var(--precedent-color-text);
+  position: relative;
+  text-align: center;
+}
+
+.iconSelected {
+  background: var(--precedent-color-background);
+  border-color: var(--brand-purple-300);
+  color: var(--brand-purple-check);
+  box-shadow: 0 0 0 2px var(--brand-purple-200);
+  font-size: 0;
+}
+
+.iconSelected::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 9px;
+  border: 2px solid var(--brand-purple-check);
+  border-top: 0;
+  border-left: 0;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-sizing: border-box;
+  display: block;
+}
+
+.label {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+.labelNoIcon {
+  font-weight: 600;
+  color: var(--precedent-color-text);
+  font-size: var(--precedent-font-size-text-md);
+  line-height: 18px;
+}

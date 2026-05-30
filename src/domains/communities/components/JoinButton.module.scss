@@ -1,0 +1,43 @@
+.toggleButton {
+  padding: var(--precedent-space-xs) var(--precedent-space-md);
+  border-radius: 999px;
+  border: 1px solid var(--precedent-color-border);
+  background: var(--precedent-color-background);
+  color: var(--precedent-color-text);
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background-color: var(--precedent-color-surface-subtle);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.joined {
+    background: var(--precedent-color-primary-light);
+    color: var(--precedent-color-primary);
+    border-color: var(--precedent-color-primary);
+
+    &:hover:not(:disabled) {
+      background: var(--precedent-color-primary);
+      color: white;
+    }
+  }
+
+  &.notJoined {
+    background: transparent;
+    color: var(--precedent-color-text-muted);
+    border-color: var(--precedent-color-border);
+
+    &:hover:not(:disabled) {
+      background: var(--precedent-color-primary-light);
+      color: var(--precedent-color-primary);
+    }
+  }
+}

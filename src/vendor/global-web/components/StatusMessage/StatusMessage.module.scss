@@ -1,0 +1,19 @@
+.statusMessage {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+
+  &.error {
+    border: 1px solid var(--precedent-color-border);
+    background-color: var(--precedent-color-primary-muted);
+    color: var(--precedent-color-text);
+  }
+
+  &.success {
+    border: 1px solid var(--precedent-color-primary);
+    background-color: var(--precedent-color-primary-muted);
+    color: var(--precedent-color-text);
+  }
+}
+

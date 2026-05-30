@@ -1,0 +1,105 @@
+// User avatar size variants
+.size--xs {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--precedent-color-surface-subtle);
+  transition: background-color 0.3s ease;
+}
+
+.size--small {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--precedent-color-surface-subtle);
+  transition: background-color 0.3s ease;
+}
+
+.size--medium {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--precedent-color-surface-subtle);
+  transition: background-color 0.3s ease;
+}
+
+.size--med-large {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--precedent-color-surface-subtle);
+  transition: background-color 0.3s ease;
+}
+
+.size--large {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--precedent-color-surface-subtle);
+  transition: background-color 0.3s ease;
+}
+
+// Profile variant (for profile page)
+.profile {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--precedent-color-border);
+  background-color: var(--precedent-color-surface-subtle);
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+  flex-shrink: 0;
+}
+
+// Community variants
+.communitySmall {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--precedent-color-background);
+}
+
+.communityLarge {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--precedent-color-surface-subtle);
+}
+
+// Placeholder for communities without image
+.placeholder {
+  border-radius: 50%;
+  background: var(--precedent-color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+  user-select: none;
+  width: 48px;
+  height: 48px;
+  font-size: var(--precedent-font-size-text-xl);
+}
+
+.placeholder.communityLarge {
+  width: 120px;
+  height: 120px;
+  font-size: 48px;
+}

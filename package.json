@@ -1,0 +1,33 @@
+{
+  "name": "saga-app-ui-clone",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone wireframe clone of the Saga web app UI (app.try-saga.com). UI only — no backend, no real data. For cosmetic iteration and design handoff.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.1.1",
+    "@untitledui/icons": "^0.0.21",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.13.1",
+    "react-select": "^5.10.2",
+    "react-toastify": "^11.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "sass": "^1.98.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.0.0"
+  }
+}

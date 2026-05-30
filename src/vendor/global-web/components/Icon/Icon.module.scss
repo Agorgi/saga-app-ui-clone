@@ -1,0 +1,13 @@
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+
+  img {
+    width: 1em;
+    height: 1em;
+    object-fit: contain;
+  }
+}
+

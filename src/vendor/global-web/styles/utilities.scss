@@ -1,0 +1,138 @@
+/* Layout */
+.precedent-flex {
+  display: flex;
+}
+
+.precedent-inline-flex {
+  display: inline-flex;
+}
+
+.precedent-flex-column {
+  flex-direction: column;
+}
+
+.precedent-flex-row {
+  flex-direction: row;
+}
+
+.precedent-flex-wrap {
+  flex-wrap: wrap;
+}
+
+.precedent-flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+.precedent-items-start {
+  align-items: flex-start;
+}
+
+.precedent-items-center {
+  align-items: center;
+}
+
+.precedent-items-end {
+  align-items: flex-end;
+}
+
+.precedent-justify-start {
+  justify-content: flex-start;
+}
+
+.precedent-justify-center {
+  justify-content: center;
+}
+
+.precedent-justify-between {
+  justify-content: space-between;
+}
+
+.precedent-justify-end {
+  justify-content: flex-end;
+}
+
+/* Gap utilities */
+.precedent-gap-none {
+  gap: var(--precedent-space-none);
+}
+
+.precedent-gap-2xs {
+  gap: var(--precedent-space-2xs);
+}
+
+.precedent-gap-xs {
+  gap: var(--precedent-space-xs);
+}
+
+.precedent-gap-sm {
+  gap: var(--precedent-space-sm);
+}
+
+.precedent-gap-md {
+  gap: var(--precedent-space-md);
+}
+
+.precedent-gap-lg {
+  gap: var(--precedent-space-lg);
+}
+
+/* Typography */
+.precedent-text-muted {
+  color: var(--precedent-color-text-muted);
+}
+
+.precedent-text-subtle {
+  color: var(--precedent-color-text-subtle);
+}
+
+.precedent-text-sm {
+  font-size: 0.875rem;
+}
+
+.precedent-text-lg {
+  font-size: 1.25rem;
+}
+
+/* Surface helpers */
+.precedent-surface {
+  background-color: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 0.75rem;
+}
+
+.precedent-shadow-sm {
+  box-shadow: var(--precedent-shadow-sm);
+}
+
+.precedent-shadow-md {
+  box-shadow: var(--precedent-shadow-md);
+}
+
+/* Spacing */
+.precedent-padding-sm {
+  padding: var(--precedent-space-sm);
+}
+
+.precedent-padding-md {
+  padding: var(--precedent-space-md);
+}
+
+.precedent-padding-lg {
+  padding: var(--precedent-space-lg);
+}
+
+.precedent-margin-none {
+  margin: 0;
+}
+
+/* Button utilities */
+.buttonSecondary {
+  background-color: var(--precedent-color-surface-subtle);
+  border-color: var(--precedent-color-border);
+  color: var(--precedent-color-text);
+
+  &:hover:not(:disabled) {
+    background-color: rgba(15, 23, 42, 0.06);
+  }
+}

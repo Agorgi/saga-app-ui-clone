@@ -1,0 +1,91 @@
+.section {
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--precedent-color-text);
+  margin: 0 0 16px 0;
+}
+
+.scrollTrack {
+  display: flex;
+  padding: 2px;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+
+  /* hide scrollbar on WebKit while keeping it functional */
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--precedent-color-border);
+    border-radius: 2px;
+  }
+}
+
+.cardWrap {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+
+  @media (max-width: 480px) {
+    flex: 0 0 180px;
+  }
+}
+
+.sentinel {
+  flex: 0 0 1px;
+  height: 1px;
+}
+
+.loadingMore {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--precedent-color-text-muted);
+  white-space: nowrap;
+}
+
+.skeletonRow {
+  display: flex;
+  gap: 16px;
+}
+
+.skeletonCard {
+  flex: 0 0 220px;
+  height: 200px;
+  border-radius: 12px;
+  background: var(--precedent-color-surface-subtle);
+  animation: shimmer 1.4s ease-in-out infinite;
+
+  @media (max-width: 480px) {
+    flex: 0 0 180px;
+  }
+}
+
+.empty {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--precedent-color-text-muted);
+  padding: 20px 0;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}

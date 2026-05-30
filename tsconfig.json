@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@lib/*": ["src/lib/*"],
+      "@utils/*": ["src/utils/*"],
+      "@components/*": ["src/components/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@domains/*": ["src/domains/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@assets/*": ["src/assets/*"],
+      "@saga/global-web": ["src/vendor/global-web"],
+      "@saga/global-web/*": ["src/vendor/global-web/*"],
+      "@saga/logger-middleware": ["src/vendor/saga-shims/logger-middleware.ts"],
+      "@saga/config-web": ["src/vendor/saga-shims/config-web.ts"],
+      "@saga/precedent-middleware": ["src/vendor/saga-shims/precedent-middleware.ts"],
+      "@openfeature/react-sdk": ["src/vendor/saga-shims/openfeature-react-sdk.ts"],
+      "@amplitude/analytics-browser": ["src/vendor/saga-shims/amplitude-analytics-browser.ts"],
+      "axios": ["src/vendor/saga-shims/axios.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}

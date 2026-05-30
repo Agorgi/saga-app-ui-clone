@@ -1,0 +1,42 @@
+.card {
+  background-color: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 0.75rem;
+  transition: box-shadow 200ms ease, border-color 200ms ease;
+  padding: var(--precedent-space-md);
+  box-shadow: var(--precedent-shadow-sm);
+}
+
+.paddingNone {
+  padding: var(--precedent-space-none);
+}
+
+.paddingSm {
+  padding: var(--precedent-space-sm);
+}
+
+.paddingLg {
+  padding: var(--precedent-space-lg);
+}
+
+.radiusNone {
+  border-radius: 0;
+}
+
+.radiusSm {
+  border-radius: 0.5rem;
+}
+
+.radiusLg {
+  border-radius: 1.5rem;
+}
+
+.elevationNone {
+  box-shadow: none;
+}
+
+.elevationMd {
+  box-shadow: var(--precedent-shadow-md);
+}
+

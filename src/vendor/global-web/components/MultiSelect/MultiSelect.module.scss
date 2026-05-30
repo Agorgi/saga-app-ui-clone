@@ -1,0 +1,44 @@
+// React Select customization
+.multiSelectContainer {
+  width: 100%;
+
+  // Scrollbar styling (can only be done in CSS, not inline styles)
+  .react-select__menu-list {
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--precedent-color-border);
+      border-radius: 4px;
+
+      &:hover {
+        background-color: var(--precedent-color-text-subtle);
+      }
+    }
+  }
+
+  // Optional: Style for edge case messages
+  .react-select__group-heading {
+    color: var(--precedent-color-text-subtle);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    font-size: var(--precedent-font-size-text-sm);
+  }
+
+  .react-select__no-options-message {
+    color: var(--precedent-color-text-subtle);
+    padding: 0.75rem 1rem;
+    text-align: center;
+  }
+
+  .react-select__loading-message {
+    color: var(--precedent-color-text-subtle);
+    padding: 0.75rem 1rem;
+    text-align: center;
+  }
+}

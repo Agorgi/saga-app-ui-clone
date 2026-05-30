@@ -1,0 +1,149 @@
+.postContentWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.postContent {
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 8px;
+  padding-top: 16px;
+  padding-inline: 16px;
+  background: var(--precedent-color-surface);
+  box-shadow: var(--precedent-shadow-sm);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.postCreatorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--precedent-space-md);
+  padding-bottom: var(--precedent-space-md);
+  border-bottom: 1px solid var(--precedent-color-border);
+}
+
+.creatorRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.postCreator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--precedent-font-size-text-md);
+  color: var(--precedent-color-text);
+}
+
+.postDate {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--precedent-color-text-muted);
+}
+
+.postHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.postName {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 var(--precedent-space-md) 0;
+  color: var(--precedent-color-text);
+  text-align: left;
+}
+
+.postNameRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: var(--precedent-space-md);
+  container-type: inline-size;
+
+  .postName {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+  }
+}
+
+.communitiesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--precedent-space-md);
+  margin-bottom: var(--precedent-space-md);
+}
+
+.communityLabel {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.creatorLink {
+  color: var(--precedent-color-text);
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.paymentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 0;
+  border-top: 1px solid var(--precedent-color-border);
+  margin-top: 4px;
+}
+
+.postContentBody {
+  min-height: 50px;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  color: var(--precedent-color-text);
+  text-align: left;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+    pointer-events: auto;
+  }
+
+  p {
+    margin: 8px 0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 16px 0 8px 0;
+    font-weight: 600;
+  }
+
+  a {
+    color: var(--precedent-color-primary);
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--precedent-color-primary-hover);
+    }
+  }
+}

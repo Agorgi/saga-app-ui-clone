@@ -1,0 +1,51 @@
+%glassCard {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--precedent-radius-lg);
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.5px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--glass-shimmer) 35%,
+      var(--glass-shimmer) 65%,
+      transparent
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @media (min-width: 640px) {
+    border-radius: 20px;
+  }
+}
+
+/* Compact frosted-glass pill — for sort trigger button and segmented view control */
+%glassPill {
+  background: var(--glass-pill-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-pill-border);
+  box-shadow: var(--glass-pill-shadow);
+  border-radius: var(--precedent-radius-fully-rounded);
+}
+
+/* Frosted-glass dropdown / bottom-sheet panel */
+%glassDropdown {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--precedent-radius-md);
+  box-shadow: var(--glass-shadow-dropdown), inset 0 1px 0 var(--glass-shimmer);
+}

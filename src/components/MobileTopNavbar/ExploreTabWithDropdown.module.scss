@@ -1,0 +1,112 @@
+.tabContainer {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab {
+  padding: 0.45rem 0.25rem;
+  background: transparent;
+  border: none;
+  color: var(--precedent-color-text-muted);
+  font-weight: 600;
+  font-size: 0.96rem;
+  min-width: 72px;
+  flex: 1;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+
+  &:hover {
+    color: var(--precedent-color-text);
+  }
+
+  &.active {
+    color: var(--precedent-color-text);
+    font-weight: 700;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.kebabButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  border-radius: var(--precedent-radius-sm);
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: var(--precedent-color-surface-subtle);
+  }
+
+  &:active {
+    background: var(--precedent-color-surface-hover);
+  }
+}
+
+.kebabIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 100px;
+  width: max-content;
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: var(--precedent-radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--precedent-space-xs);
+  width: 100%;
+  padding: var(--precedent-space-xs) var(--precedent-space-sm);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  color: var(--precedent-color-text);
+  font-size: 14px;
+  text-align: left;
+
+  &:hover {
+    background: var(--precedent-color-surface-subtle);
+  }
+
+  &.activeItem {
+    background: var(--precedent-color-surface-subtle);
+    color: var(--precedent-color-primary);
+  }
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .tab {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.15rem;
+  }
+}

@@ -1,0 +1,17 @@
+.profile__loading {
+  text-align: center;
+  color: var(--precedent-color-text-muted);
+  padding: 24px;
+  font-size: 14px;
+}
+
+.eventsContainer {
+  padding: 20px 0;
+}
+
+// tabsContainerClassName is applied to the scrollable container inside Tabs.
+// The base Tabs component already handles overflow-x, scrollbar hiding, and
+// left-aligned → centered layout at 640px — no overrides needed here.
+.profile__tabs {
+  max-width: 100%;
+}

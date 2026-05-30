@@ -1,0 +1,63 @@
+.wheel {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  --progress-stroke: var(--brand-purple-solid);
+  --progress-gradient-opacity: 0;
+  --progress-text: var(--color-text);
+}
+
+.orange {
+  --progress-gradient-opacity: 1;
+  --progress-text: #ffffff;
+}
+
+.svg {
+  width: 64px;
+  height: 64px;
+  transform: rotate(-90deg);
+}
+
+.track {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 6px;
+  stroke-linecap: round;
+}
+
+.progressSolid {
+  fill: none;
+  stroke: var(--progress-stroke);
+  stroke-width: 6px;
+  stroke-linecap: round;
+  transition: stroke-dasharray 160ms ease, opacity 240ms ease;
+  opacity: calc(1 - var(--progress-gradient-opacity));
+}
+
+.progressGradient {
+  fill: none;
+  stroke-width: 6px;
+  stroke-linecap: round;
+  transition: stroke-dasharray 160ms ease, opacity 240ms ease;
+  opacity: var(--progress-gradient-opacity);
+}
+
+.center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--progress-text);
+  transition: color 240ms ease;
+}
+
+
