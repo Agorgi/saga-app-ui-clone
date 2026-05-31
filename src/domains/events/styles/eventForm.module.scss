@@ -1,0 +1,239 @@
+.container {
+  min-height: 80vh;
+  background: var(--precedent-color-background);
+  padding: 24px;
+  padding-bottom: 80px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    height: fit-content;
+  }
+}
+
+.content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--precedent-color-text);
+    margin: 0 0 8px 0;
+  }
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--precedent-color-text-muted);
+  margin: 0;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--precedent-color-text);
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 6px;
+  background: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+  font-size: 14px;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: var(--precedent-color-primary);
+  }
+
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
+  }
+}
+
+.textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px 12px;
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 6px;
+  background: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+
+  &:focus {
+    outline: none;
+    border-color: var(--precedent-color-primary);
+  }
+
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
+  }
+}
+
+// ============================================================================
+// Step Indicator
+// ============================================================================
+
+.stepIndicator {
+  position: relative;
+  display: flex;
+  gap: 32px;
+  margin: 0 0 32px 0;
+  padding: 0;
+  list-style: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    height: 2px;
+    background: var(--precedent-color-border);
+    z-index: 0;
+  }
+}
+
+.stepProgress {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  height: 2px;
+  background: var(--precedent-color-primary);
+  transition: width 0.3s ease;
+  z-index: 1;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.stepDot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--precedent-color-surface);
+  border: 2px solid var(--precedent-color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--precedent-color-text-muted);
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.stepDotActive {
+  background: var(--precedent-color-primary);
+  border-color: var(--precedent-color-primary);
+  color: white;
+}
+
+.stepLabel {
+  font-size: 12px;
+  color: var(--precedent-color-text-muted);
+  text-align: center;
+  transition: color 0.2s;
+}
+
+.stepLabelActive {
+  color: var(--precedent-color-text);
+  font-weight: 600;
+}
+
+
+// ============================================================================
+// Loading / error messages
+// ============================================================================
+
+.loadingMessage,
+.errorMessage {
+  text-align: center;
+  color: var(--precedent-color-text-muted);
+  padding: 40px 20px;
+}
+
+.errorMessage {
+  color: var(--precedent-color-text-error, #b91c1c);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--precedent-color-border);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.cancelButton {
+  flex: 1;
+  padding: 10px 16px;
+  background: var(--precedent-color-surface-subtle);
+  color: var(--precedent-color-text);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+
+  &:hover:not(:disabled) {
+    background: var(--precedent-color-border);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.submitButton {
+  flex: 1;
+  padding: 10px 16px;
+  background: var(--precedent-color-primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:hover:not(:disabled) {
+    opacity: 0.95;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}

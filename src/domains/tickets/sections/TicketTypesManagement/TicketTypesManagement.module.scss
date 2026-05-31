@@ -1,0 +1,265 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--precedent-color-text);
+  margin: 0;
+}
+
+.addButton {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  background: var(--precedent-color-primary);
+  color: #fff;
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.typeList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.typeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--precedent-color-surface);
+  border: 1.5px solid var(--precedent-color-border);
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+
+.typeInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.typeName {
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: 600;
+  color: var(--precedent-color-text);
+  margin: 0 0 2px 0;
+}
+
+.typeMeta {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--precedent-color-text-muted);
+  margin: 0;
+}
+
+.typeActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editButton {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1.5px solid var(--precedent-color-border);
+  background: var(--precedent-color-surface-subtle);
+  color: var(--precedent-color-text);
+  font-size: var(--precedent-font-size-text-sm);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover:not(:disabled) {
+    background: var(--precedent-color-surface);
+    border-color: var(--precedent-color-text-muted);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.deleteButton {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1.5px solid var(--precedent-color-danger, #ef4444);
+  background: transparent;
+  color: var(--precedent-color-danger, #ef4444);
+  font-size: var(--precedent-font-size-text-sm);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover:not(:disabled) {
+    background: var(--precedent-color-danger, #ef4444);
+    color: #fff;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.inactiveTag {
+  font-size: var(--precedent-font-size-text-xs);
+  color: var(--precedent-color-text-muted);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+// Form
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  background: var(--precedent-color-surface);
+  border: 1.5px solid var(--precedent-color-border);
+  border-radius: 12px;
+}
+
+.formTitle {
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: 700;
+  color: var(--precedent-color-text);
+  margin: 0;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  // Reset when used as a <fieldset> (for DateTimePicker grouping)
+  &:is(fieldset) {
+    border: none;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
+}
+
+.label {
+  display: block;
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  color: var(--precedent-color-text);
+}
+
+.input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--precedent-color-border);
+  background: var(--precedent-color-surface-subtle);
+  color: var(--precedent-color-text);
+  font-size: var(--precedent-font-size-text-sm);
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: var(--precedent-color-primary);
+  }
+}
+
+.textarea {
+  @extend .input;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 72px;
+}
+
+.formFooter {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+  }
+}
+
+.cancelButton {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--precedent-color-border);
+  background: transparent;
+  color: var(--precedent-color-text);
+  font-size: var(--precedent-font-size-text-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: var(--precedent-color-surface-subtle);
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+}
+
+.saveButton {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  background: var(--precedent-color-primary);
+  color: #fff;
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+}
+
+.empty,
+.loading,
+.error {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--precedent-color-text-muted);
+  padding: 8px 0;
+}
+
+.error {
+  color: var(--precedent-color-danger);
+}

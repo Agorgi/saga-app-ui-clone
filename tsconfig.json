@@ -37,6 +37,7 @@
       "@saga/precedent-middleware": ["src/vendor/saga-shims/precedent-middleware.ts"],
       "@saga/community-middleware": ["src/vendor/saga-shims/community-middleware.ts"],
       "@saga/records-middleware": ["src/vendor/saga-shims/records-middleware.ts"],
+      "@saga/events-middleware": ["src/vendor/saga-shims/events-middleware.ts"],
       "@openfeature/react-sdk": ["src/vendor/saga-shims/openfeature-react-sdk.ts"],
       "@amplitude/analytics-browser": ["src/vendor/saga-shims/amplitude-analytics-browser.ts"],
       "axios": ["src/vendor/saga-shims/axios.ts"]

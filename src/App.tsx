@@ -1,4 +1,4 @@
-import { ErrorBoundary, ThemeProvider } from '@saga/global-web';
+import { ErrorBoundary, ThemeProvider, Toast } from '@saga/global-web';
 import { AvatarProvider } from '@saga/global-web';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { placeholderAvatars } from '@/data/placeholderAvatars';
@@ -7,6 +7,7 @@ import { AuthProvider } from '@domains/auth';
 import { LoginPage } from '@domains/auth/LoginPage/LoginPage';
 import { CommunitiesPage } from '@domains/communities/Communities/CommunitiesPage';
 import CommunityPage from '@domains/communities/Community/CommunityPage';
+import CreateEventPage from '@domains/events/CreateEventPage/CreateEventPage';
 import { EventPage } from '@domains/events/EventPage/EventPage';
 import { EventsListPage } from '@domains/events/EventsListPage/EventsListPage';
 import CreatePostPage from '@domains/post-creation/CreatePost';
@@ -32,6 +33,7 @@ export default function App() {
                   <Route path="/communities" element={<CommunitiesPage />} />
                   <Route path="/communities/:communityId" element={<CommunityPage />} />
                   <Route path="/events" element={<EventsListPage />} />
+                  <Route path="/events/create" element={<CreateEventPage />} />
                   <Route path="/events/:eventId" element={<EventPage />} />
                   <Route path="/create-post" element={<CreatePostPage />} />
                   <Route path="/profile/:username" element={<ProfilePage />} />
@@ -40,6 +42,7 @@ export default function App() {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </GlobalOverlay>
+              <Toast />
             </BrowserRouter>
           </AuthProvider>
         </ThemeProvider>

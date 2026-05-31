@@ -36,6 +36,7 @@ export default defineConfig({
       '@saga/precedent-middleware': path.resolve(__dirname, './src/vendor/saga-shims/precedent-middleware.ts'),
       '@saga/community-middleware': path.resolve(__dirname, './src/vendor/saga-shims/community-middleware.ts'),
       '@saga/records-middleware': path.resolve(__dirname, './src/vendor/saga-shims/records-middleware.ts'),
+      '@saga/events-middleware': path.resolve(__dirname, './src/vendor/saga-shims/events-middleware.ts'),
       '@openfeature/react-sdk': path.resolve(__dirname, './src/vendor/saga-shims/openfeature-react-sdk.ts'),
       '@amplitude/analytics-browser': path.resolve(__dirname, './src/vendor/saga-shims/amplitude-analytics-browser.ts'),
       axios: path.resolve(__dirname, './src/vendor/saga-shims/axios.ts'),

@@ -200,3 +200,22 @@ export const wireProfile: WireProfile = {
   followersText: '1,204 followers',
   followingText: '317 following',
 };
+
+export interface WireUser {
+  id: string;
+  displayName: string;
+  userName: string;
+}
+
+// Stands in for the platform-wide user search the real event form hits when
+// inviting co-hosts and staff. The personnel section filters this list locally.
+export const wireUsers: WireUser[] = [
+  { id: 'usr-1', displayName: 'Placeholder Member One', userName: 'member_one' },
+  { id: 'usr-2', displayName: 'Placeholder Member Two', userName: 'member_two' },
+  { id: 'usr-3', displayName: 'Placeholder Member Three', userName: 'member_three' },
+  { id: 'usr-4', displayName: 'Placeholder Member Four', userName: 'member_four' },
+  { id: 'usr-5', displayName: 'Placeholder Member Five', userName: 'member_five' },
+  { id: 'usr-6', displayName: 'Placeholder Member Six', userName: 'member_six' },
+  { id: 'usr-7', displayName: 'Placeholder Member Seven', userName: 'member_seven' },
+  { id: 'usr-8', displayName: 'Placeholder Member Eight', userName: 'member_eight' },
+];

@@ -1,0 +1,302 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--precedent-color-text);
+  margin: 0;
+}
+
+.searchRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  // On narrow viewports the input + role pills no longer fit on one row
+  // without the input collapsing too small to read. Stack vertically and let
+  // the role selector span the full width below the input.
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+}
+
+.roleSelector {
+  display: flex;
+  flex-shrink: 0;
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 6px;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    align-self: stretch;
+  }
+}
+
+.rolePill {
+  padding: 9px 12px;
+  border: none;
+  background: var(--precedent-color-surface);
+  color: var(--precedent-color-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  & + & {
+    border-left: 1px solid var(--precedent-color-border);
+  }
+
+  &:hover:not(.rolePillActive) {
+    background: var(--precedent-color-surface-hover);
+  }
+
+  // Stacked layout on mobile: split the available width evenly so each pill
+  // is a comfortable tap target.
+  @media (max-width: 768px) {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.rolePillActive {
+  background: var(--precedent-color-primary);
+  color: #fff;
+}
+
+.roleBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--precedent-color-text-muted);
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 999px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 6px;
+  background: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+  font-size: 14px;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: var(--precedent-color-primary);
+  }
+
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
+  }
+}
+
+.dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
+  // Tighten the in-dropdown status messages ("Searching...", "No users
+  // found", "Type to search...") — the shared .loading/.statusText classes
+  // are sized for full-width edit-mode use, which is too airy here.
+  .loading {
+    padding: 0px 12px;
+    font-size: 13px;
+  }
+  .statusText {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--precedent-color-text);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+
+  &:hover {
+    background: var(--precedent-color-surface-hover);
+  }
+}
+
+.optionInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.optionName {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.optionUsername {
+  font-size: 12px;
+  color: var(--precedent-color-text-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.chipRemove {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  color: var(--precedent-color-text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: var(--precedent-color-text);
+  }
+}
+
+.listTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--precedent-color-text);
+  margin: 8px 0 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+}
+
+.memberInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.memberDetails {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.memberName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--precedent-color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memberUsername {
+  font-size: 12px;
+  color: var(--precedent-color-text-muted);
+}
+
+.removeButton {
+  padding: 4px 12px;
+  background: transparent;
+  color: var(--precedent-color-danger, #ef4444);
+  border: 1px solid var(--precedent-color-danger, #ef4444);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--precedent-color-danger, #ef4444);
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.emptyText {
+  color: var(--precedent-color-text-muted);
+  font-size: 14px;
+  margin: 8px 0 0;
+}
+
+.loading {
+  color: var(--precedent-color-text-muted);
+  font-size: 14px;
+  padding: 12px;
+}
+
+.statusText {
+  font-size: 13px;
+  color: var(--precedent-color-text-muted);
+  padding: 10px 12px;
+  margin: 0;
+}
