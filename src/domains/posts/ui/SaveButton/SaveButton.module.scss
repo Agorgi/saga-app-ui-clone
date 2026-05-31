@@ -1,0 +1,36 @@
+.saveButton {
+  display: inline-flex;
+
+  &.saved {
+    .icon {
+      animation: saveAnimation 0.3s ease;
+    }
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    color: var(--precedent-color-text-muted);
+    transition: all 0.2s ease;
+  }
+
+  .iconSaved {
+    color: var(--precedent-color-primary);
+    fill: var(--precedent-color-primary);
+  }
+}
+
+@keyframes saveAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

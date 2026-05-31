@@ -1,0 +1,23 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+.owner {
+  background: var(--precedent-color-primary);
+  color: white;
+}
+
+.mod {
+  background: var(--precedent-color-success, #22c55e);
+  color: white;
+}

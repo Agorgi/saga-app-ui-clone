@@ -105,60 +105,79 @@ export const wireCommunities: WireCommunity[] = [
 
 export interface WirePost {
   id: string;
+  title: string;
   authorName: string;
   authorHandle: string;
   communityName: string;
   timeAgo: string;
   body: string;
   hasImage: boolean;
-  likeCount: string;
-  commentCount: string;
+  likeCount: number;
+  commentCount: number;
+  collabCount: number;
+  saveCount: number;
+  // CommunityMemberRole numeric (MODERATOR=1, ADMIN=2). Drives CommunityRoleBadge.
+  creatorRole?: number;
 }
 
 export const wirePosts: WirePost[] = [
   {
     id: 'post-1',
+    title: 'Placeholder post title one',
     authorName: 'Member name',
-    authorHandle: '@member',
+    authorHandle: 'member',
     communityName: 'Placeholder community',
     timeAgo: '2h',
     body: 'This is placeholder post copy. It stands in for a real member post so the feed layout has something to render while we iterate on the design.',
     hasImage: true,
-    likeCount: '124',
-    commentCount: '18',
+    likeCount: 124,
+    commentCount: 18,
+    collabCount: 4,
+    saveCount: 31,
+    creatorRole: 2,
   },
   {
     id: 'post-2',
+    title: 'Placeholder post title two',
     authorName: 'Member name',
-    authorHandle: '@member',
+    authorHandle: 'member',
     communityName: 'Placeholder community',
     timeAgo: '5h',
     body: 'Another placeholder post. Short and text-only this time to show how the card adapts without media.',
     hasImage: false,
-    likeCount: '57',
-    commentCount: '6',
+    likeCount: 57,
+    commentCount: 6,
+    collabCount: 1,
+    saveCount: 9,
   },
   {
     id: 'post-3',
+    title: 'Placeholder post title three',
     authorName: 'Member name',
-    authorHandle: '@member',
+    authorHandle: 'member',
     communityName: 'Placeholder community',
     timeAgo: '1d',
     body: 'Placeholder post with a longer body to demonstrate how multiple lines of text wrap inside the post card layout used across the feed.',
     hasImage: true,
-    likeCount: '982',
-    commentCount: '143',
+    likeCount: 982,
+    commentCount: 143,
+    collabCount: 27,
+    saveCount: 204,
+    creatorRole: 1,
   },
   {
     id: 'post-4',
+    title: 'Placeholder post title four',
     authorName: 'Member name',
-    authorHandle: '@member',
+    authorHandle: 'member',
     communityName: 'Placeholder community',
     timeAgo: '2d',
     body: 'Final placeholder post in the seed feed. Replace any of this filler while working on the visual design.',
     hasImage: false,
-    likeCount: '13',
-    commentCount: '2',
+    likeCount: 13,
+    commentCount: 2,
+    collabCount: 0,
+    saveCount: 1,
   },
 ];
 

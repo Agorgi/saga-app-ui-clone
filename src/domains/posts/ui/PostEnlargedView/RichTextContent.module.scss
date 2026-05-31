@@ -1,0 +1,13 @@
+.richTextPreview {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--precedent-color-text-muted);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  padding: var(--precedent-space-xs);
+  @media (max-width: 425px) {
+    font-size: 8px;
+  }
+}

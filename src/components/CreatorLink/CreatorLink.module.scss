@@ -1,0 +1,42 @@
+.creatorLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profilePictureLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:focus {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.displayNameLink {
+  font-weight: 500;
+  color: var(--precedent-color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--precedent-color-primary);
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}

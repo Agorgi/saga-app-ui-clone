@@ -3,6 +3,7 @@ import { AvatarProvider } from '@saga/global-web';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { placeholderAvatars } from '@/data/placeholderAvatars';
 import { GlobalOverlay } from '@components/GlobalOverlay/GlobalOverlay';
+import { AuthProvider } from '@domains/auth';
 import { LoginPage } from '@domains/auth/LoginPage/LoginPage';
 import { CommunitiesPage } from '@domains/communities/Communities/CommunitiesPage';
 import CommunityPage from '@domains/communities/Community/CommunityPage';
@@ -13,29 +14,32 @@ import { ProfilePage } from '@domains/profile/Profile';
 import { NotFound } from '@pages/NotFound/NotFound';
 
 // Standalone wireframe clone of the Saga web app.
-// Public, logged-out shell only. Placeholder content throughout — no backend,
-// no real data. Route map mirrors apps/app-web for the in-scope public pages.
+// Placeholder content throughout, no backend, no real data. A demo AuthProvider
+// fakes sign-in so authenticated surfaces (feed actions, post modal) can render.
+// Route map mirrors apps/app-web for the in-scope pages.
 export default function App() {
   return (
     <ErrorBoundary>
       <AvatarProvider defaultAvatars={placeholderAvatars}>
         <ThemeProvider>
-          <BrowserRouter>
-            <GlobalOverlay>
-              <Routes>
-                <Route path="/" element={<MainFeedPage />} />
-                <Route path="/feed" element={<MainFeedPage />} />
-                <Route path="/communities" element={<CommunitiesPage />} />
-                <Route path="/communities/:communityId" element={<CommunityPage />} />
-                <Route path="/events" element={<EventsListPage />} />
-                <Route path="/events/:eventId" element={<EventPage />} />
-                <Route path="/profile/:username" element={<ProfilePage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/404" element={<NotFound />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </GlobalOverlay>
-          </BrowserRouter>
+          <AuthProvider>
+            <BrowserRouter>
+              <GlobalOverlay>
+                <Routes>
+                  <Route path="/" element={<MainFeedPage />} />
+                  <Route path="/feed" element={<MainFeedPage />} />
+                  <Route path="/communities" element={<CommunitiesPage />} />
+                  <Route path="/communities/:communityId" element={<CommunityPage />} />
+                  <Route path="/events" element={<EventsListPage />} />
+                  <Route path="/events/:eventId" element={<EventPage />} />
+                  <Route path="/profile/:username" element={<ProfilePage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/404" element={<NotFound />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </GlobalOverlay>
+            </BrowserRouter>
+          </AuthProvider>
         </ThemeProvider>
       </AvatarProvider>
     </ErrorBoundary>
