@@ -1,0 +1,124 @@
+.profile__pfp_wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 180px;
+}
+
+.profile__pfp_input {
+  display: none;
+}
+
+.profile__pfp_container {
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 3px solid var(--precedent-color-border);
+  background: none;
+  padding: 0;
+  width: 180px;
+  height: 180px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover .profile__pfp_overlay {
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.profile__pfp_overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  color: white;
+  pointer-events: none;
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  span {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+}
+
+.profile__pfp_overlay_icon {
+  display: flex;
+  margin-bottom: 4px;
+  color: inherit;
+
+  svg {
+    display: block;
+  }
+}
+
+.profile__pfp_remove_button {
+  width: 180px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--precedent-color-text-error) 20%, transparent);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--precedent-color-text-error);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--precedent-color-text-error) 8%, transparent);
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--precedent-color-text-error) 15%, transparent);
+    border-color: color-mix(in srgb, var(--precedent-color-text-error) 35%, transparent);
+  }
+
+  &:focus {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  svg {
+    display: block;
+    flex-shrink: 0;
+  }
+}

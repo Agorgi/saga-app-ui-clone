@@ -99,37 +99,3 @@
   font-size: var(--precedent-font-size-text-sm);
   width: fit-content;
 }
-
-// Wireframe-only: the source renders a live FollowStats component and a
-// FollowButton with its own styling. These stand-ins reproduce the visible
-// follower/following row and a static follow button over placeholder data.
-.profile__stats {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.75rem;
-  color: var(--precedent-color-text-muted);
-  font-size: 0.875rem;
-
-  @media (max-width: 425px) {
-    justify-content: center;
-  }
-}
-
-.profile__stat {
-  font-weight: 600;
-  color: var(--precedent-color-text);
-
-  strong {
-    font-weight: 700;
-  }
-}
-
-.profile__follow_button {
-  margin-top: 1rem;
-  width: fit-content;
-
-  @media (max-width: 425px) {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}

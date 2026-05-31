@@ -1,0 +1,397 @@
+// ─── Keyframes ────────────────────────────────────────────────────────────────
+@keyframes profileMenuBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes profileMenuSheetIn {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes profileMenuPopoverIn {
+  from { opacity: 0; transform: scale(0.92) translateY(-6px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes profileMenuRowIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ─── Trigger (glass pill) ─────────────────────────────────────────────────────
+.trigger {
+  position: relative;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 0.5px solid var(--glass-border);
+  color: var(--precedent-color-text);
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 180ms var(--easing-spring),
+    background 200ms ease,
+    border-color 200ms ease,
+    box-shadow 220ms var(--easing-spring);
+
+  // Hide on desktop — matches the legacy `min-width: 780px` behavior.
+  @media (max-width: 779px) {
+    display: inline-flex;
+  }
+
+  &:hover {
+    border-color: rgba(var(--brand-primary-rgb) / 0.35);
+    box-shadow: 0 0 0 4px rgba(var(--brand-primary-rgb) / 0.08);
+  }
+
+  &:active {
+    transform: scale(0.94);
+    transition-duration: 80ms;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(var(--brand-primary-rgb) / 0.55);
+    outline-offset: 2px;
+  }
+}
+
+.triggerOpen {
+  background: linear-gradient(
+    135deg,
+    rgba(var(--brand-primary-rgb) / 0.22),
+    rgba(var(--brand-primary-rgb) / 0.10)
+  );
+  border-color: rgba(var(--brand-primary-rgb) / 0.5);
+  box-shadow:
+    0 0 0 4px rgba(var(--brand-primary-rgb) / 0.12),
+    0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.triggerIcon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.5;
+  flex-shrink: 0;
+}
+
+// ─── Backdrop (portal) — matches CreateOptionsModal ───────────────────────────
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  border: none;
+  padding: 0;
+  cursor: default;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: profileMenuBackdropIn 150ms ease both;
+
+  :global([data-theme='light']) & {
+    background: rgba(15, 23, 42, 0.35);
+  }
+}
+
+// ─── Bottom-sheet variant (<480px) — matches CreateOptionsModal sheet ────────
+.sheetWrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  transition: transform 220ms var(--easing-spring);
+}
+
+.sheet {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  pointer-events: auto;
+  background: var(--precedent-color-surface);
+  border: none;
+  border-radius: 16px 16px 0 0;
+  padding: 8px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.4);
+  animation: profileMenuSheetIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  overflow: visible;
+
+  :global([data-theme='light']) & {
+    box-shadow: 0 -4px 32px rgba(15, 23, 42, 0.12);
+  }
+}
+
+.sheetHandle {
+  display: block;
+  width: 36px;
+  height: 4px;
+  margin: 12px auto 0;
+  flex-shrink: 0;
+  border-radius: 2px;
+  background: var(--precedent-color-border);
+}
+
+// Sheet rows — same vocabulary as CreateOptionsModal `.option` / `.optionIcon`
+.sheet .rows {
+  padding: 12px 12px 8px;
+}
+
+.sheet .row {
+  gap: 14px;
+  min-height: 0;
+  padding: 14px 12px;
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 12px;
+  background: var(--precedent-color-background);
+
+  &:hover {
+    background: var(--color-surface-muted);
+    border-color: var(--precedent-color-primary);
+  }
+
+  &:active {
+    transform: scale(0.98);
+    background: var(--color-surface-muted);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.sheet .rowIconTile {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.sheet .rowIcon {
+  width: 22px;
+  height: 22px;
+  color: var(--precedent-color-primary);
+}
+
+.sheet .rowDescription {
+  font-size: 13px;
+  color: var(--precedent-color-text-muted);
+}
+
+.sheet .rowDivider {
+  margin: 6px 0;
+  background: var(--precedent-color-border);
+}
+
+.sheet .rowDestructive {
+  border-color: var(--precedent-color-error-border);
+
+  &:hover {
+    background: var(--precedent-color-error-subtle);
+    border-color: var(--precedent-color-error);
+  }
+
+  &:active {
+    background: var(--precedent-color-error-subtle);
+  }
+
+  &:focus-visible {
+    outline-color: var(--precedent-color-error);
+  }
+
+  .rowIconTile {
+    background: var(--precedent-color-error-subtle);
+    border-color: var(--precedent-color-error-border);
+  }
+
+  .rowIcon {
+    color: var(--precedent-color-error);
+  }
+
+  .rowDescription {
+    color: rgba(220, 38, 38, 0.72);
+  }
+}
+
+// ─── Popover variant (≥480px, anchored to trigger) ────────────────────────────
+.popover {
+  position: fixed;
+  z-index: 1001;
+  min-width: 280px;
+  max-width: min(320px, calc(100vw - 24px));
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 0.5px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 8px;
+  overflow: hidden;
+  transform-origin: top right;
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(var(--brand-primary-rgb) / 0.06);
+  animation: profileMenuPopoverIn 240ms var(--easing-spring-bounce) both;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.5px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--glass-shimmer) 35%,
+      var(--glass-shimmer) 65%,
+      transparent
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+// ─── Shared menu rows ─────────────────────────────────────────────────────────
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 2;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 14px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--precedent-color-text);
+  transition:
+    background 160ms ease,
+    transform 140ms var(--easing-spring);
+  animation: profileMenuRowIn 260ms var(--easing-spring) both;
+
+  &:hover {
+    background: rgba(var(--brand-primary-rgb) / 0.08);
+  }
+
+  &:active {
+    transform: scale(0.985);
+    background: rgba(var(--brand-primary-rgb) / 0.14);
+    transition-duration: 70ms;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(var(--brand-primary-rgb) / 0.55);
+    outline-offset: -2px;
+  }
+}
+
+.rowDestructive {
+  color: var(--precedent-color-error);
+
+  &:hover {
+    background: rgba(220, 38, 38, 0.10);
+  }
+
+  &:active {
+    background: rgba(220, 38, 38, 0.18);
+  }
+
+  .rowIconTile {
+    background: rgba(220, 38, 38, 0.10);
+    border-color: rgba(220, 38, 38, 0.35);
+  }
+
+  .rowIcon {
+    color: var(--precedent-color-error);
+  }
+
+  .rowDescription {
+    color: rgba(220, 38, 38, 0.72);
+  }
+}
+
+.rowIconTile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  border: 0.5px solid var(--glass-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.rowIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--precedent-color-text);
+  stroke-width: 1.5;
+}
+
+.rowContent {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.rowTitle {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.rowDescription {
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--precedent-color-text-subtle);
+}
+
+.rowDivider {
+  display: block;
+  height: 0.5px;
+  margin: 6px 12px;
+  background: var(--glass-border);
+}
+
+// ─── Reduced motion ───────────────────────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  .trigger,
+  .triggerIcon,
+  .backdrop,
+  .sheetWrapper,
+  .sheet,
+  .popover,
+  .row {
+    animation: none !important;
+    transition: none !important;
+  }
+}

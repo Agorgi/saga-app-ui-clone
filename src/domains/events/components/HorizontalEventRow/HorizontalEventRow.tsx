@@ -6,6 +6,12 @@ export interface HorizontalEventRowProps {
   title: string;
   emptyMessage?: string;
   hideWhenEmpty?: boolean;
+  // Accepted for parity with the production profile events tab, which filters
+  // by RSVP and time window. The wireframe ignores these and renders fixtures.
+  upcomingOnly?: boolean;
+  pastOnly?: boolean;
+  rsvpUserId?: string;
+  rsvpStatus?: string;
 }
 
 // Wireframe clone: a titled horizontal scroller of event cards. The source

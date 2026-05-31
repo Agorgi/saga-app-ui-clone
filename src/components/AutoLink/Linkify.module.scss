@@ -1,0 +1,15 @@
+.container {
+  color: var(--precedent-color-text-muted);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.link {
+  color: var(--precedent-color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-word;
+}

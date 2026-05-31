@@ -1,0 +1,22 @@
+.profile__header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  width: 100%;
+}
+
+.profile__details {
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (max-width: 640px) {
+  .profile__header {
+    gap: 1rem;
+  }
+
+  .profile__details {
+    width: 100%;
+  }
+}

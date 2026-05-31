@@ -1,18 +1,48 @@
+import { ProfileProvider, useProfile } from '@domains/profile/context/ProfileContext';
+import { ProfileEditSection } from '@domains/profile/sections/ProfileEditSection/ProfileEditSection';
+import { ProfileHeaderSection } from '@domains/profile/sections/ProfileHeaderSection/ProfileHeaderSection';
+import { ProfileTabsSection } from '@domains/profile/sections/ProfileTabsSection/ProfileTabsSection';
+import { ProfileState } from '@domains/profile/ui/ProfileState/ProfileState';
 import { Stack } from '@saga/global-web';
-import { ProfileHeaderSection } from './sections/ProfileHeaderSection/ProfileHeaderSection';
-import { ProfileTabsSection } from './sections/ProfileTabsSection/ProfileTabsSection';
+import { useParams } from 'react-router-dom';
 import styles from './Profile.module.scss';
 
-// Wireframe clone: profile page. The source wraps the page in a ProfileProvider
-// that loads the profile by username/userId and gates loading/error/edit
-// states; here it renders the header + content tabs over placeholder data.
-export function ProfilePage() {
+function ProfilePageContent() {
+  const { isLoading, error, profile, isEditing } = useProfile();
+
+  // Handle loading, error, and empty states
+  if (isLoading || error || !profile) {
+    return (
+      <ProfileState
+        isLoading={isLoading}
+        error={error}
+        isEmpty={!profile && !isLoading && !error}
+      />
+    );
+  }
+
   return (
     <div className={styles.container}>
       <Stack className="precedent-gap-lg">
-        <ProfileHeaderSection />
-        <ProfileTabsSection />
+        {isEditing ? (
+          <ProfileEditSection />
+        ) : (
+          <>
+            <ProfileHeaderSection />
+            <ProfileTabsSection />
+          </>
+        )}
       </Stack>
     </div>
+  );
+}
+
+export function ProfilePage() {
+  const { username, userId: paramUserId } = useParams();
+
+  return (
+    <ProfileProvider username={username} userId={paramUserId}>
+      <ProfilePageContent />
+    </ProfileProvider>
   );
 }

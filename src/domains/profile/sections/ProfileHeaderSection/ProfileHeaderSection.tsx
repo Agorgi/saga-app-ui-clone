@@ -1,21 +1,62 @@
-import { wireProfile } from '@/data/fixtures';
-import { Avatar } from '@saga/global-web';
+import { ProfilePictureIcon } from '@components/ProfilePictureIcon/ProfilePictureIcon';
+import { Settings01 } from '@untitledui/icons';
+import { useNavigate } from 'react-router-dom';
+import { useProfile } from '../../context/ProfileContext';
 import { ProfileHeader } from '../../ui/ProfileHeader/ProfileHeader';
 import styles from './ProfileHeaderSection.module.scss';
 
-// Wireframe clone: profile header band. The source loads banner + avatar images
-// and shows an owner-only settings shortcut; here it renders an image-free
-// banner placeholder, a neutral avatar, and the ProfileHeader details.
 export function ProfileHeaderSection() {
+  const { profile, profilePictureUrl, bannerUrl, isOwnProfile, setIsEditing } = useProfile();
+  const navigate = useNavigate();
+
+  if (!profile) {
+    return null;
+  }
+
   return (
     <header className={styles.profile__header}>
-      <div className={styles.profile__banner_container}>
-        <div className={styles.profile__banner_placeholder} />
+      {bannerUrl && (
+        <div className={styles.profile__banner_container}>
+          <img
+            src={bannerUrl}
+            alt="Profile banner"
+            className={styles.profile__banner}
+            onContextMenu={(e) => e.preventDefault()}
+            draggable={false}
+          />
+        </div>
+      )}
+      <div
+        className={`${styles.profile__content} ${
+          bannerUrl ? styles.profile__content_with_banner : ''
+        }`}
+      >
+        <ProfilePictureIcon
+          displayName={profile.displayName}
+          profilePictureUrl={profilePictureUrl}
+          variant="profile"
+        />
+        <ProfileHeader
+          displayName={profile.displayName}
+          userName={profile.userName}
+          userId={profile.id}
+          bio={profile.properties?.description}
+          isOwnProfile={isOwnProfile}
+          onEditClick={() => setIsEditing(true)}
+        />
       </div>
-      <div className={`${styles.profile__content} ${styles.profile__content_with_banner}`}>
-        <Avatar name={wireProfile.displayName} type="user" variant="profile" />
-        <ProfileHeader profile={wireProfile} />
-      </div>
+
+      {isOwnProfile && (
+        <button
+          type="button"
+          className={styles.settingsButton}
+          onClick={() => navigate('/settings')}
+          aria-label="Settings"
+          title="Settings"
+        >
+          <Settings01 className={styles.settingsIcon} aria-hidden="true" />
+        </button>
+      )}
     </header>
   );
 }

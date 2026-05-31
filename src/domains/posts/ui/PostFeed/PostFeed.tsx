@@ -14,6 +14,8 @@ export interface PostFeedProps {
   eventId?: string;
   renderContainer?: boolean;
   viewContext?: string;
+  /** Accepted for parity with the production feed; the wireframe has no toggle. */
+  hideViewToggle?: boolean;
 }
 
 // Wireframe clone: the source handles fetching, infinite scroll, view toggles,

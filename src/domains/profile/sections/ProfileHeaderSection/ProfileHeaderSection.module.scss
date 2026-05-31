@@ -23,20 +23,6 @@
   border-radius: 8px;
 }
 
-// Wireframe-only: image-free stand-in for the banner <img>. Same dimensions,
-// a neutral gradient fill so the header layout reads without real media.
-.profile__banner_placeholder {
-  width: 100%;
-  aspect-ratio: 3 / 1;
-  display: block;
-  border-radius: 8px;
-  background: linear-gradient(
-    135deg,
-    var(--precedent-color-surface) 0%,
-    var(--precedent-color-background-hover) 100%
-  );
-}
-
 .profile__content {
   display: grid;
   gap: 1.5rem;
