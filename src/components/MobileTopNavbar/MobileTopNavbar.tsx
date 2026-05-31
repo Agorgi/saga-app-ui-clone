@@ -1,58 +1,40 @@
 import { useAuth } from '@domains/auth';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ExploreTabWithDropdown } from './ExploreTabWithDropdown';
+import { NotificationDropdown } from '@domains/notifications';
+import { useTheme } from '@saga/global-web';
+import { Link, useLocation } from 'react-router-dom';
+import favicon from '../../../public/favicon.png';
+import sagaText from '../../../public/saga-text.svg';
+import sagaTextLight from '../../../public/saga-text-light.svg';
 import styles from './MobileTopNavbar.module.scss';
 
-// Wireframe clone: mobile top navbar. Logged-out users see a single "Explore"
-// tab; the demo AuthProvider flips on a second "Following" tab once signed in.
-// The source persists the last-used home tab via HomeTabsContext; the clone has
-// no such context, so the tab buttons navigate directly without persistence.
+// Wireframe redesign (Instagram-inspired mobile top bar). This is a deliberate
+// REDESIGN, not a faithful mirror of production. The Explore/Following tabs are
+// removed from the header; the Saga wordmark sits top-left (taps to home) and
+// the inbox (notifications) sits top-right. Shown only on the home area, where
+// the feed lives — other routes keep their own chrome. The inbox renders only
+// when signed in, matching the desktop Navbar.
 export default function MobileTopNavbar() {
   const location = useLocation();
-  const navigate = useNavigate();
-
-  // Home-area routes: explore ("/" or "/feed") and following feed
-  const isHomeArea = ['/', '/feed', '/following-feed'].includes(location.pathname);
+  const { theme } = useTheme();
   const { isAuthenticated } = useAuth();
-  const showFollowingTab = Boolean(isAuthenticated);
-  const singleTab = !showFollowingTab;
 
-  // Hide the mobile top navbar entirely on other pages
+  // Home-area routes: explore ("/" or "/feed") and following feed.
+  const isHomeArea = ['/', '/feed', '/following-feed'].includes(location.pathname);
   if (!isHomeArea) return null;
-  const isFollowing = location.pathname === '/following-feed';
 
   return (
-    <nav className={styles.mobileNavbar}>
+    <nav className={styles.mobileNavbar} aria-label="Top">
       <div className={styles.container}>
-        <div className={styles.leftPlaceholder} aria-hidden="true" />
+        <Link to="/" className={styles.logo} aria-label="Saga home">
+          <img src={favicon} alt="" className={styles.logoFavicon} aria-hidden />
+          <img
+            src={theme === 'light' ? sagaTextLight : sagaText}
+            alt="Saga"
+            className={styles.logoText}
+          />
+        </Link>
 
-        <div
-          className={[
-            styles.tabs,
-            isFollowing && showFollowingTab ? styles.following : '',
-            singleTab ? styles.single : '',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-          role="tablist"
-          aria-label="Home tabs"
-        >
-          <div className={styles.track} aria-hidden="true">
-            <div className={styles.indicator} />
-          </div>
-          <ExploreTabWithDropdown isActive={!isFollowing} onClick={() => navigate('/')} />
-          {showFollowingTab && (
-            <button
-              type="button"
-              className={`${styles.tab} ${isFollowing ? styles.active : ''}`}
-              onClick={() => navigate('/following-feed')}
-              aria-selected={isFollowing}
-              role="tab"
-            >
-              Following
-            </button>
-          )}
-        </div>
+        <div className={styles.actions}>{isAuthenticated ? <NotificationDropdown /> : null}</div>
       </div>
     </nav>
   );
