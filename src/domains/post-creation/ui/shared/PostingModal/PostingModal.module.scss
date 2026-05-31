@@ -1,0 +1,16 @@
+.postingModalContent {
+  border-radius: 12px;
+  padding: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  min-width: 280px;
+}
+
+.postingText {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--precedent-color-text);
+  font-weight: 500;
+}

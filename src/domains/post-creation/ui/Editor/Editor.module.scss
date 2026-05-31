@@ -1,0 +1,34 @@
+.editorContainer {
+  width: 100%;
+}
+
+.editorContent {
+  min-height: 200px;
+}
+
+// Wireframe clone: the source mounts a Quill rich-text editor (styled by
+// quill.snow.css). The clone has no Quill dependency, so the Text tab renders a
+// plain textarea dressed to read as a writing surface. Visual stand-in only.
+.editorTextarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 12px 14px;
+  font-size: var(--precedent-font-size-text-md);
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--precedent-color-text);
+  background: var(--precedent-color-background);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: var(--precedent-radius-md);
+  resize: vertical;
+
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--precedent-color-primary);
+    box-shadow: 0 0 0 0.2rem var(--precedent-color-primary-muted);
+  }
+}

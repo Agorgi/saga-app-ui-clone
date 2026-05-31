@@ -1,0 +1,24 @@
+.tabsContainer {
+  width: 100%;
+}
+
+.tabs {
+  margin: var(--precedent-space-lg) auto;
+}
+
+.tabContent {
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+.tabPanel {
+  display: block;
+}
+
+.tabPanelHidden {
+  display: none;
+}
+
+.tabPanelActive {
+  display: block;
+}

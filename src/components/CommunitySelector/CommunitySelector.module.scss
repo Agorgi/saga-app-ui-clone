@@ -1,0 +1,176 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.label {
+  font-size: var(--precedent-font-size-text-lg);
+  font-weight: 500;
+  color: var(--precedent-color-text);
+}
+
+.loading,
+.error,
+.empty {
+  padding: 0.75rem;
+  border-radius: var(--precedent-border-radius-md);
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--precedent-color-text-subtle);
+}
+
+.error {
+  color: var(--precedent-color-error);
+  background-color: var(--precedent-color-error-background);
+}
+
+.empty {
+  background-color: var(--precedent-color-background);
+}
+
+// Community option templates
+.optionTemplate {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+.optionThumbnail {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.selectedThumbnail {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.optionContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.optionName {
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 500;
+  color: var(--precedent-color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.optionStats {
+  font-size: var(--precedent-font-size-text-xs);
+  color: var(--precedent-color-text-subtle);
+}
+
+.selectedLabelTemplate {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--precedent-color-text-muted);
+  overflow: hidden;
+  min-width: 0;
+  flex: 1;
+}
+
+.selectedLabelText {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--precedent-color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+// Selected label styling - truncate to 8 characters with ellipsis
+.selectedLabel {
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 500;
+  color: var(--precedent-color-text);
+  max-width: 8ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+// Wireframe clone: the source uses react-select-async-paginate for the
+// community picker. The clone has no async-select dependency, so options render
+// as a static toggle list over fixtures. These classes dress that list; the
+// shared .optionTemplate / .optionContent / .optionName / .optionStats rows are
+// reused verbatim from the source's option template.
+.optionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.optionButton {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--precedent-color-background);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: var(--precedent-border-radius-md);
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+
+  &:hover:not(:disabled),
+  &[aria-pressed='true'] {
+    border-color: var(--precedent-color-primary);
+    background: var(--precedent-color-primary-muted);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// React select container with fixed height and horizontal scroll
+:global(.react-select__control) {
+  overflow: hidden;
+}
+
+:global(.react-select__value-container) {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 0.25rem;
+
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+
+  /* Scrollbar styling */
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--precedent-color-border);
+    border-radius: 2px;
+
+    &:hover {
+      background: var(--precedent-color-text-muted);
+    }
+  }
+}

@@ -9,6 +9,7 @@ import { CommunitiesPage } from '@domains/communities/Communities/CommunitiesPag
 import CommunityPage from '@domains/communities/Community/CommunityPage';
 import { EventPage } from '@domains/events/EventPage/EventPage';
 import { EventsListPage } from '@domains/events/EventsListPage/EventsListPage';
+import CreatePostPage from '@domains/post-creation/CreatePost';
 import MainFeedPage from '@domains/posts/MainFeed';
 import { ProfilePage } from '@domains/profile/Profile';
 import { NotFound } from '@pages/NotFound/NotFound';
@@ -32,6 +33,7 @@ export default function App() {
                   <Route path="/communities/:communityId" element={<CommunityPage />} />
                   <Route path="/events" element={<EventsListPage />} />
                   <Route path="/events/:eventId" element={<EventPage />} />
+                  <Route path="/create-post" element={<CreatePostPage />} />
                   <Route path="/profile/:username" element={<ProfilePage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/404" element={<NotFound />} />

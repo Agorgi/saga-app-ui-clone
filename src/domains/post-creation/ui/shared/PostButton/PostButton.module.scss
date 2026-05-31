@@ -1,0 +1,18 @@
+.postButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+
+  justify-content: stretch;
+
+  button {
+    width: 100%;
+  }
+}
+
+.pill {
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  line-height: normal;
+}

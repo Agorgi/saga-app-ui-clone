@@ -1,0 +1,83 @@
+.dragDropZone {
+  border: 2px dashed var(--precedent-color-border);
+  border-radius: 0.75rem;
+  padding: 3rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  font-family: inherit;
+  width: 100%;
+
+  &:hover:not(:disabled) {
+    border-color: var(--precedent-color-primary);
+    background-color: var(--precedent-color-primary-muted);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+
+  &.dragging {
+    border-color: var(--precedent-color-primary);
+    background-color: var(--precedent-color-primary-muted);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &:hover {
+      border-color: var(--precedent-color-border);
+      background-color: transparent;
+    }
+  }
+}
+
+.fileInput {
+  display: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--precedent-color-text-subtle);
+  transition: color 0.2s ease;
+
+  .dragDropZone:hover:not(.disabled) & {
+    color: var(--precedent-color-primary);
+  }
+
+  .dragDropZone.dragging & {
+    color: var(--precedent-color-primary);
+  }
+}
+
+.text {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--precedent-color-text-muted);
+  transition: color 0.2s ease;
+
+  .dragDropZone:hover:not(.disabled) & {
+    color: var(--precedent-color-text);
+  }
+
+  .dragDropZone.dragging & {
+    color: var(--precedent-color-text);
+  }
+}
