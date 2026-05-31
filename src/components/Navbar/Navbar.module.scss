@@ -271,12 +271,6 @@
   border-color: var(--precedent-color-border);
 }
 
-@media (max-width: 480px) {
-  .navbar-create-button-hidden {
-    display: none;
-  }
-}
-
 @media (max-width: 768px) {
   .navbar-container {
     padding: 0 1rem;

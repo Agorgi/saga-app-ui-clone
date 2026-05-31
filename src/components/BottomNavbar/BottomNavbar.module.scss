@@ -1,54 +1,68 @@
-// Bottom bar is mobile-first: shown only while the main top Navbar is hidden.
-// Main Navbar is hidden for max-width 768px (see Navbar.module.scss); keep this
-// breakpoint in sync so the bottom bar is hidden whenever the top bar is shown.
+// Wireframe redesign: a floating, Instagram-inspired pill (mobile only). Shown
+// only while the main top Navbar is hidden. Main Navbar is hidden for max-width
+// 768px (see Navbar.module.scss); keep this breakpoint in sync so the floating
+// bar is hidden whenever the top bar is shown.
 $bottom-nav-hide-breakpoint: 769px;
 
 .bottomNavbar {
   display: block;
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background-color: var(--precedent-color-surface);
-  border-top: 1px solid var(--precedent-color-border);
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  left: 12px;
+  right: 12px;
+  margin: 0 auto;
+  max-width: 440px;
   z-index: 50;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--precedent-radius-fully-rounded);
+  box-shadow: var(--glass-shadow-dropdown);
   // Promotes to compositor layer — fixes Chrome mobile's deferred fixed-position
   // first-paint bug where the navbar is invisible until the user scrolls.
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  // Safe-area padding so the bar extends behind the iOS home indicator on
-  // notched iPhones, preventing the "not sticky" appearance in Safari.
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  transform-origin: bottom center;
+  transition:
+    transform 0.4s var(--easing-spring),
+    box-shadow 0.4s var(--easing-spring);
+}
+
+// Scroll-down compact state: the whole pill scales down a touch (driven by
+// useCollapseOnScroll), and the protruding Create button tucks back inline.
+.collapsed {
+  transform: scale(0.92) translateZ(0);
+  box-shadow: var(--glass-pill-shadow);
 }
 
 .navbar-container {
-  max-width: 100%;
+  width: 100%;
   min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   gap: 4px;
-  padding: 4px 8px 8px;
+  padding: 0 10px;
   touch-action: manipulation;
 }
 
 .nav-button {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
   flex: 1;
   box-sizing: border-box;
   min-width: 44px;
-  min-height: 52px;
+  min-height: 56px;
   background: none;
   border: none;
-  padding: 6px 4px;
+  padding: 0;
   cursor: pointer;
   color: var(--precedent-color-text-muted);
-  border-radius: 8px;
+  border-radius: var(--precedent-radius-fully-rounded);
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.2s ease;
 
   &:focus-visible {
     outline: 2px solid var(--precedent-color-primary);
@@ -56,59 +70,105 @@ $bottom-nav-hide-breakpoint: 769px;
   }
 }
 
+// Instagram-style: the active tab reads as full-contrast text, the rest muted.
 .nav-button-selected {
-  color: var(--precedent-color-primary);
+  color: var(--precedent-color-text);
+}
+
+.nav-icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  stroke-width: 2;
+  transition:
+    width 0.4s var(--easing-spring),
+    height 0.4s var(--easing-spring);
+}
+
+.collapsed .nav-icon {
+  width: 23px;
+  height: 23px;
+}
+
+// The Create button is enlarged and protrudes above the bar's top edge by
+// default; on scroll-down it shrinks and tucks flush with the other icons.
+.nav-button-create {
+  overflow: visible;
+}
+
+.create-fab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--precedent-color-primary);
+  box-shadow: var(--glow-md);
+  transform: translateY(-14px);
+  transition:
+    width 0.4s var(--easing-spring),
+    height 0.4s var(--easing-spring),
+    transform 0.4s var(--easing-spring),
+    box-shadow 0.4s var(--easing-spring),
+    background 0.2s ease;
+}
+
+.nav-button-create:hover .create-fab {
+  background: var(--precedent-color-primary-hover);
+}
+
+.collapsed .create-fab {
+  width: 40px;
+  height: 40px;
+  transform: translateY(0);
+  box-shadow: var(--glow-sm);
+}
+
+.create-icon {
+  width: 26px;
+  height: 26px;
+  color: var(--precedent-color-on-primary);
+  stroke-width: 2.4;
+  transition:
+    width 0.4s var(--easing-spring),
+    height 0.4s var(--easing-spring);
+}
+
+.collapsed .create-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.profile-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    width 0.4s var(--easing-spring),
+    height 0.4s var(--easing-spring);
+}
+
+.collapsed .profile-icon {
+  width: 25px;
+  height: 25px;
 }
 
 .nav-button-selected .profile-icon {
   box-shadow: 0 0 0 2px var(--precedent-color-primary);
 }
 
-.nav-icon {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  stroke-width: 1.5;
-}
-
-.nav-label {
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.01em;
-}
-
-.profile-icon {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.notification-button {
-  position: relative;
-}
-
-.notification-badge {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  z-index: 2;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 700;
-  font-family: 'SF Mono', 'JetBrains Mono', monospace;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(238, 90, 90, 0.4);
+@media (prefers-reduced-motion: reduce) {
+  .bottomNavbar,
+  .nav-icon,
+  .create-fab,
+  .create-icon,
+  .profile-icon {
+    transition: none;
+  }
 }
 
 @media (min-width: $bottom-nav-hide-breakpoint) {
