@@ -9,6 +9,10 @@ import sagaText from '../../../public/saga-text.svg';
 import sagaTextLight from '../../../public/saga-text-light.svg';
 import styles from './Navbar.module.scss';
 
+// Wireframe redesign: the redundant "Home" text link was dropped from the desktop
+// nav. The Saga wordmark (top-left, links to "/") is now the sole home affordance,
+// matching the Instagram-inspired nav direction. A deliberate divergence from prod.
+//
 // Wireframe clone: the authenticated navbar reproduces the source chrome — a
 // Following link, the NotificationDropdown, a CreateButton + CreateOptionsModal,
 // and the Manage Communities / Settings / Log Out menu items. The source renders
@@ -88,9 +92,6 @@ export default function Navbar() {
           </Link>
 
           <div className={styles['navbar-links']}>
-            <Link to="/" className={styles['navbar-link']}>
-              Home
-            </Link>
             <Link to="/communities" className={styles['navbar-link']}>
               Communities
             </Link>
