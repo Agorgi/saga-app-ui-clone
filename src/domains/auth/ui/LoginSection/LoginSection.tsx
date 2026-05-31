@@ -1,19 +1,35 @@
 import { Button, FormField, Stack } from '@saga/global-web';
-import { useId, useState } from 'react';
+import { type FormEvent, useId, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/useAuth';
 import styles from '../../styles/authSections.module.scss';
 import { AuthPageLayout } from '../AuthPageLayout/AuthPageLayout';
 import { PasswordField } from '../PasswordField/PasswordField';
 
 // Wireframe clone: login form. The source wires real authentication (useAuth →
 // login, email-verification redirect, error handling) and links to /signup and
-// /forgot-password. Here the form is inert (submit does nothing) and the
-// secondary links are non-navigating placeholders.
+// /forgot-password. Here the demo login accepts any email/password, signs the
+// visitor in via the demo AuthProvider, and redirects into the app. The
+// secondary links (sign up, forgot password) are non-navigating placeholders.
 export function LoginSection() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+  const from = (location.state as { from?: string } | null)?.from ?? '/feed';
+
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
 
   const identifierId = useId();
   const passwordId = useId();
+
+  // Demo auth: any email/password succeeds. Mirrors the production submit shape
+  // (preventDefault → login → navigate) without real API calls or error states.
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    login(identifier, password);
+    navigate(from, { replace: true });
+  };
 
   return (
     <AuthPageLayout
@@ -27,7 +43,7 @@ export function LoginSection() {
         </>
       }
     >
-      <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <Stack className="precedent-gap-md">
           <FormField
             label="Email or Username"
