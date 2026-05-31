@@ -1,7 +1,8 @@
 import { CreateOptionsModal } from '@components/CreateOptionsModal/CreateOptionsModal';
 import { useAuth } from '@domains/auth';
+import { useCollapseOnScroll } from '@hooks/useCollapseOnScroll';
 import { Avatar } from '@saga/global-web';
-import { Bell01, Calendar, Home02, PlusCircle, User01, Users01 } from '@untitledui/icons';
+import { Calendar, Home02, Plus, User01, Users01 } from '@untitledui/icons';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './BottomNavbar.module.scss';
@@ -23,31 +24,35 @@ function navButtonClass(isSelected: boolean): string {
     .join(' ');
 }
 
-// Wireframe clone: bottom navbar (mobile). Mirrors the source component's
-// !isAuthenticated / isAuthenticated split. The demo AuthProvider drives
-// isAuthenticated, so signing in via /login swaps the Login tab for the
-// authenticated Home + Community + Events + Create + Inbox + Profile bar. The
-// source renders the profile glyph via ProfilePictureIcon (real avatar fetch)
-// and carries a live unread badge on Inbox; the clone has no avatar/notifications
-// backend, so it keeps the design system's Avatar and drops the badge. Create
-// opens the CreateOptionsModal; Inbox routes to /notifications.
+// Wireframe clone: floating, Instagram-inspired bottom navbar (mobile). This is a
+// deliberate REDESIGN, not a faithful mirror of production. The bar floats as a
+// rounded pill and collapses on scroll-down via useCollapseOnScroll. Order is
+// Home, Events, Create, Community, Profile, with an enlarged Create that
+// protrudes above the bar by default and shrinks inline when collapsed. Icon-only
+// to match the reference pill dimensions. Inbox is no longer in the bottom bar
+// (it moves to the top-right header in a follow-up change). The demo AuthProvider
+// drives isAuthenticated; signed-out shows Home, Events, Community, Login.
 export function BottomNavbar() {
   const { isAuthenticated, userId, userName, displayName } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const collapsed = useCollapseOnScroll();
 
   const isHomeActive = HOME_PATHS.includes(location.pathname);
   const isCommunitiesActive = location.pathname.startsWith('/communities');
   const isEventsActive =
     location.pathname.startsWith('/events') && location.pathname !== '/events/create';
-  const isNotificationsActive = location.pathname.startsWith('/notifications');
   const isProfileActive = Boolean(userName) && location.pathname.startsWith(`/profile/${userName}`);
   const isLoginRouteActive = location.pathname.startsWith('/login');
   const isCreateActive = isCreateRouteActive(location.pathname);
 
+  const navClass = [styles.bottomNavbar, collapsed ? styles.collapsed : '']
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <nav className={styles.bottomNavbar} aria-label="Primary">
+    <nav className={navClass} aria-label="Primary">
       {!isAuthenticated ? (
         <div className={styles['navbar-container']}>
           <button
@@ -58,18 +63,6 @@ export function BottomNavbar() {
             aria-current={isHomeActive ? 'page' : undefined}
           >
             <Home02 className={styles['nav-icon']} aria-hidden />
-            <span className={styles['nav-label']}>Home</span>
-          </button>
-
-          <button
-            type="button"
-            className={navButtonClass(isCommunitiesActive)}
-            onClick={() => navigate('/communities')}
-            aria-label="Communities"
-            aria-current={isCommunitiesActive ? 'page' : undefined}
-          >
-            <Users01 className={styles['nav-icon']} aria-hidden />
-            <span className={styles['nav-label']}>Community</span>
           </button>
 
           <button
@@ -80,7 +73,16 @@ export function BottomNavbar() {
             aria-current={isEventsActive ? 'page' : undefined}
           >
             <Calendar className={styles['nav-icon']} aria-hidden />
-            <span className={styles['nav-label']}>Events</span>
+          </button>
+
+          <button
+            type="button"
+            className={navButtonClass(isCommunitiesActive)}
+            onClick={() => navigate('/communities')}
+            aria-label="Communities"
+            aria-current={isCommunitiesActive ? 'page' : undefined}
+          >
+            <Users01 className={styles['nav-icon']} aria-hidden />
           </button>
 
           <button
@@ -91,7 +93,6 @@ export function BottomNavbar() {
             aria-current={isLoginRouteActive ? 'page' : undefined}
           >
             <User01 className={styles['nav-icon']} aria-hidden />
-            <span className={styles['nav-label']}>Login</span>
           </button>
         </div>
       ) : (
@@ -104,18 +105,6 @@ export function BottomNavbar() {
             aria-current={isHomeActive ? 'page' : undefined}
           >
             <Home02 className={styles['nav-icon']} aria-hidden />
-            <span className={styles['nav-label']}>Home</span>
-          </button>
-
-          <button
-            type="button"
-            className={navButtonClass(isCommunitiesActive)}
-            onClick={() => navigate('/communities')}
-            aria-label="Communities"
-            aria-current={isCommunitiesActive ? 'page' : undefined}
-          >
-            <Users01 className={styles['nav-icon']} aria-hidden />
-            <span className={styles['nav-label']}>Community</span>
           </button>
 
           <button
@@ -126,29 +115,34 @@ export function BottomNavbar() {
             aria-current={isEventsActive ? 'page' : undefined}
           >
             <Calendar className={styles['nav-icon']} aria-hidden />
-            <span className={styles['nav-label']}>Events</span>
           </button>
 
           <button
             type="button"
-            className={navButtonClass(isCreateActive)}
+            className={[
+              styles['nav-button'],
+              styles['nav-button-create'],
+              isCreateActive ? styles['nav-button-selected'] : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
             onClick={() => setIsCreateModalOpen(true)}
             aria-label="Create"
             aria-current={isCreateActive ? 'page' : undefined}
           >
-            <PlusCircle className={styles['nav-icon']} aria-hidden />
-            <span className={styles['nav-label']}>Create</span>
+            <span className={styles['create-fab']}>
+              <Plus className={styles['create-icon']} aria-hidden />
+            </span>
           </button>
 
           <button
             type="button"
-            className={`${navButtonClass(isNotificationsActive)} ${styles['notification-button']}`}
-            onClick={() => navigate('/notifications')}
-            aria-label="Notifications"
-            aria-current={isNotificationsActive ? 'page' : undefined}
+            className={navButtonClass(isCommunitiesActive)}
+            onClick={() => navigate('/communities')}
+            aria-label="Communities"
+            aria-current={isCommunitiesActive ? 'page' : undefined}
           >
-            <Bell01 className={styles['nav-icon']} aria-hidden />
-            <span className={styles['nav-label']}>Inbox</span>
+            <Users01 className={styles['nav-icon']} aria-hidden />
           </button>
 
           <button
@@ -167,7 +161,6 @@ export function BottomNavbar() {
                 className={styles['profile-icon']}
               />
             ) : null}
-            <span className={styles['nav-label']}>Profile</span>
           </button>
         </div>
       )}
