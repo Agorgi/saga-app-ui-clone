@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { AuthContext, type AuthContextValue, type DemoUser } from './useAuth';
 
 const STORAGE_KEY = 'saga-clone-demo-auth';
@@ -26,17 +26,14 @@ function readStoredUser(): DemoUser | undefined {
   return undefined;
 }
 
-// Wireframe clone of the production AuthProvider. The real provider hydrates
-// from a persisted token, refreshes it, and wires axios interceptors. Here we
-// persist a single placeholder user so the logged-in shell survives reloads.
+// Wireframe clone of the production AuthProvider. The real provider hydrates a
+// persisted token asynchronously, refreshes it, and wires axios interceptors.
+// This is a client-only SPA with no SSR, so we read the demo user synchronously
+// on first render: a logged-in refresh then shows the authenticated shell
+// immediately instead of flashing the logged-out chrome or bouncing guarded
+// routes (e.g. /following-feed) home before hydration lands.
 export function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
-  const [user, setUser] = useState<DemoUser | undefined>(undefined);
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  useEffect(() => {
-    setUser(readStoredUser());
-    setIsHydrated(true);
-  }, []);
+  const [user, setUser] = useState<DemoUser | undefined>(() => readStoredUser());
 
   const login = useCallback((_identifier: string, _password: string) => {
     // Demo: any credentials succeed. Persist so a refresh stays signed in.
@@ -63,11 +60,11 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
       userName: user?.userName,
       displayName: user?.displayName,
       isAuthenticated: Boolean(user),
-      isHydrated,
+      isHydrated: true,
       login,
       logout,
     }),
-    [user, isHydrated, login, logout],
+    [user, login, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

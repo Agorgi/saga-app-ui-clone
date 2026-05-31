@@ -1,23 +1,29 @@
+import { CreateOptionsModal } from '@components/CreateOptionsModal/CreateOptionsModal';
 import { useAuth } from '@domains/auth';
-import { Avatar, ThemeToggle, useTheme } from '@saga/global-web';
+import { NotificationDropdown } from '@domains/notifications';
+import { Avatar, CreateButton, ThemeToggle, useTheme } from '@saga/global-web';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import favicon from '../../../public/favicon.png';
 import sagaText from '../../../public/saga-text.svg';
 import sagaTextLight from '../../../public/saga-text-light.svg';
 import styles from './Navbar.module.scss';
 
-// Wireframe clone: public navbar plus the authenticated identity affordances.
-// The source also renders a NotificationDropdown, a CreateButton +
-// CreateOptionsModal, and Manage Communities / Settings menu items; those depend
-// on domains and routes outside this clone's scope, so the authenticated menu
-// here is trimmed to View Profile + Log Out. The demo AuthProvider drives
-// isAuthenticated, so signing in via /login flips the navbar to this variant.
+// Wireframe clone: the authenticated navbar reproduces the source chrome — a
+// Following link, the NotificationDropdown, a CreateButton + CreateOptionsModal,
+// and the Manage Communities / Settings / Log Out menu items. The source renders
+// the profile glyph via ProfilePictureIcon (which fetches a real avatar); the
+// clone has no avatar backend, so it keeps the design system's Avatar fed by the
+// demo display name. Manage Communities and Settings route to paths outside this
+// clone's scope, so they fall through to the wireframe NotFound. The demo
+// AuthProvider drives isAuthenticated.
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, logout, userId, userName, displayName } = useAuth();
   const { theme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
   const rootBackground = {
     pathname: '/',
@@ -39,6 +45,13 @@ export default function Navbar() {
     logout();
     closeMenu();
     navigate('/', { state: { backgroundLocation: rootBackground } });
+  };
+
+  const handleManageCommunities = () => {
+    navigate('/manage-communities', {
+      state: { backgroundLocation: location },
+    });
+    closeMenu();
   };
 
   useEffect(() => {
@@ -84,10 +97,15 @@ export default function Navbar() {
             <Link to="/events" className={styles['navbar-link']}>
               Events
             </Link>
-            {isAuthenticated && userName ? (
-              <Link to={`/profile/${userName}`} className={styles['navbar-link']}>
-                Profile
-              </Link>
+            {isAuthenticated ? (
+              <>
+                <Link to="/following-feed" className={styles['navbar-link']}>
+                  Following
+                </Link>
+                <Link to={`/profile/${userName}`} className={styles['navbar-link']}>
+                  Profile
+                </Link>
+              </>
             ) : null}
           </div>
         </div>
@@ -95,46 +113,69 @@ export default function Navbar() {
         <div className={styles['navbar-actions']}>
           <ThemeToggle />
           {isAuthenticated ? (
-            <div className={styles['navbar-profile-wrapper']} ref={profileMenuRef}>
-              <button
-                type="button"
-                className={styles['navbar-profile-button']}
-                onClick={toggleMenu}
-                aria-haspopup="menu"
-                aria-expanded={isMenuOpen}
-                aria-label="User menu"
-              >
-                {userId && (
-                  <Avatar
-                    name={displayName ?? 'Member'}
-                    userId={userId}
-                    type="user"
-                    variant="medium"
-                    className={styles.profileImage}
-                  />
-                )}
-              </button>
-              {isMenuOpen ? (
-                <div className={styles['navbar-dropdown']} role="menu">
-                  <Link
-                    to={`/profile/${userName}`}
-                    className={styles['navbar-dropdown-item']}
-                    role="menuitem"
-                    onClick={closeMenu}
-                  >
-                    View Profile
-                  </Link>
-                  <button
-                    type="button"
-                    className={styles['navbar-dropdown-item']}
-                    role="menuitem"
-                    onClick={handleLogout}
-                  >
-                    Log Out
-                  </button>
-                </div>
-              ) : null}
-            </div>
+            <>
+              <NotificationDropdown />
+              <CreateButton
+                onClick={() => setIsCreateModalOpen(true)}
+                className={styles['navbar-create-button-hidden']}
+              />
+              <div className={styles['navbar-profile-wrapper']} ref={profileMenuRef}>
+                <button
+                  type="button"
+                  className={styles['navbar-profile-button']}
+                  onClick={toggleMenu}
+                  aria-haspopup="menu"
+                  aria-expanded={isMenuOpen}
+                  aria-label="User menu"
+                >
+                  {userId && (
+                    <Avatar
+                      name={displayName ?? 'Member'}
+                      userId={userId}
+                      type="user"
+                      variant="medium"
+                      className={styles.profileImage}
+                    />
+                  )}
+                </button>
+                {isMenuOpen ? (
+                  <div className={styles['navbar-dropdown']} role="menu">
+                    <Link
+                      to={`/profile/${userName}`}
+                      className={styles['navbar-dropdown-item']}
+                      role="menuitem"
+                      onClick={closeMenu}
+                    >
+                      View Profile
+                    </Link>
+                    <button
+                      type="button"
+                      className={styles['navbar-dropdown-item']}
+                      role="menuitem"
+                      onClick={handleManageCommunities}
+                    >
+                      Manage Communities
+                    </button>
+                    <Link
+                      to="/settings"
+                      className={styles['navbar-dropdown-item']}
+                      role="menuitem"
+                      onClick={closeMenu}
+                    >
+                      Settings
+                    </Link>
+                    <button
+                      type="button"
+                      className={styles['navbar-dropdown-item']}
+                      role="menuitem"
+                      onClick={handleLogout}
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            </>
           ) : (
             <Link
               to="/login"
@@ -146,6 +187,7 @@ export default function Navbar() {
           )}
         </div>
       </div>
+      <CreateOptionsModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
     </nav>
   );
 }

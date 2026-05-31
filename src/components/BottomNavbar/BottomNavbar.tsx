@@ -1,10 +1,21 @@
+import { CreateOptionsModal } from '@components/CreateOptionsModal/CreateOptionsModal';
 import { useAuth } from '@domains/auth';
 import { Avatar } from '@saga/global-web';
-import { Calendar, Home02, User01, Users01 } from '@untitledui/icons';
+import { Bell01, Calendar, Home02, PlusCircle, User01, Users01 } from '@untitledui/icons';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './BottomNavbar.module.scss';
 
 const HOME_PATHS = ['/', '/feed', '/following-feed'] satisfies readonly string[];
+
+function isCreateRouteActive(pathname: string): boolean {
+  return (
+    pathname === '/create-post' ||
+    pathname === '/create-community' ||
+    pathname === '/events/create' ||
+    pathname === '/crowd-commissions/new'
+  );
+}
 
 function navButtonClass(isSelected: boolean): string {
   return [styles['nav-button'], isSelected ? styles['nav-button-selected'] : '']
@@ -15,21 +26,25 @@ function navButtonClass(isSelected: boolean): string {
 // Wireframe clone: bottom navbar (mobile). Mirrors the source component's
 // !isAuthenticated / isAuthenticated split. The demo AuthProvider drives
 // isAuthenticated, so signing in via /login swaps the Login tab for the
-// authenticated Profile tab. The source's authenticated bar also renders
-// Create (CreateOptionsModal) and Inbox (notifications) tabs; those depend on
-// domains and routes outside this clone's scope, so the authenticated bar here
-// is trimmed to Home + Community + Events + Profile.
+// authenticated Home + Community + Events + Create + Inbox + Profile bar. The
+// source renders the profile glyph via ProfilePictureIcon (real avatar fetch)
+// and carries a live unread badge on Inbox; the clone has no avatar/notifications
+// backend, so it keeps the design system's Avatar and drops the badge. Create
+// opens the CreateOptionsModal; Inbox routes to /notifications.
 export function BottomNavbar() {
   const { isAuthenticated, userId, userName, displayName } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const isHomeActive = HOME_PATHS.includes(location.pathname);
   const isCommunitiesActive = location.pathname.startsWith('/communities');
   const isEventsActive =
     location.pathname.startsWith('/events') && location.pathname !== '/events/create';
+  const isNotificationsActive = location.pathname.startsWith('/notifications');
   const isProfileActive = Boolean(userName) && location.pathname.startsWith(`/profile/${userName}`);
   const isLoginRouteActive = location.pathname.startsWith('/login');
+  const isCreateActive = isCreateRouteActive(location.pathname);
 
   return (
     <nav className={styles.bottomNavbar} aria-label="Primary">
@@ -116,6 +131,28 @@ export function BottomNavbar() {
 
           <button
             type="button"
+            className={navButtonClass(isCreateActive)}
+            onClick={() => setIsCreateModalOpen(true)}
+            aria-label="Create"
+            aria-current={isCreateActive ? 'page' : undefined}
+          >
+            <PlusCircle className={styles['nav-icon']} aria-hidden />
+            <span className={styles['nav-label']}>Create</span>
+          </button>
+
+          <button
+            type="button"
+            className={`${navButtonClass(isNotificationsActive)} ${styles['notification-button']}`}
+            onClick={() => navigate('/notifications')}
+            aria-label="Notifications"
+            aria-current={isNotificationsActive ? 'page' : undefined}
+          >
+            <Bell01 className={styles['nav-icon']} aria-hidden />
+            <span className={styles['nav-label']}>Inbox</span>
+          </button>
+
+          <button
+            type="button"
             className={navButtonClass(isProfileActive)}
             onClick={() => navigate(`/profile/${userName}`)}
             aria-label="Profile"
@@ -134,6 +171,7 @@ export function BottomNavbar() {
           </button>
         </div>
       )}
+      <CreateOptionsModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
     </nav>
   );
 }
