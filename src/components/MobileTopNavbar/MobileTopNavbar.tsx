@@ -1,58 +1,27 @@
 import { useAuth } from '@domains/auth';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ExploreTabWithDropdown } from './ExploreTabWithDropdown';
+import { NotificationDropdown } from '@domains/notifications';
+import { useLocation } from 'react-router-dom';
 import styles from './MobileTopNavbar.module.scss';
 
-// Wireframe clone: mobile top navbar. Logged-out users see a single "Explore"
-// tab; the demo AuthProvider flips on a second "Following" tab once signed in.
-// The source persists the last-used home tab via HomeTabsContext; the clone has
-// no such context, so the tab buttons navigate directly without persistence.
+// Wireframe redesign (Instagram-inspired). This is a deliberate REDESIGN, not a
+// faithful mirror of production. The Explore/Following home tabs are removed from
+// the header entirely; the mobile header is now just the notifications (inbox)
+// icon in the top-right corner. Home navigation lives in the bottom bar's Home
+// icon, so the header carries no wordmark or tabs. Scoped to the home area where
+// the feed lives — other routes keep their own chrome. The icon renders only when
+// signed in, matching the desktop Navbar.
 export default function MobileTopNavbar() {
   const location = useLocation();
-  const navigate = useNavigate();
-
-  // Home-area routes: explore ("/" or "/feed") and following feed
-  const isHomeArea = ['/', '/feed', '/following-feed'].includes(location.pathname);
   const { isAuthenticated } = useAuth();
-  const showFollowingTab = Boolean(isAuthenticated);
-  const singleTab = !showFollowingTab;
 
-  // Hide the mobile top navbar entirely on other pages
+  // Home-area routes: explore ("/" or "/feed") and following feed.
+  const isHomeArea = ['/', '/feed', '/following-feed'].includes(location.pathname);
   if (!isHomeArea) return null;
-  const isFollowing = location.pathname === '/following-feed';
 
   return (
-    <nav className={styles.mobileNavbar}>
+    <nav className={styles.mobileNavbar} aria-label="Top">
       <div className={styles.container}>
-        <div className={styles.leftPlaceholder} aria-hidden="true" />
-
-        <div
-          className={[
-            styles.tabs,
-            isFollowing && showFollowingTab ? styles.following : '',
-            singleTab ? styles.single : '',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-          role="tablist"
-          aria-label="Home tabs"
-        >
-          <div className={styles.track} aria-hidden="true">
-            <div className={styles.indicator} />
-          </div>
-          <ExploreTabWithDropdown isActive={!isFollowing} onClick={() => navigate('/')} />
-          {showFollowingTab && (
-            <button
-              type="button"
-              className={`${styles.tab} ${isFollowing ? styles.active : ''}`}
-              onClick={() => navigate('/following-feed')}
-              aria-selected={isFollowing}
-              role="tab"
-            >
-              Following
-            </button>
-          )}
-        </div>
+        <div className={styles.actions}>{isAuthenticated ? <NotificationDropdown /> : null}</div>
       </div>
     </nav>
   );
