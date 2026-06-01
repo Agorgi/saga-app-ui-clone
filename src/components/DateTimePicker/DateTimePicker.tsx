@@ -11,6 +11,8 @@ interface DateTimePickerProps {
   readonly onTimezoneChange: (tz: string) => void;
   /** When false, hides end-date tab, end-date trigger, TBD button, and clear button. Defaults to true. */
   readonly showEndDate?: boolean;
+  /** Placeholder shown on the trigger before a date is picked. Defaults to "Choose a date & time". */
+  readonly triggerLabel?: string;
   /**
    * Optional upper bound (datetime-local string in the picker's `timezone`).
    * Calendar days strictly after `maxAt`'s date are disabled, and time slots
@@ -268,6 +270,7 @@ export function DateTimePicker({
   onChange,
   onTimezoneChange,
   showEndDate = true,
+  triggerLabel = 'Choose a date & time',
   maxAt,
 }: Readonly<DateTimePickerProps>) {
   const now = useMemo(() => new Date(), []);
@@ -747,7 +750,7 @@ export function DateTimePicker({
               </span>
             </span>
           ) : (
-            <span className={styles.triggerPlaceholder}>Choose a date &amp; time</span>
+            <span className={styles.triggerPlaceholder}>{triggerLabel}</span>
           )}
         </button>
 
