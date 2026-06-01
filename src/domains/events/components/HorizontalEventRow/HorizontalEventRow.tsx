@@ -6,6 +6,8 @@ export interface HorizontalEventRowProps {
   title: string;
   emptyMessage?: string;
   hideWhenEmpty?: boolean;
+  // 1:1 card thumbnails (passed through to EventCard).
+  square?: boolean;
   // Accepted for parity with the production profile events tab, which filters
   // by RSVP and time window. The wireframe ignores these and renders fixtures.
   upcomingOnly?: boolean;
@@ -17,7 +19,7 @@ export interface HorizontalEventRowProps {
 // Wireframe clone: a titled horizontal scroller of event cards. The source
 // wires pagination + infinite scroll over live data; here it maps placeholder
 // events so the layout renders.
-export function HorizontalEventRow({ title }: Readonly<HorizontalEventRowProps>) {
+export function HorizontalEventRow({ title, square = false }: Readonly<HorizontalEventRowProps>) {
   const events = wireEvents;
 
   return (
@@ -27,7 +29,7 @@ export function HorizontalEventRow({ title }: Readonly<HorizontalEventRowProps>)
       <div className={styles.scrollTrack}>
         {events.map((event) => (
           <div key={event.id} className={styles.cardWrap}>
-            <EventCard event={event} />
+            <EventCard event={event} square={square} />
           </div>
         ))}
       </div>

@@ -6,56 +6,18 @@
   }
 }
 
+// Single centered column for both the Hot row and the vertical feed. Sized for
+// a comfortable single-column feed of 1:1 cards (the home feed renders in an
+// 800px column; this is a touch narrower so the square cards aren't oversized).
 .content {
-  max-width: 1200px;
+  max-width: 680px;
   margin: 0 auto;
 }
 
-.header {
-  margin-bottom: 32px;
-
-  @media (max-width: 768px) {
-    margin-bottom: 24px;
-  }
-}
-
-.headerTop {
+// Vertical, feed-like stack below the Hot row. Mirrors the home feed's column
+// (flex column, small gap) so events read the same way they do on home.
+.feed {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-
-.title {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--precedent-color-text);
-  margin: 0 0 8px 0;
-
-  @media (max-width: 768px) {
-    font-size: 24px;
-  }
-}
-
-.subtitle {
-  font-size: 16px;
-  color: var(--precedent-color-text-muted);
-  margin: 0;
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
-}
-
-.createButtonLink {
-  text-decoration: none;
-}
-
-.createButton {
-  white-space: nowrap;
+  flex-direction: column;
+  gap: 10px;
 }
