@@ -1,10 +1,16 @@
+// Wireframe redesign: the mobile top bar floats over the feed rather than
+// reserving layout space. It is transparent and click-through (pointer-events:
+// none) so the feed scrolls/taps underneath; only the notifications icon
+// re-enables pointer events. This lets the first post sit at the very top of
+// the screen with the notifications icon overlapping its top-right corner.
 .mobileNavbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 60;
-  background: var(--precedent-color-background);
-  border-bottom: 1px solid var(--precedent-color-border);
-  display: none; /* shown only on mobile via media query */
+  display: none;
+  pointer-events: none;
   // Safe-area padding for status bar on notched devices / PWA full-screen mode.
   padding-top: env(safe-area-inset-top, 0px);
 }
@@ -12,8 +18,8 @@
 .container {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0.5rem 0.75rem;
-  min-height: 44px;
+  // 12px from the top/right edges, mirroring the floating bottom bar's offset.
+  padding: 12px 12px 0;
   display: flex;
   align-items: center;
   // Notifications icon sits in the top-right corner; nothing on the left.
@@ -24,6 +30,8 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  // Re-enable interaction on the icon itself (the bar wrapper is click-through).
+  pointer-events: auto;
 }
 
 /* show on mobile only */
