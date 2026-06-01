@@ -1,0 +1,140 @@
+.container {
+  min-height: 80vh;
+  background: var(--precedent-color-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    align-items: flex-start;
+    padding-top: 64px;
+  }
+}
+
+.content {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--precedent-color-text);
+  text-align: center;
+  margin: 0;
+}
+
+.options {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.option {
+  flex: 1;
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 24px;
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    border-color: var(--precedent-color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: none;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 20px;
+  }
+}
+
+.iconStack {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--precedent-color-text);
+}
+
+// Paid: the ticket sits as the base, the money circle overlaps above it.
+.iconBase {
+  width: 44px;
+  height: 44px;
+}
+
+.iconOverlay {
+  position: absolute;
+  top: -2px;
+  right: 2px;
+  width: 30px;
+  height: 30px;
+  color: var(--precedent-color-primary);
+  background: var(--precedent-color-surface);
+  border-radius: 50%;
+}
+
+// Free to RSVP: a hand surrounded by small stars (no clapping-hands glyph).
+.iconStarTop {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  color: var(--precedent-color-primary);
+}
+
+.iconStarLeft {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  color: var(--precedent-color-primary);
+}
+
+.iconStarRight {
+  position: absolute;
+  top: 6px;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  color: var(--precedent-color-primary);
+}
+
+.optionLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--precedent-color-text);
+}
