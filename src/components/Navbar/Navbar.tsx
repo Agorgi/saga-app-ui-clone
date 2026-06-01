@@ -1,7 +1,7 @@
 import { CreateOptionsModal } from '@components/CreateOptionsModal/CreateOptionsModal';
 import { useAuth } from '@domains/auth';
 import { NotificationDropdown } from '@domains/notifications';
-import { Avatar, CreateButton, ThemeToggle, useTheme } from '@saga/global-web';
+import { Avatar, ThemeToggle, useTheme } from '@saga/global-web';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import favicon from '../../../public/favicon.png';
@@ -95,23 +95,31 @@ export default function Navbar() {
               className={styles['navbar-logo-text']}
             />
           </Link>
+
+          <div className={styles['navbar-links']}>
+            <Link to="/events" className={styles['navbar-link']}>
+              Events
+            </Link>
+
+            {isAuthenticated ? (
+              <button
+                type="button"
+                className={`${styles['navbar-link']} ${styles['navbar-link-button']}`}
+                onClick={() => setIsCreateModalOpen(true)}
+              >
+                Create
+              </button>
+            ) : null}
+
+            <Link to="/communities" className={styles['navbar-link']}>
+              Community
+            </Link>
+          </div>
         </div>
 
         <div className={styles['navbar-actions']}>
-          <ThemeToggle />
           {isAuthenticated ? <NotificationDropdown /> : null}
-
-          <Link to="/events" className={styles['navbar-link']}>
-            Events
-          </Link>
-
-          {isAuthenticated ? (
-            <CreateButton onClick={() => setIsCreateModalOpen(true)} />
-          ) : null}
-
-          <Link to="/communities" className={styles['navbar-link']}>
-            Community
-          </Link>
+          <ThemeToggle />
 
           {isAuthenticated ? (
             <div className={styles['navbar-profile-wrapper']} ref={profileMenuRef}>
