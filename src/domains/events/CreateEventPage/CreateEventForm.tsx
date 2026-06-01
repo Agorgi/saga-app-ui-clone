@@ -1,3 +1,4 @@
+import { CommunitySelector } from '@components/CommunitySelector/CommunitySelector';
 import { DateTimePicker } from '@components/DateTimePicker/DateTimePicker';
 import { PersonnelInviteSection } from '@domains/events/sections/PersonnelInviteSection';
 import { fromDateTimeLocalToISO } from '@domains/events/utils/eventFormUtils';
@@ -66,13 +67,19 @@ function PosterUpload({ poster, onChange }: PosterUploadProps) {
   );
 }
 
-type ExtraKey = 'link' | 'dressCode' | 'fandoms';
+type ExtraKey = 'link' | 'dressCode' | 'communities';
+type TextExtraKey = 'link' | 'dressCode';
 
-const EXTRA_PILLS: ReadonlyArray<{ key: ExtraKey; label: string; placeholder: string }> = [
-  { key: 'link', label: 'Link', placeholder: 'Add a link' },
-  { key: 'dressCode', label: 'Dress code', placeholder: 'Add a dress code' },
-  { key: 'fandoms', label: 'Fandoms', placeholder: 'Add fandoms' },
+const EXTRA_PILLS: ReadonlyArray<{ key: ExtraKey; label: string }> = [
+  { key: 'link', label: 'Link' },
+  { key: 'dressCode', label: 'Dress code' },
+  { key: 'communities', label: 'Tag communities' },
 ];
+
+const TEXT_PLACEHOLDERS: Record<TextExtraKey, string> = {
+  link: 'Add a link',
+  dressCode: 'Add a dress code',
+};
 
 interface CreateEventFormProps {
   readonly mode: 'paid' | 'free';
@@ -94,13 +101,13 @@ export function CreateEventForm({ mode }: CreateEventFormProps) {
   const [openExtras, setOpenExtras] = useState<Record<ExtraKey, boolean>>({
     link: false,
     dressCode: false,
-    fandoms: false,
+    communities: false,
   });
-  const [extras, setExtras] = useState<Record<ExtraKey, string>>({
+  const [textExtras, setTextExtras] = useState<Record<TextExtraKey, string>>({
     link: '',
     dressCode: '',
-    fandoms: '',
   });
+  const [selectedCommunityIds, setSelectedCommunityIds] = useState<string[]>([]);
   const [ticketDrafts, setTicketDrafts] = useState<TicketTypeDraft[]>([]);
   const [salesWindow, setSalesWindow] = useState<SalesWindow>(() => ({
     startAt: '',
@@ -122,6 +129,11 @@ export function CreateEventForm({ mode }: CreateEventFormProps) {
   const togglePill = (key: ExtraKey) => {
     setOpenExtras((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+
+  const isExtraActive = (key: ExtraKey) =>
+    key === 'communities'
+      ? openExtras.communities || selectedCommunityIds.length > 0
+      : openExtras[key] || Boolean(textExtras[key]);
 
   const handleSubmit = () => {
     // Wireframe: no createEvent call fires. Hold the submitting state briefly,
@@ -190,7 +202,7 @@ export function CreateEventForm({ mode }: CreateEventFormProps) {
             <button
               key={pill.key}
               type="button"
-              className={`${styles.pill} ${openExtras[pill.key] || extras[pill.key] ? styles.pillActive : ''}`}
+              className={`${styles.pill} ${isExtraActive(pill.key) ? styles.pillActive : ''}`}
               onClick={() => togglePill(pill.key)}
               aria-expanded={openExtras[pill.key]}
             >
@@ -202,17 +214,33 @@ export function CreateEventForm({ mode }: CreateEventFormProps) {
 
         {EXTRA_PILLS.some((pill) => openExtras[pill.key]) && (
           <div className={styles.extraInputs}>
-            {EXTRA_PILLS.filter((pill) => openExtras[pill.key]).map((pill) => (
-              <input
-                key={pill.key}
-                type="text"
-                className={styles.input}
-                placeholder={pill.placeholder}
-                value={extras[pill.key]}
-                onChange={(e) => setExtras((prev) => ({ ...prev, [pill.key]: e.target.value }))}
-                aria-label={pill.label}
-              />
-            ))}
+            {EXTRA_PILLS.filter((pill) => openExtras[pill.key]).map((pill) => {
+              if (pill.key === 'communities') {
+                return (
+                  <CommunitySelector
+                    key={pill.key}
+                    selectedCommunityIds={selectedCommunityIds}
+                    onSelectionChange={setSelectedCommunityIds}
+                    maxSelection={10}
+                    label=""
+                  />
+                );
+              }
+              const textKey = pill.key;
+              return (
+                <input
+                  key={textKey}
+                  type="text"
+                  className={styles.input}
+                  placeholder={TEXT_PLACEHOLDERS[textKey]}
+                  value={textExtras[textKey]}
+                  onChange={(e) =>
+                    setTextExtras((prev) => ({ ...prev, [textKey]: e.target.value }))
+                  }
+                  aria-label={pill.label}
+                />
+              );
+            })}
           </div>
         )}
 

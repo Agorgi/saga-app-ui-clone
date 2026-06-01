@@ -78,54 +78,124 @@ export interface WireCommunity {
   description: string;
 }
 
+// Placeholder communities. Names are public franchises / topics (no real user
+// data) chosen to span the alphabet so the create-event "Tag communities"
+// autocomplete has something to filter against (e.g. typing "chain" surfaces
+// "Chainsaw Man").
 export const wireCommunities: WireCommunity[] = [
   {
     id: 'com-1',
-    name: 'Placeholder community one',
-    memberCountText: '1.2K members',
-    description: 'Short placeholder description of what this community is about.',
+    name: 'Chainsaw Man',
+    memberCountText: '12.4K members',
+    description: 'Fans of the manga and anime trade theories, art, and cosplay.',
   },
   {
     id: 'com-2',
-    name: 'Placeholder community two',
-    memberCountText: '843 members',
-    description: 'Short placeholder description of what this community is about.',
+    name: 'Cosplay Collective',
+    memberCountText: '8.1K members',
+    description: 'Makers and performers sharing builds, patterns, and con plans.',
   },
   {
     id: 'com-3',
-    name: 'Placeholder community three',
+    name: 'Cyberpunk 2077',
     memberCountText: '5.6K members',
-    description: 'Short placeholder description of what this community is about.',
+    description: 'Night City regulars swapping screenshots, mods, and lore.',
   },
   {
     id: 'com-4',
-    name: 'Placeholder community four',
-    memberCountText: '209 members',
-    description: 'Short placeholder description of what this community is about.',
+    name: 'Attack on Titan',
+    memberCountText: '15.2K members',
+    description: 'Discussion, fan art, and rewatch threads for the series.',
   },
   {
     id: 'com-5',
-    name: 'Placeholder community five',
-    memberCountText: '12.4K members',
-    description: 'Short placeholder description of what this community is about.',
+    name: 'Anime Expo',
+    memberCountText: '21.7K members',
+    description: 'Attendees coordinating meetups, panels, and badge swaps.',
   },
   {
     id: 'com-6',
-    name: 'Placeholder community six',
-    memberCountText: '78 members',
-    description: 'Short placeholder description of what this community is about.',
+    name: 'Demon Slayer',
+    memberCountText: '9.8K members',
+    description: 'Breathing-style debates and weekly episode reactions.',
   },
   {
     id: 'com-7',
-    name: 'Placeholder community seven',
-    memberCountText: '3.1K members',
-    description: 'Short placeholder description of what this community is about.',
+    name: 'Dungeons & Dragons',
+    memberCountText: '6.3K members',
+    description: 'Players looking for tables, one-shots, and homebrew ideas.',
   },
   {
     id: 'com-8',
-    name: 'Placeholder community eight',
-    memberCountText: '460 members',
-    description: 'Short placeholder description of what this community is about.',
+    name: 'Formula 1',
+    memberCountText: '18.9K members',
+    description: 'Race-weekend watch parties and paddock talk.',
+  },
+  {
+    id: 'com-9',
+    name: 'Genshin Impact',
+    memberCountText: '14.0K members',
+    description: 'Teyvat travelers sharing builds, art, and co-op runs.',
+  },
+  {
+    id: 'com-10',
+    name: 'Indie Game Devs',
+    memberCountText: '3.1K members',
+    description: 'Builders showing works in progress and trading feedback.',
+  },
+  {
+    id: 'com-11',
+    name: 'Jujutsu Kaisen',
+    memberCountText: '11.5K members',
+    description: 'Cursed-energy theorists and fan-art posters welcome.',
+  },
+  {
+    id: 'com-12',
+    name: 'K-Pop Stans',
+    memberCountText: '24.6K members',
+    description: 'Comeback countdowns, fan projects, and streaming parties.',
+  },
+  {
+    id: 'com-13',
+    name: 'Love and Deepspace',
+    memberCountText: '7.7K members',
+    description: 'A space for players to share cards, dates, and fan edits.',
+  },
+  {
+    id: 'com-14',
+    name: 'Marvel Cinematic Universe',
+    memberCountText: '19.3K members',
+    description: 'Premiere nights, theory threads, and rewatch clubs.',
+  },
+  {
+    id: 'com-15',
+    name: 'One Piece',
+    memberCountText: '16.8K members',
+    description: 'Weekly chapter breakdowns and Grand Line fan art.',
+  },
+  {
+    id: 'com-16',
+    name: 'Streetwear Heads',
+    memberCountText: '10.2K members',
+    description: 'Fit checks, drop alerts, and resale talk.',
+  },
+  {
+    id: 'com-17',
+    name: 'Studio Ghibli',
+    memberCountText: '13.4K members',
+    description: 'Cozy screenings and appreciation for the films.',
+  },
+  {
+    id: 'com-18',
+    name: 'Vinyl Collectors',
+    memberCountText: '4.5K members',
+    description: 'Crate-digging finds, pressings, and listening sessions.',
+  },
+  {
+    id: 'com-19',
+    name: 'A24 Films',
+    memberCountText: '8.9K members',
+    description: 'Discussion and watch parties for the studio catalog.',
   },
 ];
 
