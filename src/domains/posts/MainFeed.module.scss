@@ -6,4 +6,12 @@
   margin-right: auto;
   padding-top: 24px;
   padding-bottom: 20px;
+
+  // Mobile: the top bar is floating (not sticky), so the feed rises to the
+  // viewport top. Sit the first post 12px down, mirroring the floating bottom
+  // bar's 12px default offset from the bottom. The notifications icon floats
+  // above and overlaps the post's top-right corner.
+  @media (max-width: 768px) {
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  }
 }
