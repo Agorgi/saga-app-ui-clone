@@ -73,6 +73,16 @@
   gap: 2rem;
 }
 
+.navbar-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+
 .navbar-link {
   color: var(--precedent-color-text);
   text-decoration: none;

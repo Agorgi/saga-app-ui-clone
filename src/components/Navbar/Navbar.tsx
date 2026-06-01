@@ -1,7 +1,7 @@
 import { CreateOptionsModal } from '@components/CreateOptionsModal/CreateOptionsModal';
 import { useAuth } from '@domains/auth';
 import { NotificationDropdown } from '@domains/notifications';
-import { Avatar, CreateButton, ThemeToggle, useTheme } from '@saga/global-web';
+import { Avatar, ThemeToggle, useTheme } from '@saga/global-web';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import favicon from '../../../public/favicon.png';
@@ -102,7 +102,13 @@ export default function Navbar() {
             </Link>
 
             {isAuthenticated ? (
-              <CreateButton onClick={() => setIsCreateModalOpen(true)} />
+              <button
+                type="button"
+                className={`${styles['navbar-link']} ${styles['navbar-link-button']}`}
+                onClick={() => setIsCreateModalOpen(true)}
+              >
+                Create
+              </button>
             ) : null}
 
             <Link to="/communities" className={styles['navbar-link']}>
