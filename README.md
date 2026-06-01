@@ -12,6 +12,13 @@ The purpose is cosmetic design iteration and engineer handoff. You can restyle, 
 
 No real user data, PII, photos, or copy appears anywhere in this repo. Everything visible is generic placeholder content.
 
+## Handoff docs
+
+Two short docs govern how design work moves between this clone and production. Read the one that matches what you are doing:
+
+- **[docs/DESIGN_HANDOFF.md](docs/DESIGN_HANDOFF.md)**: for anyone *making* a change here. Covers the three-layer model (tokens, shared primitives, app screens), the mirror rules, and the one-PR-per-component workflow.
+- **[docs/PRODUCTION_PORT_GUIDE.md](docs/PRODUCTION_PORT_GUIDE.md)**: for an engineer *porting* merged changes into `apps/app-web`. A file-by-file plan, what to skip, and a final verify checklist. Start here if you are carrying this repo's design into production.
+
 ## Stack
 
 Matches `apps/app-web` exactly:
@@ -97,4 +104,4 @@ A consistent pattern was used for every page so the wireframe stays close to the
 - **Adjust tokens or global styling:** see `src/styles/` and `src/vendor/global-web/styles/`.
 - **Add or change a route:** edit `src/App.tsx`.
 
-When a design direction is settled here, the change can be carried back into `apps/app-web` by hand, using the matching folder path as the map.
+When a design direction is settled here, an engineer carries it into `apps/app-web` by hand, using the matching folder path as the map. The step-by-step plan for that is in [docs/PRODUCTION_PORT_GUIDE.md](docs/PRODUCTION_PORT_GUIDE.md).
