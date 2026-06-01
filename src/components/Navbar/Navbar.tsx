@@ -95,23 +95,25 @@ export default function Navbar() {
               className={styles['navbar-logo-text']}
             />
           </Link>
+
+          <div className={styles['navbar-links']}>
+            <Link to="/events" className={styles['navbar-link']}>
+              Events
+            </Link>
+
+            {isAuthenticated ? (
+              <CreateButton onClick={() => setIsCreateModalOpen(true)} />
+            ) : null}
+
+            <Link to="/communities" className={styles['navbar-link']}>
+              Community
+            </Link>
+          </div>
         </div>
 
         <div className={styles['navbar-actions']}>
-          <ThemeToggle />
           {isAuthenticated ? <NotificationDropdown /> : null}
-
-          <Link to="/events" className={styles['navbar-link']}>
-            Events
-          </Link>
-
-          {isAuthenticated ? (
-            <CreateButton onClick={() => setIsCreateModalOpen(true)} />
-          ) : null}
-
-          <Link to="/communities" className={styles['navbar-link']}>
-            Community
-          </Link>
+          <ThemeToggle />
 
           {isAuthenticated ? (
             <div className={styles['navbar-profile-wrapper']} ref={profileMenuRef}>
