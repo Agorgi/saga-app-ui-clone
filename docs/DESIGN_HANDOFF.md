@@ -19,7 +19,7 @@ The clone mirrors the production front-end (`apps/app-web` in the `Try-Saga/saga
 ## The workflow
 
 1. **Iterate code-first, here in the clone.** Not in Figma. Editing the real components keeps full fidelity with production and avoids any design-to-code translation loss. Figma stays a sketchpad for brand-new screens only, never the hand-off artifact.
-2. **One PR per design change.** Each change gets its own branch and its own PR. That gives engineers a reviewable, revertable, liftable unit. Do not batch unrelated changes.
+2. **One PR per component or surface.** Scope each PR to a single UI component or screen surface (the mobile bottom navbar, the events list, the create-event flow), not to a cross-cutting visual theme. If one visual idea spans several components, split it into one PR per component. This keeps each PR a reviewable, revertable, liftable unit and, just as important, keeps any one component from being edited across multiple PRs, which forces a reviewer to reconcile overlapping diffs. Do not batch unrelated changes, and do not split one component across PRs.
 3. **Fill in the PR template.** It prompts for before/after screenshots, which layer the change lands in, the production file(s) it maps to, and whether it touches the shared design system. See [.github/pull_request_template.md](../.github/pull_request_template.md).
 4. **Verify in the preview before you commit** (see "The verify loop" below).
 
