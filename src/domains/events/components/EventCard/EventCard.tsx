@@ -9,7 +9,7 @@ export interface EventCardProps {
 }
 
 // Wireframe clone: renders the no-thumbnail state (the source's image
-// placeholder) so the card carries no real media.
+// placeholder) so the card carries no real media. Thumbnails are 1:1.
 function EventCardComponent({ event, compact = false }: Readonly<EventCardProps>) {
   const dateText = event.dateText;
 
