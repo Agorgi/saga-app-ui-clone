@@ -11,6 +11,26 @@ this guide assumes them.
 Scope: the seven merged PRs on `main` (#1, #5, #6, #7, #8, #9, #10). #1 is scaffolding for this
 repo only and is never ported. #5 through #10 are the design changes.
 
+## Start here (first read)
+
+New to this repo? Read in this order before porting anything.
+
+1. **What this repo is, in one line:** a UI-only wireframe that mirrors `apps/app-web` folder-for-folder
+   and class-for-class, with placeholder data and no backend. Every file here sits at the same path it
+   would occupy in `apps/app-web`.
+2. **Run it:** `npm install && npm run dev`, then open http://localhost:3000. `main` is the finished,
+   runnable design and is the visual target you are porting. See [README.md](../README.md) for the
+   screen and route map.
+3. **Read [DESIGN_HANDOFF.md](./DESIGN_HANDOFF.md)** for the three-layer model (global tokens, shared
+   primitives, app screens) and the two mirror rules: never hardcode a value a token exists for, and
+   keep the DOM and class names identical to production. Those rules are why this port is mostly
+   copy-the-diff.
+4. **Then work through this guide** for the file-by-file plan.
+
+The single most useful fact: all design work is already merged to `main`, so you port **from `main`'s
+final state**, one component at a time, using the table in "Port by component, not by PR." You never
+replay the individual design PRs in sequence.
+
 ## Audit verdict
 
 The clone was audited file-by-file against the production mirror. Result: **clean and liftable.**
@@ -76,6 +96,13 @@ git diff f109dac..main -- <component paths>
 Each row is a self-contained review unit. The mobile bottom navbar, event card + list, and
 create-event flow are each isolated to one PR already; the mobile top navbar, desktop header, and
 home feed each consolidate two PRs into one final state. Either way, one component equals one diff.
+
+If you prefer the GitHub diff UI to the command line, each component's consolidated diff is also
+preserved as a closed, review-only pull request (#12 through #18). Each one compares a single
+component against the frozen pre-redesign baseline (the `handoff/baseline` branch, pinned at commit
+`f109dac`). Those PRs are a review lens only: they are not buildable or mergeable on their own (the
+clone-only `fixtures.ts` and cross-surface dependencies live on `main`), which is why they are kept
+closed rather than open. The `git diff f109dac..main` commands above are the source of truth.
 
 ## Global reconciliation rules
 
