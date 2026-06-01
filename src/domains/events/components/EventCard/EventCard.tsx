@@ -6,14 +6,11 @@ import styles from './EventCard.module.scss';
 export interface EventCardProps {
   event: WireEvent;
   compact?: boolean;
-  // Opt-in 1:1 thumbnail. Default stays 16:9 so the home feed / community /
-  // profile event cards are unaffected; the events page passes square.
-  square?: boolean;
 }
 
 // Wireframe clone: renders the no-thumbnail state (the source's image
-// placeholder) so the card carries no real media.
-function EventCardComponent({ event, compact = false, square = false }: Readonly<EventCardProps>) {
+// placeholder) so the card carries no real media. Thumbnails are 1:1.
+function EventCardComponent({ event, compact = false }: Readonly<EventCardProps>) {
   const dateText = event.dateText;
 
   if (compact) {
@@ -40,7 +37,7 @@ function EventCardComponent({ event, compact = false, square = false }: Readonly
       className={styles.card}
       aria-label={`View event ${event.name}`}
     >
-      <div className={`${styles.thumbnailWrap} ${square ? styles.thumbnailSquare : ''}`}>
+      <div className={styles.thumbnailWrap}>
         <div className={styles.thumbnailPlaceholder}>📅</div>
       </div>
       <div className={styles.body}>

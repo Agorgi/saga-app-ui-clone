@@ -22,19 +22,13 @@
 
 .thumbnailWrap {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1 / 1;
   background: var(--precedent-color-surface-subtle);
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-}
-
-// Opt-in 1:1 thumbnail (events page). Same specificity as .thumbnailWrap and
-// declared after it, so the square aspect ratio wins when both classes apply.
-.thumbnailSquare {
-  aspect-ratio: 1 / 1;
 }
 
 .thumbnailImg {

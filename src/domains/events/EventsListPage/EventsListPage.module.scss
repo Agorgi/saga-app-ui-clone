@@ -14,8 +14,17 @@
   margin: 0 auto;
 }
 
-// Vertical, feed-like stack below the Hot row. Mirrors the home feed's column
-// (flex column, small gap) so events read the same way they do on home.
+// "Explore" heading above the vertical feed. Matches the Hot row's section
+// title (HorizontalEventRow .title) so the two sections read consistently.
+.feedHeading {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--precedent-color-text);
+  margin: 0 0 16px 0;
+}
+
+// Vertical, feed-like stack below the Explore heading. Mirrors the home feed's
+// column (flex column, small gap) so events read the same way they do on home.
 .feed {
   display: flex;
   flex-direction: column;

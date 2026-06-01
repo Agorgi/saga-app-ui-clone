@@ -4,20 +4,21 @@ import { HorizontalEventRow } from '@domains/events/components/HorizontalEventRo
 import styles from './EventsListPage.module.scss';
 
 // Wireframe clone: public events listing. Two stacked sections in a single
-// feed-like column: a horizontally scrollable "Hot" row at the top, then a
-// vertically scrollable feed of events that mirrors the home-screen layout
-// (same EventCard, stacked). Both use 1:1 card thumbnails. The page header
-// (title / subtitle / Create button) is intentionally gone; event creation
-// lives in the global Create flow.
+// feed-like column: a horizontally scrollable "Hot" row at the top, then an
+// "Explore" vertically scrollable feed of events that mirrors the home-screen
+// layout (same EventCard, stacked). Event thumbnails are 1:1 app-wide. The page
+// header (title / subtitle / Create button) is intentionally gone; event
+// creation lives in the global Create flow.
 export function EventsListPage() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <HorizontalEventRow title="Hot" square emptyMessage="No hot events right now." />
+        <HorizontalEventRow title="Hot" emptyMessage="No hot events right now." />
 
+        <h2 className={styles.feedHeading}>Explore</h2>
         <div className={styles.feed}>
           {wireEvents.map((event) => (
-            <EventCard key={event.id} event={event} square />
+            <EventCard key={event.id} event={event} />
           ))}
         </div>
       </div>
