@@ -42,8 +42,40 @@ list. The rest of this guide is that list.
 3. Port PRs in merge order (#5 first, #10 last). Each per-PR section lists every file with an action
    and a port note.
 4. For files touched by more than one PR (the nav files, `fixtures.ts`), port the **current `main`
-   state** of the file, not the intermediate per-PR diffs. Overlaps are flagged inline.
+   state** of the file, not the intermediate per-PR diffs. See "Port by component, not by PR" below
+   for one consolidated diff per component.
 5. Run the final verify checklist before opening your production PR.
+
+## Port by component, not by PR
+
+All seven PRs are already merged to `main`, so `main` holds the final, consolidated state of every
+file. **Port one component at a time from that final state. Do not replay the PRs in sequence.**
+Replaying is the only thing that creates "same file across multiple PRs" confusion; porting the
+final state removes it, because each file appears exactly once.
+
+The design PRs were scoped by visual change (e.g. "reorder the header," "remove the composer
+prompt"), not strictly by component, so a few components were touched by more than one PR. For
+porting that does not matter: take the whole component as it stands on `main`. To pull the complete
+consolidated diff for one component against the pre-redesign baseline (`f109dac`):
+
+```
+git diff f109dac..main -- <component paths>
+```
+
+| Component | Paths | Contributing PRs | Consolidated diff command |
+|---|---|---|---|
+| Mobile bottom navbar | `src/components/BottomNavbar/`, `src/hooks/useCollapseOnScroll.ts`, `src/components/GlobalOverlay/GlobalOverlay.module.scss` | #6 only | `git diff f109dac..main -- src/components/BottomNavbar src/hooks/useCollapseOnScroll.ts src/components/GlobalOverlay/GlobalOverlay.module.scss` |
+| Mobile top navbar | `src/components/MobileTopNavbar/` | #6, #7 | `git diff f109dac..main -- src/components/MobileTopNavbar` |
+| Desktop header (Navbar) | `src/components/Navbar/` | #6, #9 | `git diff f109dac..main -- src/components/Navbar` |
+| Home feed | `src/domains/posts/` | #5, #7 | `git diff f109dac..main -- src/domains/posts` |
+| Event card + list | `src/domains/events/EventsListPage/`, `src/domains/events/components/EventCard/` | #8 only | `git diff f109dac..main -- src/domains/events/EventsListPage src/domains/events/components/EventCard` |
+| Create-event flow | `src/domains/events/CreateEventPage/`, `src/domains/events/sections/`, `src/domains/events/components/EventFormStepIndicator/`, `src/domains/events/styles/` | #10 only | `git diff f109dac..main -- src/domains/events/CreateEventPage src/domains/events/sections src/domains/events/components/EventFormStepIndicator src/domains/events/styles` |
+| Shared: DateTimePicker | `src/components/DateTimePicker/` | #10 | `git diff f109dac..main -- src/components/DateTimePicker` |
+| Shared: CommunitySelector | `src/components/CommunitySelector/` | #10 | Keep production's version (do not diff-port). |
+
+Each row is a self-contained review unit. The mobile bottom navbar, event card + list, and
+create-event flow are each isolated to one PR already; the mobile top navbar, desktop header, and
+home feed each consolidate two PRs into one final state. Either way, one component equals one diff.
 
 ## Global reconciliation rules
 
