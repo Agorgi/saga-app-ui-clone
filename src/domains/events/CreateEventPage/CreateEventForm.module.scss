@@ -1,0 +1,249 @@
+.container {
+  min-height: 80vh;
+  background: var(--precedent-color-background);
+  padding: 24px;
+  padding-bottom: 80px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    height: fit-content;
+  }
+}
+
+.content {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.titleInput {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--precedent-color-text);
+  font-family: inherit;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  padding: 8px 0;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
+  }
+}
+
+// 1:1 poster upload
+.posterWrap {
+  width: 100%;
+}
+
+.poster {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px dashed var(--precedent-color-border);
+  border-radius: 12px;
+  background: var(--precedent-color-surface-subtle);
+  color: var(--precedent-color-text-muted);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:hover {
+    border-color: var(--precedent-color-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.posterImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.posterPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.posterIcon {
+  width: 40px;
+  height: 40px;
+}
+
+.posterText {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fileInput {
+  display: none;
+}
+
+.section {
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 8px;
+  background: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+  font-size: 15px;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: var(--precedent-color-primary);
+  }
+
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
+  }
+}
+
+.textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 8px;
+  background: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+  font-size: 15px;
+  font-family: inherit;
+  resize: vertical;
+
+  &:focus {
+    outline: none;
+    border-color: var(--precedent-color-primary);
+  }
+
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
+  }
+}
+
+// Small "+" pills: Link / dress code / fandoms
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 12px;
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 999px;
+  background: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+  &:hover {
+    border-color: var(--precedent-color-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.pillActive {
+  background: var(--precedent-color-primary);
+  border-color: var(--precedent-color-primary);
+  color: #fff;
+}
+
+.pillIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.extraInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--precedent-color-border);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.cancelButton {
+  flex: 1;
+  padding: 10px 16px;
+  background: var(--precedent-color-surface-subtle);
+  color: var(--precedent-color-text);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+
+  &:hover:not(:disabled) {
+    background: var(--precedent-color-border);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.submitButton {
+  flex: 1;
+  padding: 10px 16px;
+  background: var(--precedent-color-primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:hover:not(:disabled) {
+    opacity: 0.95;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}

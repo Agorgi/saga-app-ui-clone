@@ -40,6 +40,8 @@ interface PersonnelInviteSectionProps {
   /** Selected staff user IDs. */
   readonly selectedStaffIds?: string[];
   readonly onStaffSelectionChange?: (userIds: string[]) => void;
+  /** Overrides the role-based search placeholder when provided. */
+  readonly placeholder?: string;
 }
 
 export function PersonnelInviteSection({
@@ -47,6 +49,7 @@ export function PersonnelInviteSection({
   onCoHostSelectionChange = () => {},
   selectedStaffIds = [],
   onStaffSelectionChange = () => {},
+  placeholder,
 }: PersonnelInviteSectionProps) {
   const [selectedRole, setSelectedRole] = useState<EventPersonnelRole>(
     EVENT_PERSONNEL_ROLE.CO_HOST,
@@ -127,7 +130,8 @@ export function PersonnelInviteSection({
     });
   };
 
-  const searchPlaceholder = `Search to invite as ${ROLE_LABELS[selectedRole].toLowerCase()}...`;
+  const searchPlaceholder =
+    placeholder ?? `Search to invite as ${ROLE_LABELS[selectedRole].toLowerCase()}...`;
 
   const selectedChipEntries = useMemo(
     () => [
