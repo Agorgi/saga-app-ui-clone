@@ -1,4 +1,5 @@
 import { wireEvents } from '@/data/fixtures';
+import { OpenRolesDisplay } from '@domains/events/openRoles/OpenRolesDisplay';
 import { PostFeedSection } from '@domains/posts/ui/PostFeedSection/PostFeedSection';
 import { Avatar, useTheme } from '@saga/global-web';
 import { useParams } from 'react-router-dom';
@@ -58,6 +59,12 @@ export function EventPage() {
           </div>
         </div>
       </div>
+
+      <OpenRolesDisplay
+        roles={event.openRoles ?? []}
+        openToApplications={event.openToApplications ?? false}
+        eventName={event.name}
+      />
 
       <div className={styles.postsSection}>
         <div className={styles.postsSectionHeader}>
