@@ -9,6 +9,7 @@ import { CommunitiesPage } from '@domains/communities/Communities/CommunitiesPag
 import CommunityPage from '@domains/communities/Community/CommunityPage';
 import CreateEventPage from '@domains/events/CreateEventPage/CreateEventPage';
 import { CreateEventForm } from '@domains/events/CreateEventPage/CreateEventForm';
+import { InterestCheckForm } from '@domains/events/CreateEventPage/InterestCheckForm';
 import { EventPage } from '@domains/events/EventPage/EventPage';
 import { EventsListPage } from '@domains/events/EventsListPage/EventsListPage';
 import { NotificationsPage } from '@domains/notifications';
@@ -40,6 +41,7 @@ export default function App() {
                   <Route path="/events/create" element={<CreateEventPage />} />
                   <Route path="/events/create/paid" element={<CreateEventForm mode="paid" />} />
                   <Route path="/events/create/free" element={<CreateEventForm mode="free" />} />
+                  <Route path="/events/create/interest-check" element={<InterestCheckForm />} />
                   <Route path="/events/:eventId" element={<EventPage />} />
                   <Route path="/create-post" element={<CreatePostPage />} />
                   <Route path="/profile/:username" element={<ProfilePage />} />
