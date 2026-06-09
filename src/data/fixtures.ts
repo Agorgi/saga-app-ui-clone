@@ -4,6 +4,8 @@
 // images. Detail/list pages read these so the layout has something to render
 // while staying obviously a wireframe. Swap freely while iterating on design.
 
+import type { InterestCheck, InterestCheckPledge } from '@domains/events/interestCheck/types';
+
 export interface WireEvent {
   id: string;
   name: string;
@@ -400,4 +402,118 @@ export const wireUsers: WireUser[] = [
   { id: 'usr-6', displayName: 'Placeholder Member Six', userName: 'member_six' },
   { id: 'usr-7', displayName: 'Placeholder Member Seven', userName: 'member_seven' },
   { id: 'usr-8', displayName: 'Placeholder Member Eight', userName: 'member_eight' },
+];
+
+// Placeholder event Interest Checks. A host proposes an event; people pre-commit (card
+// authorized, not charged); it confirms and charges only if the threshold is met by the
+// decision date. These cover each lifecycle state so the detail view is demoable. No real
+// users, amounts, or payments. Dates are relative to now so countdowns read live.
+function icIsoInDays(days: number): string {
+  return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+}
+
+let wireIcPledgeSeq = 0;
+function makeIcPledges(
+  count: number,
+  amountCents: number,
+  state: InterestCheckPledge['state'],
+  dateChoice: string[] = [],
+): InterestCheckPledge[] {
+  return Array.from({ length: count }, () => {
+    wireIcPledgeSeq += 1;
+    return {
+      id: `icp-${wireIcPledgeSeq}`,
+      userName: `Member ${wireIcPledgeSeq}`,
+      dateChoice,
+      authorizedAmountCents: amountCents,
+      state,
+    };
+  });
+}
+
+export const wireInterestChecks: InterestCheck[] = [
+  // OPEN, single fixed date, below threshold (in progress).
+  {
+    id: 'ic-1',
+    title: 'Rooftop film night',
+    location: 'Downtown rooftop, City',
+    description: 'A pop-up outdoor screening, but only if enough people are in.',
+    coHostIds: [],
+    staffIds: [],
+    communityIds: [],
+    proposedDates: [{ id: 'ic1-d1', at: icIsoInDays(14), timezone: 'UTC' }],
+    ticketPriceCents: 2500,
+    threshold: { value: 30, unit: 'people' },
+    decisionDate: icIsoInDays(7),
+    roles: [
+      { id: 'ic1-r1', name: 'Photographer', count: 1, note: 'Capture the night' },
+      { id: 'ic1-r2', name: 'Volunteer', count: 3 },
+    ],
+    status: 'open',
+    pledges: makeIcPledges(18, 2500, 'authorized', ['ic1-d1']),
+    applications: [{ id: 'ic1-a1', roleId: 'ic1-r1', userName: 'Member 41', state: 'pending' }],
+  },
+  // OPEN, multiple proposed dates (a date vote), threshold as a $ amount.
+  {
+    id: 'ic-2',
+    title: 'Community art jam',
+    location: 'Maker space, City',
+    description: 'Pick the date that works for you; it happens if we hit the goal.',
+    coHostIds: [],
+    staffIds: [],
+    communityIds: [],
+    proposedDates: [
+      { id: 'ic2-d1', at: icIsoInDays(10), timezone: 'UTC' },
+      { id: 'ic2-d2', at: icIsoInDays(12), timezone: 'UTC' },
+      { id: 'ic2-d3', at: icIsoInDays(17), timezone: 'UTC' },
+    ],
+    ticketPriceCents: 4000,
+    threshold: { value: 2000, unit: 'amount' },
+    decisionDate: icIsoInDays(5),
+    roles: [{ id: 'ic2-r1', name: 'Illustrator', count: 2 }],
+    status: 'open',
+    pledges: [
+      ...makeIcPledges(8, 4000, 'authorized', ['ic2-d2']),
+      ...makeIcPledges(5, 4000, 'authorized', ['ic2-d1', 'ic2-d2']),
+      ...makeIcPledges(3, 4000, 'authorized', ['ic2-d3']),
+    ],
+    applications: [],
+  },
+  // CONFIRMED, single date, threshold met, pledgers charged.
+  {
+    id: 'ic-3',
+    title: 'Supper club: ramen night',
+    location: 'Test kitchen, City',
+    description: 'We hit the goal, so it is on.',
+    coHostIds: [],
+    staffIds: [],
+    communityIds: [],
+    proposedDates: [{ id: 'ic3-d1', at: icIsoInDays(9), timezone: 'UTC' }],
+    ticketPriceCents: 2000,
+    threshold: { value: 25, unit: 'people' },
+    decisionDate: icIsoInDays(-1),
+    roles: [{ id: 'ic3-r1', name: 'Promoter' }],
+    status: 'confirmed',
+    winningDateId: 'ic3-d1',
+    pledges: makeIcPledges(32, 2000, 'charged', ['ic3-d1']),
+    applications: [{ id: 'ic3-a1', roleId: 'ic3-r1', userName: 'Member 70', state: 'accepted' }],
+  },
+  // CANCELLED, threshold not met, authorizations released.
+  {
+    id: 'ic-4',
+    title: 'Weekend hack day',
+    location: 'Coworking, City',
+    description: 'Did not reach enough interest this time.',
+    coHostIds: [],
+    staffIds: [],
+    communityIds: [],
+    proposedDates: [{ id: 'ic4-d1', at: icIsoInDays(-2), timezone: 'UTC' }],
+    ticketPriceCents: 1500,
+    threshold: { value: 50, unit: 'people' },
+    decisionDate: icIsoInDays(-1),
+    roles: [],
+    status: 'cancelled',
+    pledges: makeIcPledges(12, 1500, 'released', ['ic4-d1']),
+    applications: [],
+  },
 ];

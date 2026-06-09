@@ -1,6 +1,7 @@
-import { wireEvents } from '@/data/fixtures';
+import { wireEvents, wireInterestChecks } from '@/data/fixtures';
 import { EventCard } from '@domains/events/components/EventCard/EventCard';
 import { HorizontalEventRow } from '@domains/events/components/HorizontalEventRow/HorizontalEventRow';
+import { InterestCheckCard } from '@domains/events/interestCheck/InterestCheckCard';
 import styles from './EventsListPage.module.scss';
 
 // Wireframe clone: public events listing. Two stacked sections in a single
@@ -14,6 +15,13 @@ export function EventsListPage() {
     <div className={styles.container}>
       <div className={styles.content}>
         <HorizontalEventRow title="Hot" emptyMessage="No hot events right now." />
+
+        <h2 className={styles.feedHeading}>Gauging interest</h2>
+        <div className={styles.feed}>
+          {wireInterestChecks.map((ic) => (
+            <InterestCheckCard key={ic.id} interestCheck={ic} />
+          ))}
+        </div>
 
         <h2 className={styles.feedHeading}>Explore</h2>
         <div className={styles.feed}>
