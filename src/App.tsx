@@ -12,6 +12,7 @@ import { CrowdCommissionEditPage } from '@domains/crowd-commissions/pages/CrowdC
 import CreateEventPage from '@domains/events/CreateEventPage/CreateEventPage';
 import { CreateEventForm } from '@domains/events/CreateEventPage/CreateEventForm';
 import { InterestCheckForm } from '@domains/events/CreateEventPage/InterestCheckForm';
+import InterestCheckDetailPage from '@domains/events/interestCheck/InterestCheckDetailPage';
 import { EventPage } from '@domains/events/EventPage/EventPage';
 import { EventsListPage } from '@domains/events/EventsListPage/EventsListPage';
 import { NotificationsPage } from '@domains/notifications';
@@ -44,6 +45,7 @@ export default function App() {
                   <Route path="/events/create/paid" element={<CreateEventForm mode="paid" />} />
                   <Route path="/events/create/free" element={<CreateEventForm mode="free" />} />
                   <Route path="/events/create/interest-check" element={<InterestCheckForm />} />
+                  <Route path="/events/interest-check/:id" element={<InterestCheckDetailPage />} />
                   <Route path="/events/:eventId" element={<EventPage />} />
                   <Route path="/create-post" element={<CreatePostPage />} />
                   <Route path="/crowd-commissions/new" element={<CrowdCommissionCreatePage />} />
