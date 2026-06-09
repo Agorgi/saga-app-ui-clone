@@ -62,6 +62,16 @@ export default function CreatePostPage() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
+        <div className={styles.section}>
+          <PostForm
+            title={title}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            onSubmit={handleContentSubmit}
+            hideSubmit
+          />
+        </div>
+
         <input
           type="text"
           className={styles.titleInput}
@@ -72,16 +82,6 @@ export default function CreatePostPage() {
         />
 
         {parentTitle && <p className={styles.collabNote}>Collab on: {parentTitle}</p>}
-
-        <div className={styles.section}>
-          <PostForm
-            title={title}
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            onSubmit={handleContentSubmit}
-            hideSubmit
-          />
-        </div>
 
         <div className={styles.pillRow}>
           <button
