@@ -1,6 +1,7 @@
 import { ErrorBoundary, ThemeProvider, Toast } from '@saga/global-web';
 import { AvatarProvider } from '@saga/global-web';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { isInterestCheckEnabled } from '@/config/features';
 import { placeholderAvatars } from '@/data/placeholderAvatars';
 import { GlobalOverlay } from '@components/GlobalOverlay/GlobalOverlay';
 import { AuthProvider } from '@domains/auth';
@@ -47,8 +48,18 @@ export default function App() {
                   <Route path="/events/create" element={<CreateEventPage />} />
                   <Route path="/events/create/paid" element={<CreateEventForm mode="paid" />} />
                   <Route path="/events/create/free" element={<CreateEventForm mode="free" />} />
-                  <Route path="/events/create/interest-check" element={<InterestCheckForm />} />
-                  <Route path="/events/interest-check/:id" element={<InterestCheckDetailPage />} />
+                  {isInterestCheckEnabled() && (
+                    <>
+                      <Route
+                        path="/events/create/interest-check"
+                        element={<InterestCheckForm />}
+                      />
+                      <Route
+                        path="/events/interest-check/:id"
+                        element={<InterestCheckDetailPage />}
+                      />
+                    </>
+                  )}
                   <Route path="/events/:eventId" element={<EventPage />} />
                   <Route path="/crew" element={<MyCrewPage />} />
                   <Route path="/create-post" element={<CreatePostPage />} />

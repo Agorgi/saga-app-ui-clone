@@ -1,3 +1,4 @@
+import { isInterestCheckEnabled } from '@/config/features';
 import { wireEvents, wireInterestChecks } from '@/data/fixtures';
 import { EventCard } from '@domains/events/components/EventCard/EventCard';
 import { HorizontalEventRow } from '@domains/events/components/HorizontalEventRow/HorizontalEventRow';
@@ -16,12 +17,16 @@ export function EventsListPage() {
       <div className={styles.content}>
         <HorizontalEventRow title="Hot" emptyMessage="No hot events right now." />
 
-        <h2 className={styles.feedHeading}>Gauging interest</h2>
-        <div className={styles.feed}>
-          {wireInterestChecks.map((ic) => (
-            <InterestCheckCard key={ic.id} interestCheck={ic} />
-          ))}
-        </div>
+        {isInterestCheckEnabled() && (
+          <>
+            <h2 className={styles.feedHeading}>Gauging interest</h2>
+            <div className={styles.feed}>
+              {wireInterestChecks.map((ic) => (
+                <InterestCheckCard key={ic.id} interestCheck={ic} />
+              ))}
+            </div>
+          </>
+        )}
 
         <h2 className={styles.feedHeading}>Explore</h2>
         <div className={styles.feed}>
