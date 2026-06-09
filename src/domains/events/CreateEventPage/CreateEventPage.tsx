@@ -26,7 +26,6 @@ function CreateEventPage() {
               <CurrencyDollarCircle className={styles.iconOverlay} aria-hidden />
             </span>
             <span className={styles.optionLabel}>Paid</span>
-            <span className={styles.optionSubtitle}>Sell tickets to your event.</span>
           </button>
 
           <button
@@ -41,24 +40,25 @@ function CreateEventPage() {
               <Star01 className={styles.iconStarRight} aria-hidden />
             </span>
             <span className={styles.optionLabel}>Free to RSVP</span>
-            <span className={styles.optionSubtitle}>Open, free RSVPs.</span>
           </button>
+        </div>
 
-          <button
-            type="button"
-            className={styles.option}
-            onClick={() => navigate('/events/create/interest-check')}
-          >
-            <span className={styles.iconStack}>
-              <Users01 className={styles.iconBase} aria-hidden />
-            </span>
+        <button
+          type="button"
+          className={styles.optionWide}
+          onClick={() => navigate('/events/create/interest-check')}
+        >
+          <span className={styles.iconStack}>
+            <Users01 className={styles.iconBase} aria-hidden />
+          </span>
+          <span className={styles.optionWideText}>
             <span className={styles.optionLabel}>Interest Check</span>
             <span className={styles.optionSubtitle}>
               Gauge interest first. People pre-commit; it only happens, and they're only charged, if
               enough people are in.
             </span>
-          </button>
-        </div>
+          </span>
+        </button>
       </div>
     </div>
   );
