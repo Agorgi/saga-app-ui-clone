@@ -16,6 +16,7 @@ import { InterestCheckForm } from '@domains/events/CreateEventPage/InterestCheck
 import InterestCheckDetailPage from '@domains/events/interestCheck/InterestCheckDetailPage';
 import { EventPage } from '@domains/events/EventPage/EventPage';
 import { EventsListPage } from '@domains/events/EventsListPage/EventsListPage';
+import { CrewProvider } from '@domains/events/openRoles/CrewContext';
 import { MyCrewPage } from '@domains/events/openRoles/MyCrewPage';
 import { NotificationsPage } from '@domains/notifications';
 import CreatePostPage from '@domains/post-creation/CreatePost';
@@ -34,6 +35,7 @@ export default function App() {
       <AvatarProvider defaultAvatars={placeholderAvatars}>
         <ThemeProvider>
           <AuthProvider>
+            <CrewProvider>
             <BrowserRouter>
               <GlobalOverlay>
                 <Routes>
@@ -72,6 +74,7 @@ export default function App() {
               </GlobalOverlay>
               <Toast />
             </BrowserRouter>
+            </CrewProvider>
           </AuthProvider>
         </ThemeProvider>
       </AvatarProvider>
