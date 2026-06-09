@@ -34,3 +34,17 @@ export function validateImage(file: File, options?: ValidateImageOptions): strin
 
   return undefined;
 }
+
+/**
+ * Reads a File as a base64 data URL. Used by the crowd-commission wizard to preview a
+ * hero / poll-option image locally. No upload happens in the clone; the data URL stays
+ * in component state. Mirrors the production helper's signature.
+ */
+export function readFileAsDataURL(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : '');
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}

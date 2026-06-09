@@ -41,6 +41,7 @@ export default defineConfig({
       '@openfeature/react-sdk': path.resolve(__dirname, './src/vendor/saga-shims/openfeature-react-sdk.ts'),
       '@amplitude/analytics-browser': path.resolve(__dirname, './src/vendor/saga-shims/amplitude-analytics-browser.ts'),
       axios: path.resolve(__dirname, './src/vendor/saga-shims/axios.ts'),
+      quill: path.resolve(__dirname, './src/vendor/saga-shims/quill.ts'),
     },
   },
 });
