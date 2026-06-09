@@ -139,6 +139,33 @@
   color: var(--precedent-color-text-muted);
 }
 
+// Big, borderless composer title (matches the event creation form). Used on the
+// Basics step so the flow reads as composing the commission, not filling a form.
+.composerTitle {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--precedent-color-text);
+  font-family: inherit;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  padding: 8px 0;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
+  }
+}
+
+.composerTitleError {
+  border-bottom: 2px solid var(--precedent-color-text-error);
+}
+
 // ─── Fields ───────────────────────────────────────────────────────────────────
 
 .fields {
@@ -365,7 +392,7 @@
   justify-content: center;
   gap: 6px;
   width: 100%;
-  height: 96px;
+  height: 150px;
   border: 1.5px dashed var(--precedent-color-border);
   border-radius: 10px;
   background: var(--precedent-color-surface-subtle);

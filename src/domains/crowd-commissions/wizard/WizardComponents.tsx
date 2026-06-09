@@ -211,7 +211,6 @@ export function BasicsStep({
   hideTypeToggle = false,
   styles,
 }: BasicsStepProps) {
-  const titleId = useId();
   const descriptionId = useId();
   const captionId = useId();
   const isPoll = values.commissionType === 'poll';
@@ -237,19 +236,29 @@ export function BasicsStep({
     },
   });
 
-  const titleRemaining = TITLE_MAX_CHARS - values.title.length;
   const previewSrc =
     values.heroImageDataUrl || (!values.removedExistingImage && existingHeroUrl) || '';
 
   return (
     <div className={styles.stepContent}>
-      <div className={styles.stepHeader}>
-        <h2 className={styles.stepTitle}>{stepTitle}</h2>
-        <p className={styles.stepSubtitle}>{stepSubtitle}</p>
-      </div>
-
       <div className={styles.fields}>
-        {/* ── Cover image — always first ── */}
+        {/* ── Title — big composer input leads, like the event creation form ── */}
+        <div className={styles.formGroup}>
+          <input
+            className={[styles.composerTitle, errors.title ? styles.composerTitleError : '']
+              .filter(Boolean)
+              .join(' ')}
+            type="text"
+            placeholder="Commission title"
+            maxLength={TITLE_MAX_CHARS}
+            value={values.title}
+            onChange={(e) => onChange('title', e.target.value)}
+            aria-label="Commission title"
+          />
+          <FieldError message={errors.title} styles={styles} />
+        </div>
+
+        {/* ── Cover image ── */}
         <div className={styles.formGroup}>
           <input {...inputProps} />
           {previewSrc ? (
@@ -279,30 +288,6 @@ export function BasicsStep({
               <p className={styles.coverZoneSub}>1200 × 400 · PNG, JPG, WebP · optional</p>
             </button>
           )}
-        </div>
-
-        {/* ── Title ── */}
-        <div className={styles.formGroup}>
-          <div className={styles.labelRow}>
-            <label className={styles.label} htmlFor={titleId}>
-              Title <span className={styles.required}>*</span>
-            </label>
-            <span className={titleRemaining < 20 ? styles.charCountWarn : styles.charCount}>
-              {titleRemaining} left
-            </span>
-          </div>
-          <input
-            id={titleId}
-            className={[styles.input, errors.title ? styles.inputError : '']
-              .filter(Boolean)
-              .join(' ')}
-            type="text"
-            placeholder="What are you commissioning?"
-            maxLength={TITLE_MAX_CHARS}
-            value={values.title}
-            onChange={(e) => onChange('title', e.target.value)}
-          />
-          <FieldError message={errors.title} styles={styles} />
         </div>
 
         {/* ── Commission type toggle (hidden in edit flow) ── */}
