@@ -1,4 +1,5 @@
 import { useAuth } from '@domains/auth';
+import { CommissionFeedCard } from '@domains/crowd-commissions/ui/CommissionFeedCard/CommissionFeedCard';
 import { EventCard } from '@domains/events/components/EventCard/EventCard';
 import { useGeneratePostModalHandlers } from '@hooks/useGeneratePostModalHandlers';
 import { useMemo } from 'react';
@@ -39,6 +40,9 @@ export function HomeFeed() {
           }
           if (item.kind === 'event') {
             return <EventCard key={item.key} event={item.event} />;
+          }
+          if (item.kind === 'commission') {
+            return <CommissionFeedCard key={item.key} commission={item.commission} />;
           }
           return <FeedCommunityCard key={item.key} community={item.community} />;
         })}
