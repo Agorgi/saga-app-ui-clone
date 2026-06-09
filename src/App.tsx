@@ -7,6 +7,8 @@ import { AuthProvider } from '@domains/auth';
 import { LoginPage } from '@domains/auth/LoginPage/LoginPage';
 import { CommunitiesPage } from '@domains/communities/Communities/CommunitiesPage';
 import CommunityPage from '@domains/communities/Community/CommunityPage';
+import { CrowdCommissionCreatePage } from '@domains/crowd-commissions/pages/CrowdCommissionCreatePage/CrowdCommissionCreatePage';
+import { CrowdCommissionEditPage } from '@domains/crowd-commissions/pages/CrowdCommissionEditPage/CrowdCommissionEditPage';
 import CreateEventPage from '@domains/events/CreateEventPage/CreateEventPage';
 import { CreateEventForm } from '@domains/events/CreateEventPage/CreateEventForm';
 import { EventPage } from '@domains/events/EventPage/EventPage';
@@ -42,6 +44,8 @@ export default function App() {
                   <Route path="/events/create/free" element={<CreateEventForm mode="free" />} />
                   <Route path="/events/:eventId" element={<EventPage />} />
                   <Route path="/create-post" element={<CreatePostPage />} />
+                  <Route path="/crowd-commissions/new" element={<CrowdCommissionCreatePage />} />
+                  <Route path="/crowd-commissions/:id/edit" element={<CrowdCommissionEditPage />} />
                   <Route path="/profile/:username" element={<ProfilePage />} />
                   <Route path="/notifications" element={<NotificationsPage />} />
                   <Route path="/login" element={<LoginPage />} />

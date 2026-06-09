@@ -4,6 +4,12 @@
 // images. Detail/list pages read these so the layout has something to render
 // while staying obviously a wireframe. Swap freely while iterating on design.
 
+import {
+  CommissionType,
+  type CrowdCommission,
+  CrowdCommissionStatus,
+} from '@saga/crowd-commission-middleware';
+
 export interface WireEvent {
   id: string;
   name: string;
@@ -214,6 +220,9 @@ export interface WirePost {
   saveCount: number;
   // CommunityMemberRole numeric (MODERATOR=1, ADMIN=2). Drives CommunityRoleBadge.
   creatorRole?: number;
+  // Links this post to a crowd commission; renders the CommissionBadge on the post.
+  // Mirrors production's Post.crowdCommissionId.
+  crowdCommissionId?: string;
 }
 
 export const wirePosts: WirePost[] = [
@@ -231,6 +240,7 @@ export const wirePosts: WirePost[] = [
     collabCount: 4,
     saveCount: 31,
     creatorRole: 2,
+    crowdCommissionId: 'cc-1',
   },
   {
     id: 'post-2',
@@ -400,4 +410,151 @@ export const wireUsers: WireUser[] = [
   { id: 'usr-6', displayName: 'Placeholder Member Six', userName: 'member_six' },
   { id: 'usr-7', displayName: 'Placeholder Member Seven', userName: 'member_seven' },
   { id: 'usr-8', displayName: 'Placeholder Member Eight', userName: 'member_eight' },
+];
+
+// Placeholder crowd commissions. A crowd commission is a creator-funded ask the community
+// backs; production interleaves them into the feed alongside posts. These stand-ins span a
+// range of statuses and funding states so the cards, status badges, funding bars, and detail
+// sheet all have something representative to render. No real users, amounts, or images.
+// Deadlines are relative to now so the countdown pills read live.
+function isoInDays(days: number): string {
+  return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+}
+
+function wireRichText(text: string): CrowdCommission['description'] {
+  return { type: 'richText', ops: [{ insert: `${text}\n` }] };
+}
+
+let wireCommissionSeq = 0;
+function makeWireCommission(
+  overrides: Partial<CrowdCommission> & Pick<CrowdCommission, 'title'>,
+): CrowdCommission {
+  wireCommissionSeq += 1;
+  return {
+    id: `cc-${wireCommissionSeq}`,
+    creatorId: 'creator',
+    commissionType: CommissionType.STANDARD,
+    caption: null,
+    description: null,
+    heroImageUrl: null,
+    endResultMediaIds: null,
+    endResultDescription: null,
+    goalAmountCents: null,
+    fundingDeadlineAt: null,
+    currency: 'usd',
+    platformFeeBps: 500,
+    winnerOptionId: null,
+    pendingWinnerAt: null,
+    status: CrowdCommissionStatus.ACTIVE,
+    publishedAt: null,
+    completedAt: null,
+    failedAt: null,
+    totalCollectedCents: 0,
+    totalRefundedCents: 0,
+    totalDisbursedCents: 0,
+    backerCount: 0,
+    publishGeneration: 1,
+    version: 1,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    resultPost: null,
+    pollOptions: null,
+    ...overrides,
+  };
+}
+
+export const wireCommissions: CrowdCommission[] = [
+  makeWireCommission({
+    title: 'Placeholder commission: animated opening sequence',
+    description: wireRichText(
+      'Placeholder brief for a community-funded animated opening. Stands in for a real commission description while the layout is built.',
+    ),
+    goalAmountCents: 300_000,
+    totalCollectedCents: 124_000,
+    backerCount: 84,
+    fundingDeadlineAt: isoInDays(12),
+  }),
+  makeWireCommission({
+    title: 'Placeholder poll: what should I create next?',
+    commissionType: CommissionType.POLL,
+    caption: 'Vote for the next piece. The top option wins after the deadline.',
+    fundingDeadlineAt: isoInDays(5),
+    totalCollectedCents: 28_000,
+    backerCount: 56,
+    pollOptions: [
+      {
+        id: 'cc-poll-opt-1',
+        commissionId: 'cc-poll',
+        text: 'Cosmic knight',
+        imageUrl: null,
+        displayOrder: 0,
+        voteCount: 24,
+        voterCount: 18,
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: 'cc-poll-opt-2',
+        commissionId: 'cc-poll',
+        text: 'Neon city street',
+        imageUrl: null,
+        displayOrder: 1,
+        voteCount: 41,
+        voterCount: 33,
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: 'cc-poll-opt-3',
+        commissionId: 'cc-poll',
+        text: 'Forest spirit at dusk',
+        imageUrl: null,
+        displayOrder: 2,
+        voteCount: 15,
+        voterCount: 12,
+        createdAt: new Date().toISOString(),
+      },
+    ],
+  }),
+  makeWireCommission({
+    title: 'Placeholder commission: original character illustration set',
+    description: wireRichText(
+      'Placeholder brief for an illustration set. This one is overfunded to show the milestone tier styling on the funding bar.',
+    ),
+    goalAmountCents: 200_000,
+    totalCollectedCents: 450_000,
+    backerCount: 312,
+    fundingDeadlineAt: isoInDays(1),
+  }),
+  makeWireCommission({
+    title: 'Placeholder commission: fan-zine cover art',
+    description: wireRichText(
+      'Placeholder brief with no funding goal set, to show the goalless backer-count layout on the card.',
+    ),
+    totalCollectedCents: 36_000,
+    backerCount: 12,
+    fundingDeadlineAt: isoInDays(20),
+  }),
+  makeWireCommission({
+    title: 'Placeholder commission: short comic, delivered',
+    description: wireRichText(
+      'Placeholder brief for a completed commission, to show the completed status badge and tap hint.',
+    ),
+    status: CrowdCommissionStatus.COMPLETED,
+    goalAmountCents: 150_000,
+    totalCollectedCents: 162_000,
+    backerCount: 140,
+    completedAt: new Date().toISOString(),
+    fundingDeadlineAt: isoInDays(-3),
+  }),
+  makeWireCommission({
+    title: 'Placeholder commission: vinyl sleeve design',
+    description: wireRichText(
+      'Placeholder brief for a commission that did not reach its goal, to show the failed status styling.',
+    ),
+    status: CrowdCommissionStatus.FAILED,
+    goalAmountCents: 500_000,
+    totalCollectedCents: 90_000,
+    backerCount: 23,
+    failedAt: new Date().toISOString(),
+    fundingDeadlineAt: isoInDays(-1),
+  }),
 ];

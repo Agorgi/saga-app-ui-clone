@@ -1,0 +1,14 @@
+.pledgeCard {
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: var(--precedent-radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--precedent-shadow-sm);
+}
+
+.pledgeCardHeading {
+  font-size: var(--precedent-font-size-text-lg);
+  font-weight: 700;
+  color: var(--precedent-color-text);
+  margin: 0 0 1rem;
+}
