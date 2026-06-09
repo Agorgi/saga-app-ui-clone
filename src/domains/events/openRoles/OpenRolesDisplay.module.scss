@@ -213,6 +213,34 @@
   overflow-y: auto;
 }
 
+.modeToggle {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--precedent-color-background);
+  border: 1px solid var(--precedent-color-border);
+}
+
+.modeTab {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--precedent-color-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.modeTabActive {
+  background: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+}
+
 .modalTitle {
   margin: 0;
   font-size: 18px;
