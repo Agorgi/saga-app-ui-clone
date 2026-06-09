@@ -4,12 +4,23 @@
 // images. Detail/list pages read these so the layout has something to render
 // while staying obviously a wireframe. Swap freely while iterating on design.
 
+export interface WireOpenRole {
+  id: string;
+  title: string;
+  count?: number;
+  note?: string;
+}
+
 export interface WireEvent {
   id: string;
   name: string;
   dateText: string;
   location?: string;
   goingText?: string;
+  // Open Roles: roles the host needs filled, and whether they take general
+  // crew applications even with no specific role listed.
+  openRoles?: WireOpenRole[];
+  openToApplications?: boolean;
 }
 
 export const wireEvents: WireEvent[] = [
@@ -19,6 +30,12 @@ export const wireEvents: WireEvent[] = [
     dateText: 'Sat, Jan 10 · 7:00 PM',
     location: 'Venue name, City',
     goingText: '128 going · 210 total',
+    openRoles: [
+      { id: 'role-1a', title: 'Photographer', count: 1, note: 'Candid plus portraits through the night' },
+      { id: 'role-1b', title: 'DJ', note: 'Two sets, house and afrobeats' },
+      { id: 'role-1c', title: 'Door / check-in', count: 2 },
+    ],
+    openToApplications: true,
   },
   {
     id: 'evt-2',
@@ -26,6 +43,8 @@ export const wireEvents: WireEvent[] = [
     dateText: 'Sun, Jan 18 · 2:00 PM',
     location: 'Venue name, City',
     goingText: '64 going',
+    // No specific roles listed, but open to general crew applications.
+    openToApplications: true,
   },
   {
     id: 'evt-3',
