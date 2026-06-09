@@ -15,11 +15,11 @@
 
 .content {
   width: 100%;
-  max-width: 760px;
+  max-width: 480px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 24px;
 }
 
 .heading {
@@ -30,26 +30,24 @@
   margin: 0;
 }
 
+// Paid + Free to RSVP: two square cards, side by side and centered.
 .options {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   width: 100%;
   justify-content: center;
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-    align-items: stretch;
-  }
 }
 
 .option {
   flex: 1;
   max-width: 220px;
+  aspect-ratio: 1 / 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 16px;
-  padding: 32px 24px;
+  padding: 24px;
   background: var(--precedent-color-surface);
   border: 1px solid var(--precedent-color-border);
   border-radius: 16px;
@@ -67,14 +65,42 @@
     outline: 2px solid var(--precedent-color-primary);
     outline-offset: 2px;
   }
+}
 
-  @media (max-width: 480px) {
-    max-width: none;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 20px;
+// Interest Check: a wide rectangle below the two squares (icon left, text right).
+.optionWide {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  background: var(--precedent-color-surface);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    border-color: var(--precedent-color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.optionWideText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .iconStack {
@@ -143,9 +169,4 @@
   font-size: 13px;
   line-height: 1.4;
   color: var(--precedent-color-text-muted);
-  text-align: center;
-
-  @media (max-width: 480px) {
-    text-align: left;
-  }
 }
