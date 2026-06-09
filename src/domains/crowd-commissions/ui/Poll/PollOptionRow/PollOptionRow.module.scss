@@ -1,0 +1,760 @@
+// ─── PollOptionRow ─────────────────────────────────────────────────────────────
+// State-driven option bar using brand tokens only.
+// Three states: bar--pre (pre-vote), bar--active (voted/winner), bar--muted (other revealed)
+// Responsive via @container queries (card is container-type: inline-size) — not @media,
+// so layout responds to card width rather than viewport width.
+
+// ─── Keyframes ────────────────────────────────────────────────────────────────
+
+@keyframes goldShimmer {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes fillBar {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(var(--fill-scale, 0)); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes morphIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInChip {
+  from {
+    opacity: 0;
+    transform: translateX(-8px) scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--brand-primary-rgb) / 0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(var(--brand-primary-rgb) / 0); }
+}
+
+// ─── Row wrapper ─────────────────────────────────────────────────────────────
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: var(--precedent-space-xs);
+  // touch-target-size: 44px minimum at all breakpoints (ui-ux-pro-max)
+  min-height: 44px;
+}
+
+// ─── Bar (the clickable pill) ─────────────────────────────────────────────────
+
+.bar {
+  position: relative;
+  flex: 1;
+  min-height: inherit;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 180ms ease;
+  border: none;
+  background: transparent;
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 3px;
+  }
+
+  &:hover:not(.bar--disabled):not(.bar--active):not(.bar--selected) {
+    transform: scale(1.015);
+    box-shadow: 0 2px 12px rgba(var(--brand-primary-rgb) / 0.18);
+  }
+
+  &:active:not(.bar--disabled) {
+    transform: scale(0.97);
+    transition: transform 80ms ease;
+  }
+
+  // ── Pre-vote: subtle surface + soft border ──────────────────────────────────
+  &--pre {
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+
+    .fill { display: none; }
+
+    .optionText {
+      color: var(--color-text);
+      font-weight: 500;
+    }
+
+    &:hover:not(.bar--disabled) {
+      border-color: var(--brand-primary);
+      background: rgba(var(--brand-primary-rgb) / 0.04);
+    }
+  }
+
+  // ── Active: brand-primary gradient fill, white text ─────────────────────────
+  &--active {
+    background: transparent;
+
+    .fill {
+      display: block;
+      background: linear-gradient(
+        90deg,
+        var(--brand-primary) 0%,
+        color-mix(in srgb, var(--brand-primary) 80%, #a5b4fc) 100%
+      );
+    }
+
+    .optionText,
+    .percentage {
+      color: var(--precedent-color-on-primary);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+    }
+  }
+
+  // ── Muted: soft tinted track ────────────────────────────────────────────────
+  &--muted {
+    background: rgba(var(--brand-primary-rgb) / 0.07);
+
+    .fill {
+      display: block;
+      background: rgba(var(--brand-primary-rgb) / 0.18);
+    }
+
+    .optionText,
+    .percentage {
+      color: var(--brand-primary);
+    }
+  }
+
+  // ── Tie (creator pick): pulsing dashed border cue ───────────────────────────
+  &--tie {
+    border: 2px dashed var(--brand-primary) !important;
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  &--disabled {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+}
+
+// ─── Selected bar (morph into the left "label half") ─────────────────────────
+
+.bar--selected {
+  flex: 0 0 auto;
+  width: 120px;
+  min-height: 44px;
+  border-radius: 12px;
+  background: rgba(var(--brand-primary-rgb) / 0.12);
+  border: 1.5px solid var(--brand-primary);
+  cursor: default;
+  overflow: hidden;
+  animation: morphIn 200ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+  .fill { display: none; }
+
+  .labelWrapper {
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .optionText {
+    color: var(--brand-primary);
+    font-weight: 700;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.bar--modal {
+    width: 140px;
+    min-height: 52px;
+    border-radius: 16px;
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+
+    .optionText {
+      font-size: 13px;
+    }
+  }
+}
+
+// ─── Fill (the progress indicator) ───────────────────────────────────────────
+
+.fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform: scaleX(var(--fill-scale, 0));
+  border-radius: inherit;
+  animation: fillBar 480ms cubic-bezier(0.16, 1, 0.3, 1) var(--stagger, 0ms) both;
+}
+
+// ─── Label overlay ────────────────────────────────────────────────────────────
+
+.labelWrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  pointer-events: none;
+  user-select: none;
+  gap: var(--precedent-space-xs);
+}
+
+.optionText {
+  // xs base: 12px — stays above the "Text < 12px body" anti-pattern minimum
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+
+  // md+: larger text as card grows
+  @container (min-width: 360px) {
+    font-size: var(--precedent-font-size-text-md);
+  }
+}
+
+.percentage {
+  // xs: hidden — at ~190px, voter count label crushes option text ("poll opti..." bug)
+  display: none;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+  flex-shrink: 0;
+  animation: fadeIn 240ms ease var(--stagger, 0ms) both;
+
+  // sm+: show voter count once card has enough room
+  @container (min-width: 240px) {
+    display: block;
+    font-size: 11.5px;
+  }
+
+  // md+: full size
+  @container (min-width: 360px) {
+    font-size: var(--precedent-font-size-text-sm);
+  }
+}
+
+.pickWinnerCta {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  color: var(--brand-primary);
+  flex-shrink: 0;
+
+  @container (min-width: 360px) {
+    font-size: var(--precedent-font-size-text-sm);
+  }
+}
+
+.pickWinnerChevron {
+  flex-shrink: 0;
+}
+
+// ─── Preset row (the morph into donation chips) ───────────────────────────────
+
+.presets {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  flex-wrap: nowrap;
+  min-height: 44px;
+  border: none;
+  margin: 0;
+}
+
+// ─── Individual preset chip ───────────────────────────────────────────────────
+
+.presetBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex: 1;
+  // touch-target-size: 44px minimum
+  height: 44px;
+  min-width: 0;
+  padding: 0 6px;
+  border-radius: 12px;
+  border: 1.5px solid var(--brand-primary);
+  background: transparent;
+  color: var(--brand-primary);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    transform 140ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 180ms ease,
+    border-color 150ms ease;
+
+  // Staggered entry animation
+  animation: slideInChip 220ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(var(--chip-index, 0) * 40ms + 60ms);
+
+  &:hover:not(:disabled) {
+    background: var(--brand-primary);
+    color: var(--precedent-color-on-primary);
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 14px rgba(var(--brand-primary-rgb) / 0.35);
+    border-color: var(--brand-primary);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+    transition: transform 80ms ease;
+  }
+
+  &:disabled:not(.presetBtn--loading) {
+    opacity: 0.45;
+    cursor: default;
+    transform: none;
+  }
+
+  &--loading {
+    background: var(--brand-primary);
+    color: var(--precedent-color-on-primary);
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(var(--brand-primary-rgb) / 0.3);
+  }
+}
+
+// ─── Dismiss button ───────────────────────────────────────────────────────────
+
+.dismissBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(var(--brand-primary-rgb) / 0.25);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  align-self: center;
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    transform 140ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  animation: slideInChip 200ms cubic-bezier(0.34, 1.56, 0.64, 1) 290ms both;
+
+  &:hover:not(:disabled) {
+    background: var(--precedent-color-error-subtle);
+    border-color: var(--precedent-color-error-border);
+    color: var(--precedent-color-error);
+    transform: scale(1.1);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.92);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+}
+
+// ─── Spinner (inside loading preset chip) ────────────────────────────────────
+
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: var(--precedent-color-on-primary);
+  border-radius: 50%;
+  animation: spin 0.55s linear infinite;
+  flex-shrink: 0;
+}
+
+// ─── Modal card layout ────────────────────────────────────────────────────────
+// Replaces the old bar--modal variant. Each option is a split card:
+// image zone (left, full card height) + content zone (right, vote target).
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cardModal {
+  display: flex;
+  align-items: stretch;
+  border-radius: var(--precedent-radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  transition:
+    outline 150ms ease,
+    box-shadow 180ms ease,
+    border-color 150ms ease;
+  animation: cardEntrance 280ms var(--easing-spring) var(--stagger, 0ms) both;
+  min-height: 76px;
+
+  // Hover glow — only on neutral (pre-vote) clickable options
+  &:not(.cardModal--brand):not(.cardModal--golden):not(.cardModal--disabled):hover {
+    outline: 2px solid rgba(var(--brand-primary-rgb) / 0.45);
+    box-shadow: var(--glow-md);
+    border-color: rgba(var(--brand-primary-rgb) / 0.3);
+  }
+
+  &:focus-within:not(.cardModal--brand):not(.cardModal--golden):not(.cardModal--disabled) {
+    outline: 2px solid rgba(var(--brand-primary-rgb) / 0.5);
+    outline-offset: 0;
+  }
+
+  // ── Brand state: user's voted option (post-vote, poll still active) ──────────
+  &--brand {
+    background: linear-gradient(
+      135deg,
+      var(--brand-gradient-start) 0%,
+      var(--brand-gradient-end) 100%
+    );
+    border-color: transparent;
+
+    .optionLabel {
+      color: var(--precedent-color-on-primary);
+      font-weight: 700;
+    }
+
+    .voterCount {
+      color: rgba(255, 255, 255, 0.72);
+    }
+  }
+
+  // ── Golden state: winner or tied options at deadline ──────────────────────
+  // Text uses deep warm amber-brown (#2d1400) rather than cold black —
+  // same brightness but tonally matched to gold in both light and dark themes.
+  &--golden {
+    background: linear-gradient(135deg, #c8870a 0%, #f5c518 100%);
+    border-color: transparent;
+    overflow: hidden;
+
+    // Shimmer sweep — repeating light sheen across the gold surface
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        105deg,
+        transparent 20%,
+        rgba(255, 255, 255, 0.38) 50%,
+        transparent 80%
+      );
+      transform: translateX(-100%);
+      animation: goldShimmer 2.4s var(--easing-spring) 0.3s infinite;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .optionLabel {
+      color: #2d1400;
+      font-weight: 700;
+    }
+
+    .voterCount {
+      color: rgba(45, 20, 0, 0.65);
+      opacity: 1;
+    }
+  }
+
+  // ── Disabled (post-vote non-selected options) ─────────────────────────────
+  &--disabled {
+    cursor: default;
+
+    .contentZone {
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+
+  // ── Tie state (creator picking winner) ────────────────────────────────────
+  &--tie {
+    border: 2px dashed var(--brand-primary) !important;
+    animation: cardEntrance 280ms var(--easing-spring) var(--stagger, 0ms) both,
+               pulseGlow 2s ease-in-out infinite;
+  }
+}
+
+// ─── Image zone (left side of modal card) ────────────────────────────────────
+
+.imageZone {
+  flex-shrink: 0;
+  width: 72px;
+  align-self: stretch;
+  padding: 0;
+  margin: 0;
+  border: none;
+  // Subtle separator between image and content zones — uses theme token so
+  // it stays visible in both light and dark mode
+  border-right: 1px solid var(--color-border);
+  background: none;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    opacity 150ms ease,
+    filter 150ms ease;
+
+  &:hover {
+    opacity: 0.88;
+    filter: brightness(1.08);
+  }
+
+  &:active {
+    opacity: 0.72;
+    transition-duration: 60ms;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: -2px;
+  }
+}
+
+.imageZoneImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageZoneFallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardModal--golden .imageZoneFallback {
+  opacity: 0.82;
+}
+
+// On filled cards the separator competes with the card's own colour — fade it
+.cardModal--brand .imageZone,
+.cardModal--golden .imageZone {
+  border-right-color: rgba(0, 0, 0, 0.10);
+}
+
+.contentZone {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--precedent-space-md) var(--precedent-space-xl);
+  gap: var(--precedent-space-2xs);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+
+  &:hover:not(:disabled) {
+    background: rgba(var(--brand-primary-rgb) / 0.04);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+// ─── Fill layer (inside content zone, scales to vote %) ──────────────────────
+// The gradient fades to transparent at the right so the leading edge is always
+// soft — no hard cut-off regardless of fill percentage. The spike near 90%
+// creates a subtle luminous leading-edge "pulse" that communicates energy.
+
+.cardFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(var(--fill-scale, 0));
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 0;
+  animation: fillBar 560ms cubic-bezier(0.16, 1, 0.3, 1) var(--stagger, 0ms) both;
+
+  // Neutral revealed state — muted brand tint with soft leading edge
+  background: linear-gradient(
+    90deg,
+    rgba(var(--brand-primary-rgb) / 0.20) 0%,
+    rgba(var(--brand-primary-rgb) / 0.16) 65%,
+    rgba(var(--brand-primary-rgb) / 0.40) 88%,
+    transparent 100%
+  );
+}
+
+// Fill color overrides per card state
+
+// Brand: white sheen that brightens the leading edge of the gradient card
+.cardModal--brand .cardFill {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.14) 65%,
+    rgba(255, 255, 255, 0.42) 88%,
+    transparent 100%
+  );
+}
+
+// Golden: dark overlay — leading edge pulse reads as deep amber shadow
+.cardModal--golden .cardFill {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.08) 0%,
+    rgba(0, 0, 0, 0.12) 65%,
+    rgba(0, 0, 0, 0.28) 88%,
+    transparent 100%
+  );
+}
+
+.cardModal--golden .votedPill {
+  background: rgba(45, 20, 0, 0.14);
+  border-color: rgba(45, 20, 0, 0.28);
+  color: #2d1400;
+}
+
+// ─── Option label ─────────────────────────────────────────────────────────────
+
+.optionLabel {
+  position: relative;
+  z-index: 1;
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  // Gracefully handle long text — max 120 chars wraps comfortably at 2-3 lines
+  max-width: 100%;
+}
+
+// ─── Stats row (voter count + voted pill inline) ─────────────────────────────
+
+.statsRow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--precedent-space-xs);
+  flex-wrap: wrap;
+}
+
+// ─── Stats (voter count) ─────────────────────────────────────────────────────
+
+.voterCount {
+  font-size: var(--precedent-font-size-text-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.01em;
+}
+
+// ─── "I voted for this" pill ─────────────────────────────────────────────────
+
+.votedPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--precedent-radius-fully-rounded);
+  background: var(--tier-gold-bg);
+  border: 1px solid var(--tier-gold-track-tick);
+  color: var(--tier-gold-text);
+  font-size: var(--precedent-font-size-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  animation: fadeIn 300ms ease 80ms both;
+}
+
+// ─── Reduced motion ───────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .fill,
+  .presetBtn,
+  .dismissBtn,
+  .bar--selected,
+  .bar--tie,
+  .cardModal,
+  .cardModal--golden::after,
+  .votedPill,
+  .statsBlock {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .fill {
+    transform: scaleX(var(--fill-scale, 0));
+  }
+
+  .percentage {
+    animation: none;
+  }
+}
