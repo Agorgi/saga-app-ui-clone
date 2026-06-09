@@ -1,6 +1,6 @@
 import { CommunitySelector } from '@components/CommunitySelector/CommunitySelector';
 import { DateTimePicker } from '@components/DateTimePicker/DateTimePicker';
-import { OpenRolesSection } from '@domains/events/openRoles/OpenRolesSection';
+import { OpenRolesField } from '@domains/events/openRoles/OpenRolesField';
 import type { OpenRole } from '@domains/events/openRoles/types';
 import { PersonnelInviteSection } from '@domains/events/sections/PersonnelInviteSection';
 import { fromDateTimeLocalToISO } from '@domains/events/utils/eventFormUtils';
@@ -184,7 +184,7 @@ export function CreateEventForm({ mode }: CreateEventFormProps) {
         </div>
 
         <div className={styles.section}>
-          <OpenRolesSection
+          <OpenRolesField
             roles={openRoles}
             onChange={setOpenRoles}
             openToApplications={openToApplications}
