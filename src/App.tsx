@@ -11,6 +11,7 @@ import CreateEventPage from '@domains/events/CreateEventPage/CreateEventPage';
 import { CreateEventForm } from '@domains/events/CreateEventPage/CreateEventForm';
 import { EventPage } from '@domains/events/EventPage/EventPage';
 import { EventsListPage } from '@domains/events/EventsListPage/EventsListPage';
+import { MyCrewPage } from '@domains/events/openRoles/MyCrewPage';
 import { NotificationsPage } from '@domains/notifications';
 import CreatePostPage from '@domains/post-creation/CreatePost';
 import FollowingFeedPage from '@domains/posts/FollowingFeed';
@@ -41,6 +42,7 @@ export default function App() {
                   <Route path="/events/create/paid" element={<CreateEventForm mode="paid" />} />
                   <Route path="/events/create/free" element={<CreateEventForm mode="free" />} />
                   <Route path="/events/:eventId" element={<EventPage />} />
+                  <Route path="/crew" element={<MyCrewPage />} />
                   <Route path="/create-post" element={<CreatePostPage />} />
                   <Route path="/profile/:username" element={<ProfilePage />} />
                   <Route path="/notifications" element={<NotificationsPage />} />

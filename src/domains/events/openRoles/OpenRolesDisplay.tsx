@@ -1,6 +1,7 @@
 import { BaseModal, Button } from '@saga/global-web';
 import { Check, ChevronRight, Plus, Users01 } from '@untitledui/icons';
 import { useState } from 'react';
+import { ApplicantsReview } from './ApplicantsReview';
 import type { OpenRole } from './types';
 import styles from './OpenRolesDisplay.module.scss';
 
@@ -12,13 +13,13 @@ interface Props {
 
 type ApplyTarget = { kind: 'role'; role: OpenRole } | { kind: 'general' };
 
-// Wireframe: applicant-facing Open Roles on the event page. Collapsed to a single
-// button; opening it shows a popup that lists the roles the host needs (each with
-// an Apply control) plus a general "Ask to join the crew" when the host is open.
-// Apply switches the same popup to a one-message view; sending is inert and flips
-// the control to an applied state (local only). One modal, two views, no stacking.
+// Wireframe: Open Roles on the event page, behind a button. The popup has an
+// applicant view (roles list, then a one-message apply) and a host view (who
+// applied, with Save to crew / Mark filled). The Apply / Host view toggle is a
+// demo affordance; in production the view is decided by event ownership. Inert.
 export function OpenRolesDisplay({ roles, openToApplications, eventName }: Props) {
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState<'applicant' | 'host'>('applicant');
   const [apply, setApply] = useState<ApplyTarget | null>(null);
   const [message, setMessage] = useState('');
   const [appliedRoleIds, setAppliedRoleIds] = useState<Set<string>>(() => new Set());
@@ -65,81 +66,12 @@ export function OpenRolesDisplay({ roles, openToApplications, eventName }: Props
 
       <BaseModal isOpen={open} onClose={close} ariaLabel="Open roles" className={styles.modal}>
         <div className={styles.modalBody}>
-          {apply === null ? (
-            <>
-              <h3 className={styles.modalTitle}>{heading}</h3>
-              <p className={styles.modalHint}>
-                Help produce {eventName}. Apply with a quick message.
-              </p>
-
-              {roles.length > 0 && (
-                <ul className={styles.list}>
-                  {roles.map((role) => {
-                    const applied = appliedRoleIds.has(role.id);
-                    return (
-                      <li key={role.id} className={styles.roleRow}>
-                        <div className={styles.roleInfo}>
-                          <span className={styles.roleTitle}>
-                            {role.title}
-                            {role.count && role.count > 1 ? (
-                              <span className={styles.roleCount}>{role.count} needed</span>
-                            ) : null}
-                          </span>
-                          {role.note ? <span className={styles.roleNote}>{role.note}</span> : null}
-                        </div>
-                        {applied ? (
-                          <span className={styles.appliedPill}>
-                            <Check width={15} height={15} aria-hidden />
-                            Applied
-                          </span>
-                        ) : (
-                          <Button
-                            type="button"
-                            className={styles.applyButton}
-                            onClick={() => openApply({ kind: 'role', role })}
-                          >
-                            Apply
-                          </Button>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-
-              {openToApplications && (
-                <div className={styles.generalCard}>
-                  <span className={styles.generalIcon}>
-                    <Users01 width={20} height={20} aria-hidden />
-                  </span>
-                  <div className={styles.generalText}>
-                    <span className={styles.generalTitle}>Open to crew</span>
-                    <span className={styles.generalSub}>
-                      No role that fits? Ask to join and the host can keep you in mind.
-                    </span>
-                  </div>
-                  {generalApplied ? (
-                    <span className={styles.appliedPill}>
-                      <Check width={15} height={15} aria-hidden />
-                      Request sent
-                    </span>
-                  ) : (
-                    <Button
-                      type="button"
-                      className={styles.applyButton}
-                      onClick={() => openApply({ kind: 'general' })}
-                    >
-                      <Plus width={15} height={15} aria-hidden />
-                      Ask to join
-                    </Button>
-                  )}
-                </div>
-              )}
-            </>
-          ) : (
+          {apply !== null ? (
             <>
               <h3 className={styles.modalTitle}>
-                {apply.kind === 'role' ? `Apply for ${apply.role.title}` : `Ask to join ${eventName}`}
+                {apply.kind === 'role'
+                  ? `Apply for ${apply.role.title}`
+                  : `Ask to join ${eventName}`}
               </h3>
               <p className={styles.modalHint}>
                 Add a short message so the host knows why you'd be a great fit.
@@ -165,6 +97,106 @@ export function OpenRolesDisplay({ roles, openToApplications, eventName }: Props
                   Send application
                 </Button>
               </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.modeToggle} role="tablist" aria-label="Open roles view">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={mode === 'applicant'}
+                  className={`${styles.modeTab} ${mode === 'applicant' ? styles.modeTabActive : ''}`}
+                  onClick={() => setMode('applicant')}
+                >
+                  Apply
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={mode === 'host'}
+                  className={`${styles.modeTab} ${mode === 'host' ? styles.modeTabActive : ''}`}
+                  onClick={() => setMode('host')}
+                >
+                  Host view
+                </button>
+              </div>
+
+              {mode === 'applicant' ? (
+                <>
+                  <h3 className={styles.modalTitle}>{heading}</h3>
+                  <p className={styles.modalHint}>
+                    Help produce {eventName}. Apply with a quick message.
+                  </p>
+
+                  {roles.length > 0 && (
+                    <ul className={styles.list}>
+                      {roles.map((role) => {
+                        const applied = appliedRoleIds.has(role.id);
+                        return (
+                          <li key={role.id} className={styles.roleRow}>
+                            <div className={styles.roleInfo}>
+                              <span className={styles.roleTitle}>
+                                {role.title}
+                                {role.count && role.count > 1 ? (
+                                  <span className={styles.roleCount}>{role.count} needed</span>
+                                ) : null}
+                              </span>
+                              {role.note ? (
+                                <span className={styles.roleNote}>{role.note}</span>
+                              ) : null}
+                            </div>
+                            {applied ? (
+                              <span className={styles.appliedPill}>
+                                <Check width={15} height={15} aria-hidden />
+                                Applied
+                              </span>
+                            ) : (
+                              <Button
+                                type="button"
+                                className={styles.applyButton}
+                                onClick={() => openApply({ kind: 'role', role })}
+                              >
+                                Apply
+                              </Button>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+
+                  {openToApplications && (
+                    <div className={styles.generalCard}>
+                      <span className={styles.generalIcon}>
+                        <Users01 width={20} height={20} aria-hidden />
+                      </span>
+                      <div className={styles.generalText}>
+                        <span className={styles.generalTitle}>Open to crew</span>
+                        <span className={styles.generalSub}>
+                          No role that fits? Ask to join and the host can keep you in mind.
+                        </span>
+                      </div>
+                      {generalApplied ? (
+                        <span className={styles.appliedPill}>
+                          <Check width={15} height={15} aria-hidden />
+                          Request sent
+                        </span>
+                      ) : (
+                        <Button
+                          type="button"
+                          className={styles.applyButton}
+                          onClick={() => openApply({ kind: 'general' })}
+                        >
+                          <Plus width={15} height={15} aria-hidden />
+                          Ask to join
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <ApplicantsReview roles={roles} openToApplications={openToApplications} />
+              )}
             </>
           )}
         </div>
