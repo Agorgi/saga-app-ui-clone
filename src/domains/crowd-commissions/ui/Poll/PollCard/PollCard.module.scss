@@ -1,0 +1,441 @@
+// ─── Keyframes ───────────────────────────────────────────────────────────────
+@keyframes pillFadeIn {
+  from { opacity: 0; transform: translateY(4px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes bannerSlideIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseRing {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+  50%       { box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.12); }
+}
+
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+@keyframes barFill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .voteNowPill,
+  .votedBadge,
+  .statPills,
+  .noticeStrip,
+  .winnerSection,
+  .barFill { animation: none !important; transition: none !important; }
+  .dotPulse { animation: none !important; }
+}
+
+// ─── Card shell ───────────────────────────────────────────────────────────────
+.card {
+  container-type: inline-size;
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 250ms var(--easing-spring),
+    box-shadow 250ms var(--easing-spring),
+    border-color 200ms ease;
+
+  // Top-edge shimmer
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-shimmer), transparent);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-2px) scale(1.003);
+    border-color: rgba(var(--brand-primary-rgb) / 0.38);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.35),
+      0 0 20px rgba(var(--brand-primary-rgb) / 0.28),
+      0 0 44px rgba(var(--brand-primary-rgb) / 0.10);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.99);
+    transition-duration: 80ms;
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(var(--brand-primary-rgb) / 0.5);
+    outline-offset: 2px;
+  }
+}
+
+// Amber border variant: paid_unvoted state
+.card--pendingVote {
+  border-color: rgba(245, 158, 11, 0.35);
+  &:hover {
+    border-color: rgba(245, 158, 11, 0.5);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.35),
+      0 0 20px rgba(245, 158, 11, 0.22),
+      0 0 44px rgba(245, 158, 11, 0.08);
+  }
+}
+
+// ─── Hero ────────────────────────────────────────────────────────────────────
+.hero {
+  position: relative;
+  overflow: hidden;
+  height: 120px; // base: small phones (320px+)
+
+  @container (min-width: 360px) { height: 140px; }
+  @container (min-width: 520px) { height: 160px; }
+}
+
+.heroImage {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.heroGradient {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #1a1030 0%, #0d1a30 100%);
+}
+
+.heroOverlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 45%, rgba(13, 13, 24, 0.88) 100%);
+}
+
+// ─── Status badge wrapper (top-right, absolutely positioned over hero) ────────
+.heroBadgeWrap {
+  position: absolute;
+  top: 10px; right: 10px;
+  z-index: 2;
+
+  @container (min-width: 360px) {
+    top: 12px; right: 12px;
+  }
+}
+
+// ─── "Vote now" pill (top-left, paid_unvoted) ────────────────────────────────
+.voteNowPill {
+  position: absolute;
+  top: 10px; left: 10px;
+  z-index: 2;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--precedent-radius-fully-rounded);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(245, 158, 11, 0.18);
+  border: 1px solid rgba(245, 158, 11, 0.42);
+  color: var(--color-amber);
+  animation: pulseRing 2.5s ease-in-out infinite;
+
+  @container (min-width: 360px) {
+    font-size: 11px;
+    padding: 5px 12px;
+    top: 12px; left: 12px;
+  }
+}
+
+.dotPulse {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: dotBlink 1.2s ease-in-out infinite;
+}
+
+// ─── Voted badge (top-left, voted + active) ──────────────────────────────────
+.votedBadge {
+  position: absolute;
+  top: 10px; left: 10px;
+  z-index: 2;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--precedent-radius-fully-rounded);
+  font-size: 10px; font-weight: 600;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(var(--brand-primary-rgb) / 0.18);
+  border: 1px solid rgba(var(--brand-primary-rgb) / 0.36);
+  color: var(--color-indigo-300);
+  animation: pillFadeIn 280ms var(--easing-spring-bounce) both;
+
+  @container (min-width: 360px) {
+    font-size: 11px;
+    padding: 5px 12px;
+    top: 12px; left: 12px;
+  }
+}
+
+// ─── Card body ────────────────────────────────────────────────────────────────
+.body {
+  padding: 12px 14px 14px;
+
+  @container (min-width: 360px) { padding: 14px 16px 16px; }
+  @container (min-width: 520px) { padding: 16px 18px 18px; }
+}
+
+// ─── Creator pill (hero overlay) ─────────────────────────────────────────────
+.creatorPill {
+  display: flex; align-items: center; gap: 6px;
+  min-width: 0;
+  text-decoration: none;
+}
+
+// Absolute-positioned inside the hero, bottom-left — mirrors CrowdCommissionCard
+.heroCreator {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  z-index: 2;
+
+  @container (min-width: 360px) { bottom: 12px; }
+}
+
+.creatorName {
+  font-size: 11px; font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+
+  @container (min-width: 360px) { font-size: 12px; max-width: 180px; }
+}
+
+// ─── Title ────────────────────────────────────────────────────────────────────
+.title {
+  font-size: 14px; font-weight: 700; line-height: 1.3;
+  color: var(--precedent-color-text, #F0F0F5);
+  letter-spacing: -0.2px; margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @container (min-width: 360px) { font-size: 15px; }
+  @container (min-width: 520px) { font-size: 17px; -webkit-line-clamp: 3; }
+}
+
+// ─── Caption ──────────────────────────────────────────────────────────────────
+.caption {
+  font-size: 12px; line-height: 1.55; font-weight: 400;
+  color: var(--precedent-color-text-subtle, #8A8F9E);
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @container (min-width: 360px) { font-size: 13px; -webkit-line-clamp: 3; }
+  @container (min-width: 520px) { -webkit-line-clamp: 4; }
+}
+
+// ─── Notice strips ────────────────────────────────────────────────────────────
+.noticeStrip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  animation: bannerSlideIn 220ms var(--easing-spring) both;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  min-width: 0; // prevent strip itself from overflowing card
+
+  @container (min-width: 360px) { gap: 9px; padding: 9px 12px; }
+}
+
+.noticeStrip--amber {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.noticeStrip--indigo {
+  display: none; // hidden on mobile to save card space
+  background: rgba(var(--brand-primary-rgb) / 0.08);
+  border: 1px solid rgba(var(--brand-primary-rgb) / 0.2);
+
+  @container (min-width: 460px) { display: flex; }
+}
+
+.noticeIcon {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+
+  @container (min-width: 360px) { width: 28px; height: 28px; }
+}
+
+.noticeIcon--amber  { background: rgba(245, 158, 11, 0.14); }
+.noticeIcon--indigo { background: rgba(var(--brand-primary-rgb) / 0.14); }
+
+// Flex text block — must have min-width: 0 so it can shrink inside the flex row
+.noticeText {
+  flex: 1;
+  min-width: 0;
+}
+
+.noticeTitle {
+  font-size: 12px; font-weight: 600; line-height: 1.35;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @container (min-width: 360px) { font-size: 13px; }
+}
+
+.noticeTitle--amber  { color: var(--color-amber); }
+.noticeTitle--indigo { color: var(--color-indigo-300); }
+
+.noticeSub {
+  font-size: 11px;
+  color: var(--precedent-color-text-subtle, #8A8F9E);
+  margin-top: 2px;
+}
+
+// ─── Stat pills ───────────────────────────────────────────────────────────────
+.statPills {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  animation: pillFadeIn 240ms var(--easing-spring) both;
+  animation-delay: 60ms;
+}
+
+.statPill {
+  display: inline-flex; align-items: baseline; gap: 5px;
+  padding: 6px 11px;
+  border-radius: var(--precedent-radius-fully-rounded);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  @container (min-width: 360px) { padding: 7px 13px; gap: 6px; }
+}
+
+.statValue {
+  font-size: 12px; font-weight: 700; line-height: 1;
+  color: var(--precedent-color-text, #F0F0F5);
+
+  @container (min-width: 360px) { font-size: 13px; }
+}
+
+.statValue--green { color: var(--color-emerald); }
+.statValue--amber { color: var(--color-amber); }
+
+.statLabel {
+  font-size: 11px; font-weight: 400; line-height: 1;
+  color: var(--precedent-color-text-subtle, #8A8F9E);
+}
+
+// ─── Winner section (completed polls) ────────────────────────────────────────
+.winnerSection {
+  margin-bottom: 12px;
+  animation: bannerSlideIn 260ms var(--easing-spring) both;
+}
+
+.winnerLabel {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--precedent-color-text-subtle, #8A8F9E);
+  margin-bottom: 6px;
+
+  @container (min-width: 360px) { font-size: 11px; }
+}
+
+.trophyBadge {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: rgba(251, 191, 36, 0.18);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-amber);
+
+  @container (min-width: 360px) { width: 18px; height: 18px; }
+}
+
+.winnerOptionName {
+  font-size: 13px; font-weight: 600;
+  color: var(--precedent-color-text, #F0F0F5);
+  margin-bottom: 7px; line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+
+  @container (min-width: 360px) { font-size: 14px; }
+}
+
+.barTrack {
+  height: 8px;
+  border-radius: var(--precedent-radius-fully-rounded);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  margin-bottom: 4px;
+
+  @container (min-width: 360px) { height: 10px; }
+}
+
+.barFill {
+  height: 100%;
+  border-radius: var(--precedent-radius-fully-rounded);
+  width: var(--fill-pct, 0%);
+  transform-origin: left;
+  animation: barFill 600ms var(--easing-spring) 100ms both;
+}
+
+.barFill--winner {
+  background: linear-gradient(90deg, var(--color-amber), #f59e0b);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+.barMeta {
+  display: flex; justify-content: flex-end; align-items: center;
+  font-size: 10px; color: var(--precedent-color-text-subtle, #8A8F9E);
+  margin-top: 3px;
+
+  @container (min-width: 360px) { font-size: 11px; }
+}
+
+.barPctWinner { font-weight: 700; color: var(--color-amber); }
+
+// ─── Divider ──────────────────────────────────────────────────────────────────
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+  margin: 10px 0;
+
+  @container (min-width: 360px) { margin: 12px 0; }
+}
+
+// ─── Tap hint ─────────────────────────────────────────────────────────────────
+.tapHint {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  margin-top: 12px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.02em;
+  color: var(--precedent-color-text-muted, #4a4a60);
+  transition: color 200ms ease;
+  user-select: none;
+
+  .card:hover & { color: var(--precedent-color-text-subtle, #8A8F9E); }
+
+  @container (min-width: 360px) { font-size: 11px; margin-top: 14px; }
+}
