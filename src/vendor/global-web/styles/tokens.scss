@@ -149,6 +149,7 @@
   --tier-platinum-text: #b8d0e8;
   --tier-platinum-bg: rgba(184, 208, 232, 0.16);
   --tier-platinum-track-tick: rgba(184, 208, 232, 0.55);
+  --tier-tick-active: rgba(255, 255, 255, 0.92);
 }
 
 [data-theme='light'] {
@@ -265,4 +266,5 @@
   --tier-platinum-text: #2c5282;
   --tier-platinum-bg: rgba(74, 111, 165, 0.12);
   --tier-platinum-track-tick: rgba(74, 111, 165, 0.45);
+  --tier-tick-active: rgba(17, 17, 17, 0.55);
 }
