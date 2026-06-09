@@ -12,8 +12,10 @@ against live `main`.
   new feature with real backend/payments work.
 - **The front-end redesign port (nav, feed, events list, create-event, plus the two create-flow
   restyles if approved) is ~2 to 2.5 weeks for three engineers, shipped behind one feature flag.**
-- **Interest Check is a separate 3 to 5 week track** (the long pole is payment authorize / capture /
-  release on the backend). It must NOT gate the redesign rollout.
+- **Interest Check is deferred to the very end** (explicit direction): no work on it, including
+  backend, begins until the redesign (tracks 1 to 5) has shipped. It is then a 3 to 5 week track of
+  its own (the long pole is payment authorize / capture / release on the backend). Its "Open roles"
+  piece is net-new: production has only direct co-host/staff invites, not open-role posting.
 - The single biggest risk is the crowd-commissions domain: production already has it. Do not re-port
   it. Only its create-flow restyle (#27, two files) is portable.
 
@@ -82,8 +84,9 @@ features/flows. Everything lands behind the redesign flag.
   keep prod's `CommunitySelector`.
 
 ### Phase 2, screens complete (week 2, parallel)
-- **Eng A:** Nav canary to an internal cohort; then start **Track 6 Interest Check backend** (the long
-  pole): payment authorize/capture/release, lifecycle persistence, decision-date job.
+- **Eng A:** Nav canary to an internal cohort, then move onto the redesign critical path: perf and
+  a11y hardening across tracks 1 to 3, and back up Eng C on the restyles. **No Interest Check work
+  yet.**
 - **Eng B: Track 3 Events list** (Hot row + vertical feed; `EventCard` 1:1). Confirm the 1:1 change is
   intended everywhere `EventCard` renders. Finish feed perf hardening.
 - **Eng C: Track 5 restyles**, only if design has signed off: post-creation single-page (#26, skip the
@@ -95,11 +98,15 @@ features/flows. Everything lands behind the redesign flag.
   the perf/a11y gates green at each step. Rollback = flip the flag.
 - **The front-end redesign is done here.** Interest Check continues on its own track.
 
-### Phase 4, Interest Check feature (weeks 3 to 5, its own flag)
+### Phase 4, Interest Check feature (starts only after redesign GA, its own flag)
+Deferred until tracks 1 to 5 have shipped. With the redesign done, the whole team converges on it.
 - **Eng C:** port the Interest Check UI (reuses the event form; replicate the commission drawer
   pattern) behind the Interest Check flag.
-- **Eng A (+ B as needed):** finish the backend (payments lifecycle, persistence, the decision-date
-  job and notifications), integration tests, then canary to GA.
+- **Eng A + B:** build the backend (payments authorize/capture/release, lifecycle persistence, the
+  decision-date job and notifications) **plus the open-roles data model and apply flow, which are
+  net-new** (production has no open-roles-on-events feature; the closest primitive is the
+  `PersonnelInviteSection` co-host/staff *invite*, a different model). Integration tests, then canary
+  to GA. Budget 3 to 5 weeks.
 
 ## Reliability and performance gates (every track, before flag-on)
 
@@ -119,5 +126,7 @@ features/flows. Everything lands behind the redesign flag.
 
 Three engineers ship the full visual redesign (nav, feed, events, create-event, and the two restyles
 if approved) in about **two to two and a half weeks** behind a flag, with reliability and performance
-gates at each step. Interest Check is the only genuine new build; budget **three to five more weeks**
-for it on a parallel track, gated by its own flag, without holding up the redesign.
+gates at each step. Interest Check is the only genuine new build and is deferred to the very end: budget **three to five
+weeks** for it after the redesign ships, gated by its own flag. Its "Open roles" feature is net-new
+(production has only direct co-host/staff invites, not open-role posting), so it carries both payments
+and a new roles/apply model.
