@@ -1,0 +1,142 @@
+/* ── Container ───────────────────────────────────────────────────────────────
+   Mobile-first: stacks everything in a single column.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--precedent-space-xs);
+  width: 100%;
+  min-width: 0;
+}
+
+/* ── Progress bar wrapper ──────────────────────────────────────────────────── */
+
+.barWrapper {
+  width: 100%;
+}
+
+/* ── Meta row ────────────────────────────────────────────────────────────────
+   Mobile (default): collected + goal on one row, backers + % on the next.
+   Tablet (≥480px): everything fits in a single row.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.meta {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--precedent-space-xs);
+  font-size: var(--precedent-font-size-text-md);
+  min-width: 0;
+}
+
+.left {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ── Text labels ─────────────────────────────────────────────────────────────
+   .collected / .goal are inline spans inside .left — spacing via the space
+   character in JSX (" of ", " raised") rather than gap.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.collected {
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.goal {
+  color: var(--color-text-muted);
+  font-weight: 400;
+  /* Slightly smaller than the collected amount */
+  font-size: var(--precedent-font-size-text-sm);
+  white-space: nowrap;
+}
+
+.backers {
+  color: var(--color-text-muted);
+  font-size: var(--precedent-font-size-text-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Percent badge ───────────────────────────────────────────────────────────
+   Base style (no tier): uses the project's primary colour tokens.
+   Per-tier overrides use theme-aware CSS custom properties defined in tokens.scss.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.percent {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--precedent-space-2xs);
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 700;
+  /* Touch target: badges are non-interactive but still need readability room */
+  padding: 2px var(--precedent-space-xs);
+  border-radius: var(--precedent-radius-fully-rounded);
+  white-space: nowrap;
+  /* Default: primary colour — no background */
+  color: var(--precedent-color-primary);
+  transition:
+    color 300ms ease,
+    background-color 300ms ease;
+}
+
+/* ── Per-tier badge colour overrides (theme-aware via tokens.scss) ─────────── */
+
+.percentBronze {
+  color: var(--tier-bronze-text);
+  background-color: var(--tier-bronze-bg);
+}
+
+.percentSilver {
+  color: var(--tier-silver-text);
+  background-color: var(--tier-silver-bg);
+}
+
+.percentGold {
+  color: var(--tier-gold-text);
+  background-color: var(--tier-gold-bg);
+}
+
+.percentPlatinum {
+  color: var(--tier-platinum-text);
+  background-color: var(--tier-platinum-bg);
+}
+
+/* ── Skeleton loading state ───────────────────────────────────────────────── */
+
+.skeleton {
+  display: inline-block;
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--precedent-color-border) 25%,
+    var(--precedent-color-surface-subtle) 50%,
+    var(--precedent-color-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--precedent-color-border);
+  }
+}

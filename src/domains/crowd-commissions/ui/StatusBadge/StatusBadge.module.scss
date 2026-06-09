@@ -1,0 +1,90 @@
+@keyframes badgeFadeIn {
+  from { opacity: 0; transform: translateY(4px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge { animation: none !important; }
+}
+
+// ── Badge shell ───────────────────────────────────────────────────────────────
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--precedent-radius-fully-rounded);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid transparent;
+  animation: badgeFadeIn 200ms var(--easing-spring) both;
+
+  svg { display: block; flex-shrink: 0; }
+}
+
+// ── Label: icon-only on tight containers ──────────────────────────────────────
+
+.label {
+  display: none;
+}
+
+@container (min-width: 280px) {
+  .badge {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+
+  .label {
+    display: inline;
+  }
+}
+
+// ── Status colour variants — glassmorphism ────────────────────────────────────
+
+.draft {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.22);
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.active {
+  background: rgba(52, 211, 153, 0.14);
+  border-color: rgba(52, 211, 153, 0.28);
+  color: var(--color-emerald);
+}
+
+.locking {
+  background: rgba(245, 158, 11, 0.14);
+  border-color: rgba(245, 158, 11, 0.28);
+  color: var(--color-amber);
+}
+
+.pendingWinner {
+  background: rgba(251, 113, 133, 0.14);
+  border-color: rgba(251, 113, 133, 0.28);
+  color: var(--color-pending-winner);
+}
+
+.pendingResult {
+  background: rgba(250, 204, 21, 0.14);
+  border-color: rgba(250, 204, 21, 0.28);
+  color: var(--color-pending-result);
+}
+
+.completed {
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.28);
+  color: var(--color-sky);
+}
+
+.failed {
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.28);
+  color: var(--color-danger-soft);
+}
