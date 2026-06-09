@@ -1,3 +1,4 @@
+import { isInterestCheckEnabled } from '@/config/features';
 import { CurrencyDollarCircle, Hand, Star01, Ticket02, Users01 } from '@untitledui/icons';
 import { useNavigate } from 'react-router-dom';
 import styles from './CreateEventChooser.module.scss';
@@ -43,22 +44,24 @@ function CreateEventPage() {
           </button>
         </div>
 
-        <button
-          type="button"
-          className={styles.optionWide}
-          onClick={() => navigate('/events/create/interest-check')}
-        >
-          <span className={styles.iconStack}>
-            <Users01 className={styles.iconBase} aria-hidden />
-          </span>
-          <span className={styles.optionWideText}>
-            <span className={styles.optionLabel}>Interest Check</span>
-            <span className={styles.optionSubtitle}>
-              Gauge interest first. People pre-commit; it only happens, and they're only charged, if
-              enough people are in.
+        {isInterestCheckEnabled() && (
+          <button
+            type="button"
+            className={styles.optionWide}
+            onClick={() => navigate('/events/create/interest-check')}
+          >
+            <span className={styles.iconStack}>
+              <Users01 className={styles.iconBase} aria-hidden />
             </span>
-          </span>
-        </button>
+            <span className={styles.optionWideText}>
+              <span className={styles.optionLabel}>Interest Check</span>
+              <span className={styles.optionSubtitle}>
+                Gauge interest first. People pre-commit; it only happens, and they're only charged,
+                if enough people are in.
+              </span>
+            </span>
+          </button>
+        )}
       </div>
     </div>
   );
