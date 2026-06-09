@@ -1,258 +1,162 @@
-// ─── Wizard Layout ────────────────────────────────────────────────────────────
+// Single-page post composer, restyled to match the event creation form
+// (CreateEventForm). Same framework: a centered title input, stacked sections,
+// inline-placeholder inputs, "+" pills for optional extras, and a Cancel +
+// primary action row. Replaces the previous 3-step wizard styling.
 
-.wizard {
-  width: 100%;
-  max-width: 800px;
+.container {
+  min-height: 80vh;
+  background: var(--precedent-color-background);
+  padding: 24px;
+  padding-bottom: 80px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    height: fit-content;
+  }
+}
+
+.content {
+  max-width: 600px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: var(--precedent-space-2xl, 20px);
-  box-sizing: border-box;
+  gap: 20px;
 }
 
-@media (max-width: 540px) {
-  .wizard {
-    padding: var(--precedent-space-lg, 16px);
-  }
-}
-
-.stepContent {
-  display: flex;
-  flex-direction: column;
-  gap: var(--precedent-space-2xl, 1.25rem);
-}
-
-.stepHidden {
-  display: none;
-}
-
-// ─── Step Header ──────────────────────────────────────────────────────────────
-
-.stepHeader {
-  display: flex;
-  flex-direction: column;
-  gap: var(--precedent-space-2xs);
-}
-
-.stepTitle {
-  margin: 0;
-  font-size: var(--precedent-font-size-text-xl, 1.125rem);
+.titleInput {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--precedent-color-text);
+  font-family: inherit;
+  font-size: 28px;
   font-weight: 700;
-  color: var(--precedent-color-text, #111827);
-}
+  text-align: center;
+  padding: 8px 0;
 
-.stepSubtitle {
-  margin: 0;
-  font-size: var(--precedent-font-size-text-md, 0.875rem);
-  color: var(--precedent-color-text-muted, #6b7280);
-}
+  &:focus {
+    outline: none;
+  }
 
-// ─── Step Indicator ───────────────────────────────────────────────────────────
-
-.stepIndicator {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  padding-bottom: var(--precedent-space-xs, 0.5rem);
-}
-
-.stepIndicatorItem {
-  display: flex;
-  align-items: center;
-  flex: 1;
-
-  &:last-child {
-    flex: 0 0 auto;
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
   }
 }
 
-.stepCircle {
+.collabNote {
+  margin: -8px 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--precedent-color-text-muted);
+}
+
+.section {
+  width: 100%;
+}
+
+// Small "+" pills (Tag communities), matching the event form
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 12px;
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 999px;
+  background: var(--precedent-color-surface);
+  color: var(--precedent-color-text);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+  &:hover {
+    border-color: var(--precedent-color-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.pillActive {
+  background: var(--precedent-color-primary);
+  border-color: var(--precedent-color-primary);
+  color: #fff;
+}
+
+.pillIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.extraInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--precedent-color-border);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.cancelButton {
+  flex: 1;
+  padding: 10px 16px;
+  background: var(--precedent-color-surface-subtle);
+  color: var(--precedent-color-text);
+  border: 1px solid var(--precedent-color-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+
+  &:hover:not(:disabled) {
+    background: var(--precedent-color-border);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.submitButton {
+  flex: 1;
+  padding: 10px 16px;
+  background: var(--precedent-color-primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  border-radius: 50%;
-  border: 2px solid var(--precedent-color-border, #e5e7eb);
-  background: var(--precedent-color-background, #fff);
-  color: var(--precedent-color-text-muted, #9ca3af);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  transition: border-color 200ms ease, background-color 200ms ease, color 200ms ease;
-
-  &--active {
-    border-color: var(--precedent-color-primary, #7779ed);
-    background: var(--precedent-color-primary, #7779ed);
-    color: #fff;
-  }
-
-  &--done {
-    border-color: var(--precedent-color-primary, #7779ed);
-    background: var(--precedent-color-primary-muted, rgba(119, 121, 237, 0.12));
-    color: var(--precedent-color-primary, #7779ed);
-  }
-}
-
-.stepLabel {
-  display: none;
-  font-size: var(--precedent-font-size-text-sm, 0.875rem);
-  color: var(--precedent-color-text-muted, #9ca3af);
-  margin-left: 6px;
-  white-space: nowrap;
-  font-weight: 500;
-
-  &--active {
-    color: var(--precedent-color-text, #111827);
-    font-weight: 600;
-  }
-
-  @media (min-width: 480px) {
-    display: block;
-  }
-}
-
-.stepConnector {
-  flex: 1;
-  height: 2px;
-  background: var(--precedent-color-border, #e5e7eb);
-  margin: 0 var(--precedent-space-xs, 8px);
-  border-radius: 1px;
-  transition: background-color 200ms ease;
-
-  &--done {
-    background: var(--precedent-color-primary-muted, rgba(119, 121, 237, 0.4));
-  }
-}
-
-// ─── Step Navigation ──────────────────────────────────────────────────────────
-
-.stepNav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--precedent-space-md, 0.75rem);
-}
-
-.stepNavLeft {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--precedent-space-sm, 0.75rem);
-  min-width: 0;
-}
-
-.stepNavRight {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--precedent-space-sm, 0.75rem);
-  min-width: 0;
-}
-
-@media (max-width: 540px) {
-  /*
-   * Mobile wizard nav (ui-ux): ≥8px+ between primary and secondary rows; secondary
-   * visually separated so Next/Post is not mis-tapped. Desktop unchanged above.
-   */
-  .stepNav {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    row-gap: 0;
-  }
-
-  /* Primary row first (Next / Post / Skip), then separated secondary row */
-  .stepNavRight {
-    order: -1;
-    justify-content: stretch;
-    gap: 10px;
-    padding-bottom: var(--precedent-space-lg, 1rem);
-    margin-bottom: var(--precedent-space-md, 0.75rem);
-    border-bottom: 1px solid var(--precedent-color-border, #e5e7eb);
-  }
-
-  .stepNavRight button {
-    flex: 1;
-  }
-
-  .stepNavLeft {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  /* Step 1: only Cancel — divider under the form’s Next, above Cancel */
-  .stepNav > .stepNavLeft:only-child {
-    border-top: 1px solid var(--precedent-color-border, #e5e7eb);
-    margin-top: var(--precedent-space-md, 0.75rem);
-    padding-top: var(--precedent-space-lg, 1rem);
-  }
-
-  /* Steps 2+: secondary row sits below primary; divider is on .stepNavRight */
-  .stepNav > .stepNavLeft:not(:only-child) {
-    margin-top: 2px;
-    padding-top: var(--precedent-space-md, 0.75rem);
-  }
-
-  /* Narrower targets: less edge-to-edge competition with the primary row above */
-  .stepNavLeft button {
-    flex: stretch;
-    min-width: min(152px, 44vw);
-  }
-
-  .stepNav > .stepNavLeft:only-child button {
-    max-width: min(260px, 88vw);
-  }
-
-  /* Cancel: softer outline than desktop; still reads as cautious/dismissive */
-  .stepNavLeft .btnCancel {
-    border-width: 1px !important;
-    border-color: rgba(220, 38, 38, 0.32) !important;
-    color: rgb(172, 50, 50) !important;
-    box-shadow: none !important;
-    font-weight: 500;
-
-    &:hover:not(:disabled) {
-      background: rgba(220, 38, 38, 0.06) !important;
-      border-color: rgba(220, 38, 38, 0.45) !important;
-      color: rgb(153, 27, 27) !important;
-    }
-
-    &:focus-visible {
-      outline: 2px solid rgba(220, 38, 38, 0.55);
-      outline-offset: 2px;
-    }
-  }
-}
-
-.btnPill {
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 14px;
-  line-height: normal;
-}
-
-.btnSecondary {
-  background: transparent;
-  border: 1.5px solid var(--precedent-color-border, #e5e7eb);
-  color: var(--precedent-color-text, #111827);
+  gap: 8px;
 
   &:hover:not(:disabled) {
-    background: var(--precedent-color-surface-subtle, #f3f4f6);
+    opacity: 0.95;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
   }
 }
-
-.btnCancel {
-  background: transparent !important;
-  border: 2px solid rgba(220, 38, 38, 0.42) !important;
-  color: rgb(185, 28, 28) !important;
-
-  &:hover:not(:disabled) {
-    background: rgba(220, 38, 38, 0.08) !important;
-    border-color: rgba(220, 38, 38, 0.55) !important;
-    color: rgb(153, 27, 27) !important;
-  }
-}
-
