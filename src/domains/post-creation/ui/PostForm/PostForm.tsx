@@ -18,7 +18,7 @@ import type {
   RichTextContent,
   VideoContent,
 } from '@saga/records-middleware';
-import { type Ref, useImperativeHandle, useRef } from 'react';
+import { type ReactNode, type Ref, useImperativeHandle, useRef } from 'react';
 import styles from './PostForm.module.scss';
 
 export type PostCreationTab = 'editor' | 'image' | 'video';
@@ -41,6 +41,8 @@ interface PostFormProps {
   readonly defaultContent?: RichTextContent | ImageContent | VideoContent;
   readonly wizardMode?: boolean;
   readonly hideSubmit?: boolean;
+  /** Rendered inside the tabs panel, between the tab bar and the content section. */
+  readonly headerSlot?: ReactNode;
   readonly ref?: Ref<PostFormHandle>;
 }
 
@@ -55,6 +57,7 @@ export function PostForm({
   defaultContent,
   wizardMode = false,
   hideSubmit = false,
+  headerSlot,
   ref,
 }: PostFormProps) {
   const editorRef = useRef<PostEditorSectionHandle>(null);
@@ -89,7 +92,9 @@ export function PostForm({
         tabsContainerClassName={styles.tabs}
       >
         {() => (
-          <div className={styles.tabContent}>
+          <>
+            {headerSlot}
+            <div className={styles.tabContent}>
             <div
               className={`${styles.tabPanel} ${activeTab === 'editor' ? styles.tabPanelActive : styles.tabPanelHidden}`}
             >
@@ -129,6 +134,7 @@ export function PostForm({
               />
             </div>
           </div>
+          </>
         )}
       </Tabs>
     </div>

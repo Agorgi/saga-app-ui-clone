@@ -69,19 +69,23 @@ export default function CreatePostPage() {
             onTabChange={setActiveTab}
             onSubmit={handleContentSubmit}
             hideSubmit
+            headerSlot={
+              <>
+                <input
+                  type="text"
+                  className={styles.titleInput}
+                  placeholder="Post title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  aria-label="Post title"
+                />
+                {parentTitle && (
+                  <p className={styles.collabNote}>Collab on: {parentTitle}</p>
+                )}
+              </>
+            }
           />
         </div>
-
-        <input
-          type="text"
-          className={styles.titleInput}
-          placeholder="Post title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          aria-label="Post title"
-        />
-
-        {parentTitle && <p className={styles.collabNote}>Collab on: {parentTitle}</p>}
 
         <div className={styles.pillRow}>
           <button
