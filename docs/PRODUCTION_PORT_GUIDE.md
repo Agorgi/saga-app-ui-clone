@@ -9,7 +9,47 @@ have already merged. Read DESIGN_HANDOFF.md first for the three-layer model and 
 this guide assumes them.
 
 Scope: the seven merged PRs on `main` (#1, #5, #6, #7, #8, #9, #10). #1 is scaffolding for this
-repo only and is never ported. #5 through #10 are the design changes.
+repo only and is never ported. #5 through #10 are the design changes. A later wave of work
+(PRs #19 to #29) is built and reviewable but not yet merged to `main`; see "Newer work" below.
+
+## Newer work (PRs #19 to #29, not yet merged)
+
+A later batch is open as PRs #19 to #29 and combined on the `demo/all-features` branch (one runnable
+build of everything). It is NOT on `main` yet, so it does not appear when you run `main`. It falls
+into three categories, which port differently.
+
+### 1. Crowd commissions (PRs #19 to #25): faithful 1:1 clone
+
+A full clone of production's `apps/app-web/src/domains/crowd-commissions/` domain (feed card + detail
+sheet, create wizard, poll / voting sub-system, end-result display, profile Commissions tab, post
+`CommissionBadge`, edit page). Port it the same way as the rest of this guide: lift the domain at its
+1:1 paths, SCSS verbatim. Do NOT port the clone-only infra it leans on: the
+`src/vendor/saga-shims/crowd-commission-middleware.ts` and `quill.ts` shims (production has the real
+packages), the inert `hooks/useCrowdCommission*` and `usePoll*` hooks (production has the API-backed
+versions), the `config-web` `constants` and `readFileAsDataURL` additions, and the
+`@domains/post-creation/ui/Editor/Editor` dual-API extension (production's Editor already has the
+`editorRef` / `defaultValue` API). Each PR body lists its files.
+
+### 2. Create-flow restyles (PRs #26, #27): design proposals, not 1:1
+
+#26 makes **post creation** a single-page composer and #27 makes the **crowd-commission create** flow
+content-first, both matching the event creation form. These intentionally diverge from production's
+current flows (they are proposals to unify the create experiences, not faithful mirrors). Adopt them
+only if the design direction is approved; if so, they replace the corresponding production screens
+rather than slotting in as a copy-the-diff change.
+
+### 3. Interest Check (PRs #28, #29): brand-new feature
+
+A new event "Interest Check" option (a third card in the event chooser) that does not exist in
+production. The clone is the **UI plus a front-end data-shape spec**
+(`src/domains/events/interestCheck/types.ts`): threshold, ticket price, proposed dates, decision date,
+roles, pledges (authorize / charge / release), applications, and the DRAFT / OPEN / CONFIRMED /
+CANCELLED lifecycle (local state + fixtures). The authorize, capture, and release payment lifecycle
+and persistence are to be built on the backend; the clone reuses the event form and replicates the
+commission drawer's visual pattern. Do not port the fixtures or the local reducers.
+
+Merge order is in each PR description; in short: the crowd-commission stack (#19 to #25) in order,
+then #27; #26 independently; the Interest Check stack (#28 then #29).
 
 ## Start here (first read)
 
