@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.imageCarousel {
+  width: 100%;
+}
+
+.videoContainer {
+  margin-bottom: var(--precedent-space-lg);
+}
+
+.video {
+  max-width: 100%;
+  max-height: 400px;
+  width: 100%;
+  height: auto;
+  border-radius: var(--precedent-radius-xs);
+  display: block;
+  object-fit: contain;
+}
+
+.description {
+  font-size: var(--precedent-font-size-text-lg);
+  color: var(--precedent-color-text);
+  line-height: 1.65;
+  overflow-wrap: break-word;
+  word-break: break-word;
+
+  // Reset Quill snow default padding since we own the container
+  padding: 0 !important;
+
+  p {
+    margin: 0 0 0.75em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--precedent-radius-md);
+    margin: 0.5em 0;
+    object-fit: contain;
+  }
+}
