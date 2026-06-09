@@ -1,6 +1,6 @@
 # Saga App UI Clone
 
-A standalone, UI-only wireframe of the Saga web app (app.try-saga.com). It reproduces the public, logged-out screens of the real app screen by screen, but with placeholder content instead of real data. No backend, no auth, no API calls, no real images or text.
+A standalone, UI-only wireframe of the Saga web app (app.try-saga.com). It reproduces the real app screen by screen, both the logged-out pages and the main logged-in surfaces (feed, create flows, crowd commissions, profile), rendered behind a demo auth stub with placeholder content instead of real data. No backend, no real auth, no API calls, no real images or text.
 
 The purpose is cosmetic design iteration and engineer handoff. You can restyle, rearrange, and prototype here without touching the production app or its data.
 
@@ -18,6 +18,12 @@ Two short docs govern how design work moves between this clone and production. R
 
 - **[docs/DESIGN_HANDOFF.md](docs/DESIGN_HANDOFF.md)**: for anyone *making* a change here. Covers the three-layer model (tokens, shared primitives, app screens), the mirror rules, and the one-PR-per-component workflow.
 - **[docs/PRODUCTION_PORT_GUIDE.md](docs/PRODUCTION_PORT_GUIDE.md)**: for an engineer *porting* merged changes into `apps/app-web`. A file-by-file plan, what to skip, and a final verify checklist. Start here if you are carrying this repo's design into production.
+
+## Branches
+
+- **`main`** is the merged design baseline (navigation, home feed, events list, the create-event flow, profile, communities). Runnable and stable.
+- **`demo/all-features`** is `main` plus all the open PRs merged together: one runnable build of everything, including crowd commissions, the Interest Check event option, and the restyled post and crowd-commission create flows. **Start here to see and click through the full app.**
+- **PRs #19 to #29** are the newer work as individual review units. Which of them are meant to be ported (and which are not, because production already has them) is spelled out in [docs/PRODUCTION_PORT_GUIDE.md](docs/PRODUCTION_PORT_GUIDE.md) under "Newer work."
 
 ## Stack
 
@@ -48,18 +54,27 @@ npm run typecheck  # tsc --noEmit
 
 ## Screens
 
-Public pages plus the reachable detail pages, mirroring the real app's route map:
+The full route map, mirroring the real app. The first block is on `main`; the create flows, crowd commissions, and Interest Check render on `demo/all-features` (and their open PRs).
 
 | Route | Screen |
 |-------|--------|
 | `/` and `/feed` | Main feed |
+| `/following-feed` | Following feed |
 | `/communities` | Communities list |
 | `/communities/:communityId` | Community detail (try `/communities/com-1`) |
 | `/events` | Events list |
 | `/events/:eventId` | Event detail (try `/events/evt-1`) |
 | `/profile/:username` | Member profile (try `/profile/member`) |
+| `/notifications` | Notifications |
 | `/login` | Login form (inert) |
 | `/404` and anything unmatched | Not Found |
+| `/events/create` | Event chooser (Paid / Free to RSVP / Interest Check) |
+| `/events/create/paid` and `/events/create/free` | Single-page event form |
+| `/events/create/interest-check` | Interest Check form |
+| `/events/interest-check/:id` | Interest Check detail (try `/events/interest-check/ic-1`) |
+| `/create-post` | Post creation (single-page composer) |
+| `/crowd-commissions/new` | Crowd commission create wizard |
+| `/crowd-commissions/:id/edit` | Crowd commission edit (try `/crowd-commissions/cc-1/edit`) |
 
 Light and dark themes both work via the theme toggle in the navbar. Banner placeholders adapt to the active theme.
 
@@ -73,12 +88,17 @@ src/
   domains/                One folder per feature area, mirroring app-web 1:1
     auth/                 Login page + auth form UI
     communities/          List + detail + cards
-    events/               List + detail + cards
-    posts/                Feed, post cards, composer prompt
+    crowd-commissions/    Commission feed card, detail sheet, create/edit wizard, polls (reproduces an existing production domain)
+    events/               List + detail + cards + create chooser/form + Interest Check
+    follow/               Following feed
+    notifications/        Notifications dropdown + page
+    post-creation/        Post composer (single-page create flow)
+    posts/                Feed, post cards
     profile/              Header, tabs, profile sections
+    tickets/              Ticket-type draft rows (shared by the event form)
   pages/NotFound/         404
   data/                   Placeholder content lives here
-    fixtures.ts           Wireframe events, communities, posts, profile
+    fixtures.ts           Wireframe events, communities, posts, profile, commissions, interest checks
     placeholderAvatars.ts Default avatar set
   styles/                 Global styles + shared scss mixins
   vendor/
