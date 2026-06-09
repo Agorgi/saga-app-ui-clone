@@ -106,7 +106,8 @@
 }
 
 .msgBtn {
-  flex: 0 0 auto;
+  align-self: flex-start;
+  margin-top: 8px;
   display: inline-flex;
   align-items: center;
   gap: 5px;

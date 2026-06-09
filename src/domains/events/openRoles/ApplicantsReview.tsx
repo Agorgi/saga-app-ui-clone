@@ -2,36 +2,39 @@ import { type WireApplicant, wireGeneralApplicants, wireRoleApplicants } from '@
 import { Check, MessageCircle01, UserPlus01 } from '@untitledui/icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCrew } from './CrewContext';
 import type { OpenRole } from './types';
 import styles from './ApplicantsReview.module.scss';
 
 interface Props {
   readonly roles: OpenRole[];
   readonly openToApplications: boolean;
+  readonly eventName: string;
 }
 
 // Wireframe: host-side review of who applied to an event's open roles. Applicants
 // per role (plus general "open to crew" requests), each with Save to crew /
-// Message, and a per-role Mark filled. All local state; in production a saved
-// applicant would persist into the crew database. Message is inert.
-export function ApplicantsReview({ roles, openToApplications }: Props) {
+// Message, and a per-role Mark filled. Save to crew writes to the shared crew
+// store, so saved people show up on /crew this session. Message is inert.
+export function ApplicantsReview({ roles, openToApplications, eventName }: Props) {
   const navigate = useNavigate();
-  const [savedIds, setSavedIds] = useState<Set<string>>(() => new Set());
+  const { isSaved, toggleSaved } = useCrew();
   const [filledRoleIds, setFilledRoleIds] = useState<Set<string>>(() => new Set());
 
-  const toggle = (set: Set<string>, id: string) => {
-    const next = new Set(set);
-    if (next.has(id)) next.delete(id);
-    else next.add(id);
-    return next;
-  };
+  const toggleFilled = (id: string) =>
+    setFilledRoleIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
 
   const general = openToApplications ? wireGeneralApplicants : [];
   const total =
     roles.reduce((n, r) => n + (wireRoleApplicants[r.id]?.length ?? 0), 0) + general.length;
 
-  const renderApplicant = (a: WireApplicant) => {
-    const saved = savedIds.has(a.id);
+  const renderApplicant = (a: WireApplicant, fromRole: string) => {
+    const saved = isSaved(a.id);
     return (
       <div key={a.id} className={styles.applicant}>
         <span className={styles.avatar} aria-hidden>
@@ -47,7 +50,15 @@ export function ApplicantsReview({ roles, openToApplications }: Props) {
             <button
               type="button"
               className={`${styles.saveBtn} ${saved ? styles.saveBtnDone : ''}`}
-              onClick={() => setSavedIds((prev) => toggle(prev, a.id))}
+              onClick={() =>
+                toggleSaved({
+                  id: a.id,
+                  name: a.name,
+                  handle: a.handle,
+                  fromRole,
+                  fromEvent: eventName,
+                })
+              }
             >
               {saved ? (
                 <Check width={14} height={14} aria-hidden />
@@ -87,13 +98,13 @@ export function ApplicantsReview({ roles, openToApplications }: Props) {
               <button
                 type="button"
                 className={styles.fillBtn}
-                onClick={() => setFilledRoleIds((prev) => toggle(prev, role.id))}
+                onClick={() => toggleFilled(role.id)}
               >
                 {filled ? 'Reopen' : 'Mark filled'}
               </button>
             </div>
             {applicants.length > 0 ? (
-              applicants.map(renderApplicant)
+              applicants.map((a) => renderApplicant(a, role.title))
             ) : (
               <p className={styles.empty}>No applicants yet.</p>
             )}
@@ -109,7 +120,7 @@ export function ApplicantsReview({ roles, openToApplications }: Props) {
               <span className={styles.groupMeta}>{general.length} interested</span>
             </span>
           </div>
-          {general.map(renderApplicant)}
+          {general.map((a) => renderApplicant(a, 'Open to crew'))}
         </div>
       )}
 
