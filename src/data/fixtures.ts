@@ -220,6 +220,9 @@ export interface WirePost {
   saveCount: number;
   // CommunityMemberRole numeric (MODERATOR=1, ADMIN=2). Drives CommunityRoleBadge.
   creatorRole?: number;
+  // Links this post to a crowd commission; renders the CommissionBadge on the post.
+  // Mirrors production's Post.crowdCommissionId.
+  crowdCommissionId?: string;
 }
 
 export const wirePosts: WirePost[] = [
@@ -237,6 +240,7 @@ export const wirePosts: WirePost[] = [
     collabCount: 4,
     saveCount: 31,
     creatorRole: 2,
+    crowdCommissionId: 'cc-1',
   },
   {
     id: 'post-2',
