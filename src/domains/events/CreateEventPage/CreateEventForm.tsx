@@ -183,15 +183,6 @@ export function CreateEventForm({ mode }: CreateEventFormProps) {
           />
         </div>
 
-        <div className={styles.section}>
-          <OpenRolesField
-            roles={openRoles}
-            onChange={setOpenRoles}
-            openToApplications={openToApplications}
-            onOpenToApplicationsChange={setOpenToApplications}
-          />
-        </div>
-
         <input
           type="text"
           className={styles.input}
@@ -268,6 +259,15 @@ export function CreateEventForm({ mode }: CreateEventFormProps) {
             />
           </div>
         )}
+
+        <div className={styles.section}>
+          <OpenRolesField
+            roles={openRoles}
+            onChange={setOpenRoles}
+            openToApplications={openToApplications}
+            onOpenToApplicationsChange={setOpenToApplications}
+          />
+        </div>
 
         <div className={styles.actions}>
           <Button
