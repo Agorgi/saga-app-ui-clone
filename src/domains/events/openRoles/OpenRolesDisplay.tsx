@@ -195,7 +195,11 @@ export function OpenRolesDisplay({ roles, openToApplications, eventName }: Props
                   )}
                 </>
               ) : (
-                <ApplicantsReview roles={roles} openToApplications={openToApplications} />
+                <ApplicantsReview
+                  roles={roles}
+                  openToApplications={openToApplications}
+                  eventName={eventName}
+                />
               )}
             </>
           )}
