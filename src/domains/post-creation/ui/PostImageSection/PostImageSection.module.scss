@@ -1,2 +1,12 @@
-@use '../shared/MediaSection.module.scss' as *;
+// Make the image upload drop zone a square, like the event poster. Scoped to the
+// image section so the shared DragDropZone stays its normal shape elsewhere (e.g. video).
+.dropSquare {
+  width: 100%;
 
+  & > button {
+    box-sizing: border-box;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 2rem;
+  }
+}
