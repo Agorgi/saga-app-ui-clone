@@ -1,0 +1,50 @@
+// Shared text/scrim tokens for event surfaces driven by banner luminance.
+// `data-hero-tone` describes the banner (dark vs light), not the text color.
+// Dark banner → light text; light banner → dark text.
+// App theme (`data-theme`) only nudges scrims/shadows — banner tone wins for text.
+
+@mixin event-banner-tone-dark {
+  --event-hero-text: rgba(255, 255, 255, 0.96);
+  --event-hero-text-muted: rgba(255, 255, 255, 0.78);
+  --event-hero-text-accent: #ddd6fe;
+  --event-hero-hover-bg: rgba(255, 255, 255, 0.12);
+  --event-hero-scrim: rgba(8, 10, 28, 0.56);
+  --event-hero-text-shadow: 0 1px 16px rgba(0, 0, 0, 0.42);
+  --event-hero-banner-border: rgba(255, 255, 255, 0.2);
+  --event-hero-banner-shadow:
+    0 28px 56px -16px rgba(0, 0, 0, 0.45),
+    0 12px 24px -8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+
+  :global([data-theme='light']) & {
+    --event-hero-scrim: rgba(8, 10, 28, 0.48);
+  }
+}
+
+@mixin event-banner-tone-light {
+  --event-hero-text: rgba(12, 14, 30, 0.94);
+  --event-hero-text-muted: rgba(12, 14, 30, 0.72);
+  --event-hero-text-accent: #5b21b6;
+  --event-hero-hover-bg: rgba(12, 14, 30, 0.08);
+  --event-hero-scrim: rgba(255, 255, 255, 0.64);
+  --event-hero-text-shadow: 0 1px 12px rgba(255, 255, 255, 0.45);
+  --event-hero-banner-border: rgba(255, 255, 255, 0.82);
+  --event-hero-banner-shadow:
+    0 16px 32px -12px rgba(56, 57, 158, 0.16),
+    0 6px 12px -4px rgba(56, 57, 158, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+
+  :global([data-theme='light']) & {
+    --event-hero-scrim: rgba(255, 255, 255, 0.72);
+  }
+}
+
+@mixin event-banner-tone-root {
+  &[data-hero-tone='dark'] {
+    @include event-banner-tone-dark;
+  }
+
+  &[data-hero-tone='light'] {
+    @include event-banner-tone-light;
+  }
+}

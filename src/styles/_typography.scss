@@ -1,0 +1,148 @@
+/* Semantic type roles mapped to the app sans stack */
+
+%type-display {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-display);
+  font-weight: var(--precedent-font-weight-bold);
+  line-height: var(--precedent-line-height-tight);
+  letter-spacing: var(--precedent-letter-spacing-tight);
+}
+
+%type-large-title {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-3xl);
+  font-weight: var(--precedent-font-weight-bold);
+  line-height: var(--precedent-line-height-tight);
+  letter-spacing: var(--precedent-letter-spacing-tight);
+}
+
+%type-title {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-2xl);
+  font-weight: var(--precedent-font-weight-bold);
+  line-height: var(--precedent-line-height-snug);
+  letter-spacing: var(--precedent-letter-spacing-tight);
+}
+
+%type-title-caps {
+  @extend %type-title;
+  font-weight: var(--precedent-font-weight-heavy);
+  letter-spacing: var(--precedent-letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+%type-headline {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-lg);
+  font-weight: var(--precedent-font-weight-semibold);
+  line-height: var(--precedent-line-height-snug);
+}
+
+%type-body {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-lg);
+  font-weight: var(--precedent-font-weight-regular);
+  line-height: var(--precedent-line-height-relaxed);
+}
+
+%type-body-emphasis {
+  @extend %type-body;
+  font-weight: var(--precedent-font-weight-semibold);
+}
+
+%type-callout {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-lg);
+  font-weight: var(--precedent-font-weight-regular);
+  line-height: var(--precedent-line-height-normal);
+}
+
+%type-subhead {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: var(--precedent-font-weight-regular);
+  line-height: var(--precedent-line-height-normal);
+}
+
+%type-footnote {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: var(--precedent-font-weight-regular);
+  line-height: var(--precedent-line-height-normal);
+  color: var(--precedent-color-text-subtle);
+}
+
+%type-caption {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: var(--precedent-font-weight-regular);
+  line-height: var(--precedent-line-height-normal);
+}
+
+%type-caption-emphasis {
+  @extend %type-caption;
+  font-weight: var(--precedent-font-weight-medium);
+}
+
+%type-caption-caps {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: var(--precedent-font-weight-bold);
+  line-height: var(--precedent-line-height-tight);
+  letter-spacing: var(--precedent-letter-spacing-caps);
+  text-transform: uppercase;
+}
+
+%type-label-caps {
+  font-family: var(--precedent-font-sans);
+  font-size: 11px;
+  font-weight: var(--precedent-font-weight-bold);
+  line-height: var(--precedent-line-height-tight);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+%type-nav-tab {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-lg);
+  font-weight: var(--precedent-font-weight-semibold);
+  line-height: var(--precedent-line-height-tight);
+}
+
+%type-nav-tab-active {
+  @extend %type-nav-tab;
+  font-weight: var(--precedent-font-weight-bold);
+}
+
+%type-nav-label {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-xs);
+  font-weight: var(--precedent-font-weight-medium);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+%type-badge {
+  font-family: var(--precedent-font-sans);
+  font-size: var(--precedent-font-size-text-xs);
+  font-weight: var(--precedent-font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+%type-link {
+  font-family: var(--precedent-font-sans);
+  font-weight: var(--precedent-font-weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+%type-link-subtle {
+  @extend %type-link;
+  color: var(--precedent-color-primary);
+  text-decoration-color: rgba(var(--brand-primary-rgb) / 0.35);
+}
+
+%type-italic {
+  font-style: italic;
+}
