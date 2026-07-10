@@ -26,3 +26,19 @@ export type CommunitySocialPlatform =
       ? T
       : never
     : never;
+
+// A community member as returned to the members widget/modal. `role` is a
+// numeric CommunityMemberRole (MEMBER / MODERATOR / ADMIN); the modal maps
+// ADMIN -> "Owner" and MODERATOR -> "Mod" badges.
+export interface ModeratorUserInfo {
+  id: string;
+  userName: string;
+  displayName: string;
+}
+
+export interface CommunityModerator {
+  userId: string;
+  communityId: string;
+  role: number;
+  user: ModeratorUserInfo;
+}

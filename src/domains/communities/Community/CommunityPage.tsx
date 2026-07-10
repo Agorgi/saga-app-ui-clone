@@ -1,10 +1,12 @@
-import { wireCommunities } from '@/data/fixtures';
+import { wireCommunities, wireCommunityMembers } from '@/data/fixtures';
+import { CommunityMembersModal } from '@domains/communities/components/CommunityMembersModal';
 import { JoinButton } from '@domains/communities/components/JoinButton';
 import { HorizontalEventRow } from '@domains/events/components/HorizontalEventRow/HorizontalEventRow';
 import { PostFeedSection } from '@domains/posts/ui/PostFeedSection/PostFeedSection';
 import { Avatar, type Tab, Tabs, useTheme } from '@saga/global-web';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { CommunityMembersWidget } from './components/CommunityMembersWidget';
 import styles from './CommunityPage.module.scss';
 
 // Wireframe clone: community detail page. The source loads the community over
@@ -15,6 +17,7 @@ export default function CommunityPage() {
   const { communityId } = useParams<{ communityId: string }>();
   const { theme } = useTheme();
   const [communityTab, setCommunityTab] = useState<'posts' | 'events'>('posts');
+  const [isMembersOpen, setIsMembersOpen] = useState(false);
 
   const community = wireCommunities.find((c) => c.id === communityId) ?? wireCommunities[0];
 
@@ -30,6 +33,8 @@ export default function CommunityPage() {
     { id: 'posts', label: 'Posts' },
     { id: 'events', label: 'Events' },
   ];
+
+  const memberCount = community.memberCount ?? wireCommunityMembers.length;
 
   return (
     <div className={styles.container}>
@@ -53,7 +58,11 @@ export default function CommunityPage() {
             </div>
 
             <div className={styles.communityStats}>
-              <button type="button" className={styles.statItem}>
+              <button
+                type="button"
+                className={styles.statItem}
+                onClick={() => setIsMembersOpen(true)}
+              >
                 {community.memberCountText}
               </button>
             </div>
@@ -67,6 +76,15 @@ export default function CommunityPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Members widget — avatar grid + "View all members" opens the modal */}
+      <div className={styles.membersSection}>
+        <CommunityMembersWidget
+          members={wireCommunityMembers}
+          memberCount={memberCount}
+          onOpenMembers={() => setIsMembersOpen(true)}
+        />
       </div>
 
       {/* Feed section — Posts + Events tabs over placeholder data */}
@@ -91,6 +109,14 @@ export default function CommunityPage() {
           }}
         </Tabs>
       </div>
+
+      {isMembersOpen ? (
+        <CommunityMembersModal
+          members={wireCommunityMembers}
+          memberCount={memberCount}
+          onClose={() => setIsMembersOpen(false)}
+        />
+      ) : null}
     </div>
   );
 }

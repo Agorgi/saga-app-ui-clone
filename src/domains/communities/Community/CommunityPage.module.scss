@@ -120,6 +120,16 @@
   }
 }
 
+.membersSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+}
+
 .feedTitle {
   font-size: var(--precedent-font-size-text-xl);
   font-weight: 600;
