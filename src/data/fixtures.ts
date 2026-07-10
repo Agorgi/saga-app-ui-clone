@@ -5,6 +5,7 @@
 // while staying obviously a wireframe. Swap freely while iterating on design.
 
 import { CommunityMemberRole, type CommunityModerator } from '@saga/community-middleware';
+import type { FollowUser } from '@domains/follow/components/FollowListModal/FollowListModal';
 import {
   CommissionType,
   type CrowdCommission,
@@ -632,6 +633,36 @@ export const wireProfile: WireProfile = {
     { url: 'https://member.example.com' },
   ],
 };
+
+// Placeholder followers / following rosters for the profile follow-list modal.
+// Invented handles only. Longer than the preview so search has something to
+// filter, and the two lists overlap partially (as real graphs do).
+export const wireFollowers: FollowUser[] = [
+  { id: 'fu-1', userName: 'aria', displayName: 'Aria Okafor' },
+  { id: 'fu-2', userName: 'kenji', displayName: 'Kenji Tanaka' },
+  { id: 'fu-3', userName: 'lume', displayName: 'Lume Rivera' },
+  { id: 'fu-4', userName: 'sana', displayName: 'Sana Bright' },
+  { id: 'fu-5', userName: 'devon', displayName: 'Devon Cole' },
+  { id: 'fu-6', userName: 'mira', displayName: 'Mira Sound' },
+  { id: 'fu-7', userName: 'juno', displayName: 'Juno Park' },
+  { id: 'fu-8', userName: 'theo', displayName: 'Theo Vance' },
+  { id: 'fu-9', userName: 'nova', displayName: 'Nova Kim' },
+  { id: 'fu-10', userName: 'rex', displayName: 'Rex Idowu' },
+  { id: 'fu-11', userName: 'wren', displayName: 'Wren Adeyemi' },
+  { id: 'fu-12', userName: 'iko', displayName: 'Iko Santos' },
+  { id: 'fu-13', userName: 'perl', displayName: 'Perl Nakamura' },
+  { id: 'fu-14', userName: 'cass', displayName: 'Cass Moreno' },
+];
+
+export const wireFollowing: FollowUser[] = [
+  { id: 'fu-1', userName: 'aria', displayName: 'Aria Okafor' },
+  { id: 'fu-3', userName: 'lume', displayName: 'Lume Rivera' },
+  { id: 'fu-9', userName: 'nova', displayName: 'Nova Kim' },
+  { id: 'fu-15', userName: 'blaise', displayName: 'Blaise Fontaine' },
+  { id: 'fu-16', userName: 'orin', displayName: 'Orin Walsh' },
+  { id: 'fu-17', userName: 'yuki', displayName: 'Yuki Sato' },
+  { id: 'fu-18', userName: 'dax', displayName: 'Dax Ellison' },
+];
 
 export interface WireUser {
   id: string;
