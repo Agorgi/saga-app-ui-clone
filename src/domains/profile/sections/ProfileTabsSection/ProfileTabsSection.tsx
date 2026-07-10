@@ -12,6 +12,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useProfile } from '../../context/ProfileContext';
 import { CommissionsTabContent } from './CommissionsTabContent';
 import { LibraryTabContent } from './LibraryTabContent';
+import { TicketsTabContent } from './TicketsTabContent';
 import styles from './ProfileTabsSection.module.scss';
 
 export type TabKey = ProfileTabId;
@@ -20,8 +21,8 @@ export type TabKey = ProfileTabId;
 // the same tab chrome + URL-driven active tab is preserved, but each tab renders
 // placeholder fixtures. Matching the redesign, the old Saved / Liked tabs are
 // folded into one owner-only "Library" tab with an internal Saved / Liked
-// segmented toggle. (The source also renders an own-only "Tickets" tab; that
-// belongs to the tickets domain and is out of scope for this profile pass.)
+// segmented toggle, and an owner-only "Tickets" tab renders the ticket filter +
+// empty state (the clone has no purchases).
 export function ProfileTabsSection() {
   const { profile, isOwnProfile } = useProfile();
   const [searchParams] = useSearchParams();
@@ -34,6 +35,11 @@ export function ProfileTabsSection() {
     }
 
     tabs.push({ id: PROFILE_TAB_IDS.events, label: 'Events' });
+
+    if (isOwnProfile) {
+      tabs.push({ id: PROFILE_TAB_IDS.tickets, label: 'Tickets' });
+    }
+
     tabs.push({ id: PROFILE_TAB_IDS.commissions, label: 'Commissions' });
 
     return tabs;
@@ -92,6 +98,8 @@ export function ProfileTabsSection() {
             );
           case 'commissions':
             return <CommissionsTabContent profileUserId={profile.id} isOwnProfile={isOwnProfile} />;
+          case 'tickets':
+            return <TicketsTabContent />;
           case 'library':
           case 'saved':
           case 'liked':
