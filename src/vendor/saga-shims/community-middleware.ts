@@ -15,3 +15,14 @@ export enum CommunityMemberRole {
   MODERATOR = 1,
   ADMIN = 2,
 }
+
+// Derived from the social-platform registry, matching the source package. Used
+// by SocialPlatformIcon to key its per-platform icon config.
+import { SOCIAL_PLATFORM_REGISTRY } from './precedent-middleware';
+
+export type CommunitySocialPlatform =
+  (typeof SOCIAL_PLATFORM_REGISTRY)[number]['platform'] extends infer T
+    ? T extends string
+      ? T
+      : never
+    : never;

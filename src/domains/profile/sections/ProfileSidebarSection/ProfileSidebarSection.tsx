@@ -1,4 +1,6 @@
 import { ProfilePictureIcon } from '@components/ProfilePictureIcon/ProfilePictureIcon';
+import { SocialPlatformIcon } from '@saga/global-web';
+import { parseSocialLinks, SOCIAL_PLATFORM_REGISTRY } from '@saga/precedent-middleware';
 import { useProfile } from '../../context/ProfileContext';
 import { ProfileIdentity } from '../../ui/ProfileIdentity/ProfileIdentity';
 import { type FollowStats, ProfileStatsCard } from '../../ui/ProfileStatsCard/ProfileStatsCard';
@@ -11,9 +13,13 @@ interface ProfileSidebarSectionProps {
   readonly onFollowingClick: () => void;
 }
 
-// Wireframe clone: the redesigned profile sidebar. The source also renders a
-// social-icon strip (needs SocialPlatformIcon, not vendored here) and an invite
-// button; those are deferred. Avatar + identity + stats are fixture-backed.
+const socialPlatformLabels = Object.fromEntries(
+  SOCIAL_PLATFORM_REGISTRY.map((config) => [config.platform, config.label]),
+);
+
+// Wireframe clone: the redesigned profile sidebar. Avatar + identity + stats +
+// social-icon strip are fixture-backed. The source also renders an own-profile
+// invite button (needs the tracking + referral-URL plumbing); that is deferred.
 export function ProfileSidebarSection({
   followStats,
   isStatsLoading,
@@ -25,6 +31,8 @@ export function ProfileSidebarSection({
   if (!profile) {
     return null;
   }
+
+  const socialLinks = parseSocialLinks(profile.properties?.socialLinks);
 
   return (
     <aside className={styles.sidebar} aria-label="Profile information">
@@ -53,6 +61,23 @@ export function ProfileSidebarSection({
             onFollowingClick={onFollowingClick}
           />
         </div>
+
+        {socialLinks.length > 0 && (
+          <div className={styles.socialIconStrip}>
+            {socialLinks.map((link) => (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={socialPlatformLabels[link.platform] ?? link.platform}
+                className={styles.socialLink}
+              >
+                <SocialPlatformIcon platform={link.platform} size={20} />
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </aside>
   );

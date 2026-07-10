@@ -523,6 +523,8 @@ export interface WireProfile {
   // Follow counts for the redesigned profile stats card.
   followerCount: number;
   followingCount: number;
+  // Social links for the sidebar icon strip (parsed by platform).
+  socialLinks: ReadonlyArray<{ url: string }>;
 }
 
 export const wireProfile: WireProfile = {
@@ -535,6 +537,12 @@ export const wireProfile: WireProfile = {
   followingText: '317 following',
   followerCount: 1204,
   followingCount: 317,
+  socialLinks: [
+    { url: 'https://instagram.com/member' },
+    { url: 'https://x.com/member' },
+    { url: 'https://tiktok.com/@member' },
+    { url: 'https://member.example.com' },
+  ],
 };
 
 export interface WireUser {
