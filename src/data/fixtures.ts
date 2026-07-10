@@ -26,6 +26,10 @@ export interface WireEvent {
   goingText?: string;
   // Label for the redesigned event card's inert CTA (defaults to "Get tickets").
   ctaLabel?: string;
+  // Redesigned event detail page content.
+  description?: string;
+  guidelines?: string[];
+  faqs?: { question: string; answer: string }[];
   // Open Roles: roles the host needs filled, and whether they take general
   // crew applications even with no specific role listed.
   openRoles?: WireOpenRole[];
@@ -39,6 +43,21 @@ export const wireEvents: WireEvent[] = [
     dateText: 'Sat, Jan 10 · 7:00 PM',
     location: 'Venue name, City',
     goingText: '128 going · 210 total',
+    description:
+      'Join us for a night of live sets and community.\nDoors at 7, first act at 8. Come early, stay late, and bring your crew.',
+    guidelines: [
+      '18+ with valid ID',
+      'No professional cameras without a press pass',
+      'Respect the space and each other',
+    ],
+    faqs: [
+      { question: 'Is there a dress code?', answer: 'Come as you are. Most people dress up a little.' },
+      {
+        question: 'Can I get a refund?',
+        answer: 'Tickets are refundable up to 48 hours before the event.',
+      },
+      { question: 'Is re-entry allowed?', answer: 'Yes, keep your wristband on and you can come and go.' },
+    ],
     openRoles: [
       { id: 'role-1a', title: 'Photographer', count: 1, note: 'Candid plus portraits through the night' },
       { id: 'role-1b', title: 'DJ', note: 'Two sets, house and afrobeats' },

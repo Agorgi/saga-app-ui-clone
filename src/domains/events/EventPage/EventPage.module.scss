@@ -1,57 +1,420 @@
 @use '../../../styles/entityDetailPage' as entity;
+@use '../../../styles/glass' as *;
+@use '../../../styles/typography' as *;
+@use '../styles/eventBannerTone' as bannerTone;
 
 .container {
   min-height: 100vh;
   background: var(--precedent-color-background);
-  padding-bottom: 80px;
 }
 
-.loadingMessage { @include entity.loading-message; }
-.errorMessage { @include entity.error-message; }
-
-.bannerSection { @include entity.banner-section; }
-.bannerImage { @include entity.banner-image; }
-.bannerPlaceholder { @include entity.banner-placeholder; }
-.bannerPlaceholderLight { @include entity.banner-placeholder-light; }
-.bannerPlaceholderDark { @include entity.banner-placeholder-dark; }
-
-.header {
-  @include entity.entity-header;
-  border-bottom: 1px solid var(--precedent-color-border);
+.loadingMessage {
+  @include entity.loading-message;
+}
+.errorMessage {
+  @include entity.error-message;
 }
 
-.headerContent { @include entity.entity-header-content; }
-.thumbnailContainer { @include entity.thumbnail-container; }
-.archivedBadge { @include entity.archived-badge; }
-.eventInfo { @include entity.entity-info; }
-.eventNameRow { @include entity.entity-name-row; }
-.eventName { @include entity.entity-name; }
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  padding: var(--precedent-space-md) var(--precedent-space-md) var(--precedent-space-lg);
+  animation: heroFadeIn 0.55s ease-out both;
 
-.eventMeta {
-  color: var(--precedent-color-text-muted);
+  @media (min-width: 769px) {
+    padding: var(--precedent-space-xl) var(--precedent-space-xl) var(--precedent-space-2xl);
+  }
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroGlass {
+  @extend %glassCard;
+  @include bannerTone.event-banner-tone-root;
+  position: relative;
+  overflow: visible;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--precedent-space-md);
+  border-radius: 24px;
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  @media (min-width: 769px) {
+    padding: var(--precedent-space-xl);
+    border-radius: 28px;
+  }
+}
+
+/* Clip colour bleed to card corners without flattening 3D transforms on children */
+.heroAmbienceBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Color bleed from banner — full card including behind the banner */
+.heroAmbience {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.ambienceImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  filter: blur(64px) saturate(1.75) brightness(0.88);
+  transform: scale(1.35);
+}
+
+.heroAmbienceGlass {
+  position: absolute;
+  inset: 0;
+  background: var(--event-hero-scrim, rgba(8, 10, 28, 0.55));
+  backdrop-filter: blur(32px) saturate(155%);
+  -webkit-backdrop-filter: blur(32px) saturate(155%);
+}
+
+.heroAmbienceFallback {
+  position: absolute;
+  inset: 0;
+}
+
+.bannerPlaceholderCard {
+  width: min(100%, 320px);
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  border-radius: 22px;
+
+  @media (min-width: 769px) {
+    width: min(100%, 360px);
+    border-radius: 24px;
+  }
+}
+
+.heroLayout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--precedent-space-lg);
+  align-items: stretch;
+
+  @media (min-width: 769px) {
+    grid-template-columns: minmax(240px, 36%) 1fr;
+    gap: var(--precedent-space-xl);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: minmax(280px, 38%) 1fr;
+    gap: var(--precedent-space-2xl);
+  }
+}
+
+.heroBannerCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: min(72vw, 320px);
+
+  @media (min-width: 769px) {
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 280px;
+  }
+}
+
+.heroBannerCard {
+  width: min(100%, 320px);
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(
+    --event-hero-banner-shadow,
+    0 28px 56px -16px rgba(0, 0, 0, 0.45),
+    0 12px 24px -8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22)
+  );
+  border: 1px solid var(--event-hero-banner-border, rgba(255, 255, 255, 0.2));
+
+  @media (min-width: 769px) {
+    width: min(100%, 360px);
+    border-radius: 24px;
+  }
+}
+
+.heroBannerImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.bannerActions {
+  position: absolute;
+  top: var(--precedent-space-md);
+  right: var(--precedent-space-md);
+  z-index: 3;
+}
+
+/* ── Hero Content (Title + Meta + CTAs) ───────────────────────────────── */
+.heroContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--precedent-space-sm);
+  align-items: flex-start;
+  text-align: left;
+  max-width: 640px;
+  width: 100%;
+  min-width: 0;
+  padding: var(--precedent-space-md) 0 0;
+
+  @media (min-width: 769px) {
+    padding: var(--precedent-space-sm) 0;
+  }
+}
+
+.heroTitle {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--event-hero-text, var(--precedent-color-text));
+  text-shadow: var(--event-hero-text-shadow, none);
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  text-align: left;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+  font-size: min(var(--hero-title-size, 3.5rem), clamp(1.75rem, 6vw, 3.25rem));
+
+  @media (min-width: 769px) {
+    margin-bottom: var(--precedent-space-xs);
+  }
+}
+
+.heroMeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--precedent-space-xs);
+  align-items: flex-start;
+  width: 100%;
+}
+
+.heroMetaButton {
   font-size: 14px;
-  margin-bottom: 8px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--event-hero-text-muted, var(--precedent-color-text-secondary));
+  text-shadow: var(--event-hero-text-shadow, none);
+  transition: color 150ms ease;
+
+  &:hover {
+    color: var(--event-hero-text, var(--precedent-color-text));
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(var(--brand-primary-rgb) / 0.6);
+    outline-offset: 2px;
+  }
+}
+
+.heroCTARow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--precedent-space-md);
+  margin-top: var(--precedent-space-md);
+  width: 100%;
+  align-self: center;
+
+  > * {
+    animation: heroCTASlideUp 0.5s ease-out both;
+
+    &:nth-child(1) {
+      animation-delay: 100ms;
+    }
+    &:nth-child(2) {
+      animation-delay: 150ms;
+    }
+    &:nth-child(3) {
+      animation-delay: 200ms;
+    }
+  }
+
+  @media (min-width: 769px) {
+    margin-top: var(--precedent-space-lg);
+  }
+}
+
+@keyframes heroCTASlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroCTA,
+.bottomCTA {
+  padding: 10px 20px;
+  font-size: 15px;
+  gap: 8px;
+  min-height: 44px;
+
+  [aria-hidden='true'],
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.archivedBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--event-hero-hover-bg, rgba(0, 0, 0, 0.15));
+  color: var(--event-hero-text, var(--precedent-color-text));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Content Container */
+.contentContainer {
+  position: relative;
+  z-index: 4;
+  pointer-events: none;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--precedent-space-xl) var(--precedent-space-xl) 0;
+
+  > * {
+    pointer-events: auto;
+  }
 
   @media (max-width: 768px) {
-    text-align: center;
+    padding: 0 var(--precedent-space-md);
   }
 }
 
 .section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
+  padding: var(--precedent-space-2xl) 0;
+  border-bottom: 1px solid var(--precedent-color-border);
+
+  &:last-of-type {
+    border-bottom: none;
+  }
 
   @media (max-width: 768px) {
-    padding: 16px;
+    padding: var(--precedent-space-lg) 0;
   }
 }
 
+.sectionLabel {
+  @extend %type-caption-caps;
+  color: var(--precedent-color-text-muted);
+  margin: 0 0 var(--precedent-space-lg) 0;
+}
+
 .sectionTitle {
+  @extend %type-headline;
   font-size: var(--precedent-font-size-text-xl);
-  font-weight: 600;
   color: var(--precedent-color-text);
-  margin: 0 0 16px 0;
+  margin: 0 0 var(--precedent-space-lg) 0;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--precedent-space-lg);
+  width: 100%;
+}
+
+.descriptionParagraph {
+  @extend %type-body;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--precedent-color-text);
+  margin: 0;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.extrasStack {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--precedent-space-lg);
+  margin: var(--precedent-space-2xl) 0;
+
+  @media (min-width: 769px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'guidelines schedule'
+      'faqs schedule';
+  }
+}
+
+.momentsTeamGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--precedent-space-lg);
+
+  @media (min-width: 769px) {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+}
+
+.extrasSchedule {
+  @media (min-width: 769px) {
+    grid-area: schedule;
+  }
+}
+
+.extrasGuidelines {
+  @media (min-width: 769px) {
+    grid-area: guidelines;
+  }
+}
+
+.extrasFaqs {
+  @media (min-width: 769px) {
+    grid-area: faqs;
+  }
 }
 
 .childEventsList {
@@ -60,204 +423,73 @@
   gap: 20px;
 }
 
-.postsSection {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
+.bottomCTASection {
+  padding: var(--precedent-space-2xl) 0;
+  border-top: 1px solid var(--precedent-color-border);
+  display: flex;
+  justify-content: center;
+}
 
-  @media (max-width: 768px) {
-    padding: 16px;
+@media (prefers-reduced-motion: reduce) {
+  .hero,
+  .heroCTARow > * {
+    animation: none;
   }
 }
 
-.postsSectionHeader {
-  display: flex;
+/* Wireframe clone: inline hero location (the source uses the shared
+   LocationDisplay component). */
+.heroMetaLocation {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.postsSectionTitle {
-  font-size: var(--precedent-font-size-text-xl);
-  font-weight: 600;
-  color: var(--precedent-color-text);
-  margin: 0;
-}
-
-.ticketsGateCard {
-  background: var(--precedent-color-surface);
-  border: 1px solid var(--precedent-color-border);
-  border-radius: var(--precedent-radius-lg);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
-
-  @media (max-width: 768px) {
-    padding: 16px;
-  }
-}
-
-.ticketsGateTitle {
-  font-size: var(--precedent-font-size-text-lg);
-  font-weight: 600;
-  color: var(--precedent-color-text);
-  margin: 0;
-}
-
-.ticketsGateMessage {
-  font-size: var(--precedent-font-size-text-md);
+  gap: 5px;
+  font-size: 14px;
   color: var(--precedent-color-text-muted);
-  margin: 0;
-  line-height: 1.5;
-}
 
-.ticketsGateButton {
-  margin-top: 4px;
-  padding: 10px 18px;
-  background: var(--precedent-color-primary);
-  color: var(--precedent-color-on-primary);
-  border: none;
-  border-radius: var(--precedent-radius-md);
-  font-size: var(--precedent-font-size-text-md);
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease;
-
-  &:hover {
-    background: var(--precedent-color-primary-hover);
+  svg {
+    flex-shrink: 0;
   }
 }
 
-// Strips BaseModal's default 20px overlay padding on mobile so the dialog can
-// span edge-to-edge as a full-screen sheet at narrow viewports.
-.inviteOverlay {
-  @media (max-width: 768px) {
-    padding: 0;
-    align-items: stretch;
-  }
-}
-
-.inviteModal {
-  width: 100%;
-  max-width: 560px;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding: 0;
-
-  // Mobile: become a full-screen sheet. The overlay override above removes its
-  // outer padding so we genuinely fill the viewport instead of stopping 20px shy.
-  @media (max-width: 768px) {
-    max-width: 100vw;
-    max-height: 100vh;
-    height: 100vh;
-    border-radius: 0;
-  }
-}
-
-.inviteModalHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--precedent-color-border);
-  background: var(--precedent-color-surface);
-  flex-shrink: 0;
-
-  @media (max-width: 768px) {
-    padding: 14px 16px;
-    // Account for iOS notches / Android status bars when this becomes a
-    // full-screen sheet.
-    padding-top: max(14px, env(safe-area-inset-top));
-  }
-}
-
-.inviteModalTitle {
-  font-size: var(--precedent-font-size-text-lg);
-  font-weight: 600;
-  color: var(--precedent-color-text);
-  margin: 0;
-}
-
-.inviteModalBody {
-  padding: 20px 24px 24px;
-  overflow-y: auto;
-  // Allow the body to consume the remaining sheet height on mobile so the
-  // search dropdown / member list scroll inside the modal rather than the page.
-  flex: 1;
-
-  @media (max-width: 768px) {
-    padding: 16px;
-    padding-bottom: max(16px, env(safe-area-inset-bottom));
-  }
-}
-
-.inviteModalClose {
-  display: flex;
+/* Wireframe clone: hero CTA buttons (the source composes PillButton +
+   EventTicketActions; here they are two inert pills). */
+.heroCtaButton,
+.heroCtaButtonPrimary {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: none;
-  background: none;
-  border-radius: var(--precedent-radius-sm);
-  color: var(--precedent-color-text-muted);
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
-  flex-shrink: 0;
-
-  &:hover {
-    background: var(--precedent-color-border-subtle);
-    color: var(--precedent-color-text);
-  }
-}
-
-// Wireframe-only: inert RSVP control standing in for the source's RsvpSection
-// (which wires live going/maybe/not-going state). Visual placeholder only.
-.rsvpRow {
-  display: flex;
   gap: 8px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-
-  @media (max-width: 768px) {
-    justify-content: center;
-  }
-}
-
-.rsvpButton {
-  padding: 8px 18px;
-  background: var(--precedent-color-surface);
-  color: var(--precedent-color-text);
-  border: 1px solid var(--precedent-color-border);
-  border-radius: var(--precedent-radius-md);
-  font-size: 14px;
-  font-weight: 600;
+  min-height: 44px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: var(--precedent-radius-fully-rounded);
   font-family: inherit;
-  cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease;
-
-  &:hover {
-    border-color: var(--precedent-color-primary);
-  }
-}
-
-.rsvpButtonActive {
-  background: var(--precedent-color-primary);
-  color: var(--precedent-color-on-primary);
-  border-color: var(--precedent-color-primary);
-}
-
-.eventGoing {
-  margin-top: 10px;
-  color: var(--precedent-color-text-muted);
   font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  white-space: nowrap;
 
-  @media (max-width: 768px) {
-    text-align: center;
+  svg {
+    flex-shrink: 0;
   }
+}
+
+.heroCtaButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--precedent-color-text);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.heroCtaButtonPrimary {
+  background: linear-gradient(
+    90deg,
+    var(--brand-primary) 0%,
+    var(--brand-primary-hover) 42%,
+    #c8f065 100%
+  );
+  color: #0c0e12;
+  box-shadow: 0 4px 20px rgba(var(--brand-primary-rgb) / 0.28);
 }
