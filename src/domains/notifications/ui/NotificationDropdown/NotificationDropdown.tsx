@@ -48,8 +48,11 @@ export function NotificationDropdown() {
 
           <div className={styles['dropdown-content']}>
             <div className={styles['empty-state']}>
-              <Bell01 className={styles['empty-icon']} />
+              <span className={styles['empty-icon-tile']} aria-hidden="true">
+                <Bell01 className={styles['empty-icon']} />
+              </span>
               <span className={styles['empty-text']}>No notifications yet</span>
+              <span className={styles['empty-hint']}>You&apos;re all caught up</span>
             </div>
           </div>
         </div>
