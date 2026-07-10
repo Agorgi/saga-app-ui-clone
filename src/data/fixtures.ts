@@ -24,6 +24,8 @@ export interface WireEvent {
   dateText: string;
   location?: string;
   goingText?: string;
+  // Label for the redesigned event card's inert CTA (defaults to "Get tickets").
+  ctaLabel?: string;
   // Open Roles: roles the host needs filled, and whether they take general
   // crew applications even with no specific role listed.
   openRoles?: WireOpenRole[];
