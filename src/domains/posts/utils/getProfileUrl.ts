@@ -4,6 +4,7 @@ export const PROFILE_TAB_IDS = {
   saved: 'saved',
   liked: 'liked',
   events: 'events',
+  tickets: 'tickets',
   commissions: 'commissions',
 } as const;
 
@@ -23,6 +24,7 @@ export function resolveProfileTab(
     case PROFILE_TAB_IDS.saved:
     case PROFILE_TAB_IDS.liked:
     case PROFILE_TAB_IDS.events:
+    case PROFILE_TAB_IDS.tickets:
     case PROFILE_TAB_IDS.commissions:
       return visibleTabs.includes(requestedTab)
         ? requestedTab
