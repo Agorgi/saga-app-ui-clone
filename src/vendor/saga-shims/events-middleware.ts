@@ -15,3 +15,12 @@ export const EVENT_PERSONNEL_ROLE = {
 } as const;
 
 export type EventPersonnelRole = (typeof EVENT_PERSONNEL_ROLE)[keyof typeof EVENT_PERSONNEL_ROLE];
+
+// A single agenda entry on an event's schedule. `time` is a 24h "HH:MM" string;
+// the schedule timeline parses it against the event start to mark past / active
+// / upcoming as the event runs.
+export interface ScheduleItem {
+  time: string;
+  title: string;
+  description?: string;
+}

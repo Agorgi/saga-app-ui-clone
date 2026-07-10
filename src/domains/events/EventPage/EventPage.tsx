@@ -2,12 +2,16 @@ import { wireEvents } from '@/data/fixtures';
 import { EventDefaultBanner } from '@domains/events/components/EventDefaultBanner/EventDefaultBanner';
 import { EventFAQSection } from '@domains/events/components/EventFAQSection/EventFAQSection';
 import { EventGuidelinesSection } from '@domains/events/components/EventGuidelinesSection/EventGuidelinesSection';
+import { EventMomentsBar } from '@domains/events/components/EventMomentsBar/EventMomentsBar';
+import { EventScheduleSection } from '@domains/events/components/EventScheduleSection/EventScheduleSection';
+import { EventTeamWidget } from '@domains/events/components/EventTeamWidget/EventTeamWidget';
 import { useEventHeroTone } from '@domains/events/hooks/useEventHeroTone';
 import { OpenRolesDisplay } from '@domains/events/openRoles/OpenRolesDisplay';
 import { getEventHeroTitleStyle } from '@domains/events/utils/eventHeroTitleUtils';
 import { PostFeedSection } from '@domains/posts/ui/PostFeedSection/PostFeedSection';
 import { useTheme } from '@saga/global-web';
 import { Calendar, MarkerPin01, Ticket01 } from '@untitledui/icons';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './EventPage.module.scss';
 
@@ -23,6 +27,11 @@ export function EventPage() {
   const heroTone = useEventHeroTone(undefined, theme);
 
   const event = wireEvents.find((e) => e.id === eventId) ?? wireEvents[0];
+
+  // The schedule timeline maps its "HH:MM" times onto a concrete day and marks
+  // past / active / upcoming against the clock. The wireframe has no real event
+  // date, so anchor the run-of-show to today for a plausible live state.
+  const eventStartAt = useMemo(() => new Date(), []);
 
   if (!event) {
     return <div className={styles.container} />;
@@ -94,6 +103,19 @@ export function EventPage() {
             </div>
           </div>
         ) : null}
+
+        {event.team?.length || event.schedule?.length ? (
+          <div className={styles.momentsTeamGrid}>
+            {event.team?.length ? <EventTeamWidget rows={event.team} /> : null}
+            {event.schedule?.length ? (
+              <EventScheduleSection schedule={event.schedule} eventStartAt={eventStartAt} />
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className={styles.section}>
+          <EventMomentsBar />
+        </div>
 
         <div className={styles.extrasStack}>
           <div className={styles.extrasGuidelines}>
