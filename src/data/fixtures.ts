@@ -4,6 +4,7 @@
 // images. Detail/list pages read these so the layout has something to render
 // while staying obviously a wireframe. Swap freely while iterating on design.
 
+import { CommunityMemberRole, type CommunityModerator } from '@saga/community-middleware';
 import {
   CommissionType,
   type CrowdCommission,
@@ -241,7 +242,28 @@ export interface WireCommunity {
   name: string;
   memberCountText: string;
   description: string;
+  // Total member count for the members widget/modal (drives the "+N" overflow
+  // pill and the modal's header count). Falls back to a default when absent.
+  memberCount?: number;
 }
+
+// Shared placeholder member roster for the community members widget + modal.
+// Invented handles only. A couple carry ADMIN / MODERATOR roles so the modal's
+// "Owner" / "Mod" badges render; the rest are plain members.
+export const wireCommunityMembers: CommunityModerator[] = [
+  { userId: 'cm-1', communityId: 'com', role: CommunityMemberRole.ADMIN, user: { id: 'cm-1', userName: 'aria', displayName: 'Aria Okafor' } },
+  { userId: 'cm-2', communityId: 'com', role: CommunityMemberRole.MODERATOR, user: { id: 'cm-2', userName: 'kenji', displayName: 'Kenji Tanaka' } },
+  { userId: 'cm-3', communityId: 'com', role: CommunityMemberRole.MODERATOR, user: { id: 'cm-3', userName: 'lume', displayName: 'Lume Rivera' } },
+  { userId: 'cm-4', communityId: 'com', role: CommunityMemberRole.MEMBER, user: { id: 'cm-4', userName: 'sana', displayName: 'Sana Bright' } },
+  { userId: 'cm-5', communityId: 'com', role: CommunityMemberRole.MEMBER, user: { id: 'cm-5', userName: 'devon', displayName: 'Devon Cole' } },
+  { userId: 'cm-6', communityId: 'com', role: CommunityMemberRole.MEMBER, user: { id: 'cm-6', userName: 'mira', displayName: 'Mira Sound' } },
+  { userId: 'cm-7', communityId: 'com', role: CommunityMemberRole.MEMBER, user: { id: 'cm-7', userName: 'juno', displayName: 'Juno Park' } },
+  { userId: 'cm-8', communityId: 'com', role: CommunityMemberRole.MEMBER, user: { id: 'cm-8', userName: 'theo', displayName: 'Theo Vance' } },
+  { userId: 'cm-9', communityId: 'com', role: CommunityMemberRole.MEMBER, user: { id: 'cm-9', userName: 'nova', displayName: 'Nova Kim' } },
+  { userId: 'cm-10', communityId: 'com', role: CommunityMemberRole.MEMBER, user: { id: 'cm-10', userName: 'rex', displayName: 'Rex Idowu' } },
+  { userId: 'cm-11', communityId: 'com', role: CommunityMemberRole.MEMBER, user: { id: 'cm-11', userName: 'wren', displayName: 'Wren Adeyemi' } },
+  { userId: 'cm-12', communityId: 'com', role: CommunityMemberRole.MEMBER, user: { id: 'cm-12', userName: 'iko', displayName: 'Iko Santos' } },
+];
 
 // Placeholder communities. Names are public franchises / topics (no real user
 // data) chosen to span the alphabet so the create-event "Tag communities"
@@ -251,8 +273,9 @@ export const wireCommunities: WireCommunity[] = [
   {
     id: 'com-1',
     name: 'Chainsaw Man',
-    memberCountText: '12.4K members',
+    memberCountText: '52 members',
     description: 'Fans of the manga and anime trade theories, art, and cosplay.',
+    memberCount: 52,
   },
   {
     id: 'com-2',

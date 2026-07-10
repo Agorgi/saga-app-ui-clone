@@ -1,0 +1,102 @@
+/* ─────────────────────────────────────────────────────────
+   SearchBar — frosted glass-pill search input
+   Used across the app wherever a search field is needed.
+   ───────────────────────────────────────────────────────── */
+
+.root {
+  width: 100%;
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  left: 14px;
+  color: var(--precedent-color-text-muted);
+  pointer-events: none;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.input {
+  width: 100%;
+  /* 44px minimum touch target */
+  min-height: 44px;
+  padding: 10px 16px 10px 42px;
+  border: 1.5px solid rgba(var(--brand-primary-rgb) / 0.18);
+  border-radius: var(--precedent-radius-fully-rounded);
+  background: rgba(var(--brand-primary-rgb) / 0.05);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  box-shadow: var(--glass-pill-shadow);
+  color: var(--precedent-color-text);
+  /* ≥ 16px prevents mobile browser auto-zoom on focus */
+  font-size: 16px;
+  font-family: inherit;
+  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+
+  /* Suppress browser native search-field decorations */
+  appearance: none;
+
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    appearance: none;
+  }
+
+  &::placeholder {
+    color: var(--precedent-color-text-muted);
+  }
+
+  &:hover {
+    background: rgba(var(--brand-primary-rgb) / 0.08);
+    border-color: rgba(var(--brand-primary-rgb) / 0.28);
+  }
+
+  &:focus {
+    outline: none;
+    background: rgba(var(--brand-primary-rgb) / 0.08);
+    border-color: rgba(var(--brand-primary-rgb) / 0.45);
+    box-shadow: var(--glass-pill-hover-shadow), 0 0 0 3px rgba(var(--brand-primary-rgb) / 0.1);
+  }
+}
+
+/* Expand right padding when the ↵ hint chip is visible */
+.inputHasHint {
+  padding-right: 52px;
+}
+
+/* ↵ return-key chip — appears when input has a value and onSubmit is wired */
+.hint {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  width: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(var(--brand-primary-rgb) / 0.18);
+  background: rgba(var(--brand-primary-rgb) / 0.07);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  color: var(--precedent-color-text-muted);
+  pointer-events: none;
+  flex-shrink: 0;
+  animation: hintIn 140ms ease both;
+}
+
+@keyframes hintIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,301 @@
+@use '../../../styles/glass' as *;
+
+// ─── Animations ───────────────────────────────────────────────────────────────
+@keyframes sheetSlideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes dialogScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+// ─── Overlay: bottom-aligned scrim on mobile, centred on tablet+ ──────────────
+
+.overlaySheet {
+  align-items: flex-end;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+
+  :global([data-theme='light']) & {
+    background: rgba(15, 23, 42, 0.45);
+  }
+
+  @media (min-width: 640px) {
+    align-items: center;
+    padding: 20px;
+  }
+}
+
+// ─── <dialog> element reset — we do NOT use it for visuals ───────────────────
+// The actual sheet is the .sheet div below. Resetting the dialog prevents
+// browser UA styles (height: fit-content, margin: auto, padding: 1em, etc.)
+// from adding phantom space.
+
+.dialog {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  max-height: none;
+  overflow: visible;
+  width: 100%;
+  margin: 0;
+
+  @media (min-width: 640px) {
+    width: min(520px, 100%);
+  }
+}
+
+// ─── Sheet: the real bottom-sheet surface ─────────────────────────────────────
+
+.sheet {
+  width: 100%;
+  max-height: 92dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  // Modal-specific glass — more opaque than the global --glass-bg token (0.72)
+  --glass-bg: rgba(18, 18, 32, 0.94);
+  --glass-backdrop: blur(32px) saturate(180%);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+
+  :global([data-theme='light']) & {
+    --glass-bg: rgba(255, 255, 255, 0.92);
+    --glass-backdrop: blur(32px) saturate(140%);
+  }
+
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.09));
+  border-bottom: none;
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  animation: sheetSlideUp 380ms cubic-bezier(0.32, 0.72, 0, 1) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
+  @media (min-width: 640px) {
+    max-height: 90dvh;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.09));
+    box-shadow:
+      0 24px 64px rgba(0, 0, 0, 0.45),
+      0 8px 24px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    animation: dialogScaleIn 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+// ─── Drag handle ───────────────────────────────────────────────────────────────
+
+.handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.22);
+  margin: 10px auto 0;
+  flex-shrink: 0;
+
+  @media (min-width: 600px) {
+    display: none;
+  }
+}
+
+// ─── Header ────────────────────────────────────────────────────────────────────
+
+.sheetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08));
+  flex-shrink: 0;
+}
+
+.sheetTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--precedent-color-text);
+  min-width: 0;
+}
+
+.countWrap {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.countNum {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--brand-primary);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.countLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--precedent-color-text-muted);
+}
+
+.searchWrap {
+  padding: 12px 20px 8px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08));
+}
+
+// ─── Scrollable list ───────────────────────────────────────────────────────────
+
+.listContainer {
+  overflow-y: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+}
+
+// ─── Member rows ───────────────────────────────────────────────────────────────
+
+.userList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.userRow {
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.06));
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.userLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.avatarContainer {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.displayName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--precedent-color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userName {
+  font-size: 12px;
+  color: var(--precedent-color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.roleBadge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.ownerBadge {
+  background: var(--precedent-color-primary);
+  color: #000;
+}
+
+.modBadge {
+  background: var(--precedent-color-success, #22c55e);
+  color: #000;
+}
+
+// ─── States ────────────────────────────────────────────────────────────────────
+
+.loaderWrap {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: var(--precedent-color-text-muted);
+  font-size: 14px;
+  padding: 40px 20px;
+  margin: 0;
+}
+
+.loadMoreButton {
+  display: block;
+  width: calc(100% - 40px);
+  margin: 12px 20px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--precedent-color-text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.09);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
