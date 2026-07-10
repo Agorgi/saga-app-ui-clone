@@ -1,17 +1,19 @@
 import { wireEvents } from '@/data/fixtures';
+import { EventCalendarModal } from '@domains/events/components/EventCalendarModal/EventCalendarModal';
 import { EventDefaultBanner } from '@domains/events/components/EventDefaultBanner/EventDefaultBanner';
 import { EventFAQSection } from '@domains/events/components/EventFAQSection/EventFAQSection';
 import { EventGuidelinesSection } from '@domains/events/components/EventGuidelinesSection/EventGuidelinesSection';
 import { EventMomentsBar } from '@domains/events/components/EventMomentsBar/EventMomentsBar';
 import { EventScheduleSection } from '@domains/events/components/EventScheduleSection/EventScheduleSection';
 import { EventTeamWidget } from '@domains/events/components/EventTeamWidget/EventTeamWidget';
+import { EventTicketsModal } from '@domains/events/components/EventTicketsModal/EventTicketsModal';
 import { useEventHeroTone } from '@domains/events/hooks/useEventHeroTone';
 import { OpenRolesDisplay } from '@domains/events/openRoles/OpenRolesDisplay';
 import { getEventHeroTitleStyle } from '@domains/events/utils/eventHeroTitleUtils';
 import { PostFeedSection } from '@domains/posts/ui/PostFeedSection/PostFeedSection';
 import { useTheme } from '@saga/global-web';
 import { Calendar, MarkerPin01, Ticket01 } from '@untitledui/icons';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './EventPage.module.scss';
 
@@ -20,11 +22,14 @@ import styles from './EventPage.module.scss';
 // and schedule modals. Here it resolves a fixture event and renders the new
 // glass hero (branded default banner, no real media), the description, and the
 // Guidelines + FAQ sections, keeping the clone's Open Roles panel and posts
-// feed. Ticketing/calendar/schedule/modals are inert.
+// feed. The calendar modal is fully functional (generates .ics / provider links);
+// the tickets modal reproduces the selection UI with an inert checkout.
 export function EventPage() {
   const { eventId } = useParams<{ eventId: string }>();
   const { theme } = useTheme();
   const heroTone = useEventHeroTone(undefined, theme);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isTicketsOpen, setIsTicketsOpen] = useState(false);
 
   const event = wireEvents.find((e) => e.id === eventId) ?? wireEvents[0];
 
@@ -74,11 +79,19 @@ export function EventPage() {
                 ) : null}
               </div>
               <div className={styles.heroCTARow}>
-                <button type="button" className={styles.heroCtaButton}>
+                <button
+                  type="button"
+                  className={styles.heroCtaButton}
+                  onClick={() => setIsCalendarOpen(true)}
+                >
                   <Calendar width={18} height={18} aria-hidden="true" />
                   Add to Calendar
                 </button>
-                <button type="button" className={styles.heroCtaButtonPrimary}>
+                <button
+                  type="button"
+                  className={styles.heroCtaButtonPrimary}
+                  onClick={() => setIsTicketsOpen(true)}
+                >
                   <Ticket01 width={18} height={18} aria-hidden="true" />
                   {event.ctaLabel ?? 'Get tickets'}
                 </button>
@@ -139,6 +152,23 @@ export function EventPage() {
           <PostFeedSection />
         </div>
       </div>
+
+      <EventCalendarModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        eventName={event.name}
+        startAt={eventStartAt}
+        location={event.location}
+        description={event.description}
+      />
+
+      {event.tickets?.length ? (
+        <EventTicketsModal
+          isOpen={isTicketsOpen}
+          onClose={() => setIsTicketsOpen(false)}
+          tiers={event.tickets}
+        />
+      ) : null}
     </div>
   );
 }
