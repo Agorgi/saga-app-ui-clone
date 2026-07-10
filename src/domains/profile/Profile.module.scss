@@ -1,6 +1,52 @@
 .container {
   width: 100%;
-  padding-top: 1rem;
+  padding-top: var(--precedent-space-xl);
   display: flex;
   flex-direction: column;
+  overflow-x: clip;
+
+  @media (min-width: 1024px) {
+    padding-top: var(--precedent-space-xl);
+  }
+}
+
+.containerImmersive {
+  @media (max-width: 1023px) {
+    width: calc(100% + 40px);
+    margin-inline: -20px;
+    padding-top: 0;
+  }
+}
+
+.layout {
+  display: grid;
+  width: 100%;
+  grid-template-areas:
+    'banner'
+    'sidebar'
+    'main';
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+
+  @media (min-width: 1024px) {
+    grid-template-areas: 'sidebar right';
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    gap: var(--precedent-space-2xl);
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--precedent-space-xl);
+  }
+}
+
+.rightColumn {
+  display: contents;
+
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--precedent-space-2xl);
+    grid-area: right;
+    min-width: 0;
+  }
 }

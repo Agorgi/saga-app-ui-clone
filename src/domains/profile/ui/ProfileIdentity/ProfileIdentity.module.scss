@@ -1,0 +1,185 @@
+@use '../../../../styles/glass' as *;
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--precedent-space-md);
+  width: 100%;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--precedent-space-sm);
+  width: 100%;
+}
+
+.displayName {
+  margin: 0;
+  font-size: var(--precedent-font-size-text-2xl);
+  font-weight: var(--precedent-font-weight-bold);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--precedent-color-text);
+  text-wrap: balance;
+  text-align: center;
+
+  @media (min-width: 1024px) {
+    font-size: var(--precedent-font-size-text-3xl);
+  }
+}
+
+.handleChip {
+  @extend %glassPill;
+
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--precedent-space-sm);
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 0.5px solid var(--glass-border);
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 160ms var(--easing-spring-bounce),
+    background 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    color 200ms ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 12%;
+    right: 12%;
+    height: 0.5px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--glass-shimmer) 35%,
+      var(--glass-shimmer) 65%,
+      transparent
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &:hover {
+    background: var(--glass-pill-hover-bg);
+    box-shadow: var(--glass-pill-hover-shadow);
+  }
+
+  &:active {
+    transform: scale(0.97);
+    transition-duration: 80ms;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(var(--brand-primary-rgb) / 0.45);
+    outline-offset: 3px;
+  }
+}
+
+.handleChipCopied {
+  background: var(--color-success-bg);
+  border-color: var(--color-success-border);
+  color: var(--color-success);
+
+  &::before {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(34, 197, 94, 0.25) 35%,
+      rgba(34, 197, 94, 0.25) 65%,
+      transparent
+    );
+  }
+
+  &:hover {
+    background: var(--color-success-bg);
+    box-shadow: var(--glass-pill-shadow);
+  }
+}
+
+.handleText {
+  position: relative;
+  z-index: 1;
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: var(--precedent-font-weight-medium);
+  letter-spacing: -0.01em;
+  color: var(--precedent-color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.chipDivider {
+  position: relative;
+  z-index: 1;
+  width: 1px;
+  height: 14px;
+  flex-shrink: 0;
+  background: var(--glass-border);
+  opacity: 0.85;
+}
+
+.chipIcon {
+  position: relative;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--precedent-color-text-muted);
+}
+
+.handleChipCopied .chipIcon {
+  color: var(--color-success);
+}
+
+.chipLabel {
+  position: relative;
+  z-index: 1;
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: var(--precedent-font-weight-semibold);
+  letter-spacing: -0.01em;
+  color: var(--color-success);
+}
+
+.bio {
+  margin: 0;
+  padding-top: var(--precedent-space-2xs);
+  color: var(--precedent-color-text-subtle);
+  font-size: var(--precedent-font-size-text-md);
+  line-height: var(--precedent-line-height-relaxed);
+  text-align: center;
+  max-width: 28ch;
+  text-wrap: pretty;
+}
+
+.bioLink {
+  color: var(--precedent-color-primary);
+  text-decoration: none;
+  font-weight: var(--precedent-font-weight-medium);
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .handleChip {
+    transition: none;
+
+    &:active {
+      transform: none;
+    }
+  }
+}

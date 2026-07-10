@@ -520,6 +520,9 @@ export interface WireProfile {
   location: string;
   followersText: string;
   followingText: string;
+  // Follow counts for the redesigned profile stats card.
+  followerCount: number;
+  followingCount: number;
 }
 
 export const wireProfile: WireProfile = {
@@ -530,6 +533,8 @@ export const wireProfile: WireProfile = {
   location: 'City, Country',
   followersText: '1,204 followers',
   followingText: '317 following',
+  followerCount: 1204,
+  followingCount: 317,
 };
 
 export interface WireUser {
