@@ -1,0 +1,182 @@
+.bannerWrap {
+  position: relative;
+  width: 100%;
+  grid-area: banner;
+
+  @media (min-width: 1024px) {
+    grid-area: unset;
+  }
+}
+
+.bannerClip {
+  width: 100%;
+  height: min(42vh, 320px);
+  min-height: 240px;
+  overflow: hidden;
+  position: relative;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    height: min(38vh, 360px);
+    min-height: 280px;
+  }
+
+  @media (min-width: 1024px) {
+    height: 260px;
+    min-height: 0;
+    border-radius: 20px;
+  }
+}
+
+.banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.bannerPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    145deg,
+    #0a0c14 0%,
+    var(--precedent-color-surface-subtle) 28%,
+    rgba(95, 95, 245, 0.45) 62%,
+    rgba(118, 120, 255, 0.55) 100%
+  );
+
+  :global([data-theme='light']) & {
+    background: linear-gradient(145deg, #dfe4ff 0%, #eef1ff 35%, rgba(119, 121, 237, 0.35) 100%);
+  }
+}
+
+.bannerScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.08) 0%,
+    rgba(0, 0, 0, 0.02) 35%,
+    rgba(12, 14, 18, 0.55) 72%,
+    var(--precedent-color-background) 100%
+  );
+  pointer-events: none;
+
+  :global([data-theme='light']) & {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.15) 40%,
+      rgba(255, 255, 255, 0.82) 78%,
+      var(--precedent-color-background) 100%
+    );
+  }
+}
+
+.bannerControls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 30;
+  padding: var(--precedent-space-xl);
+  padding-top: calc(env(safe-area-inset-top, 0px) + var(--precedent-space-xl));
+  pointer-events: none;
+
+  @media (min-width: 1024px) {
+    padding-top: var(--precedent-space-xl);
+  }
+}
+
+.contentArea {
+  grid-area: main;
+  position: relative;
+  padding: 0 var(--precedent-space-sm);
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    padding-inline: var(--precedent-space-xl);
+  }
+
+  @media (min-width: 1024px) {
+    grid-area: unset;
+    padding: 0;
+    padding-bottom: var(--precedent-space-2xl);
+  }
+}
+
+.settingsButton {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: var(--precedent-radius-fully-rounded);
+  border: 0.5px solid rgba(255, 255, 255, 0.24);
+  background: rgba(12, 14, 18, 0.88);
+  color: #fff;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition:
+    transform 160ms var(--easing-spring-bounce),
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    filter 180ms ease;
+
+  :global([data-theme='light']) & {
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--precedent-color-text);
+    border-color: rgba(0, 0, 0, 0.14);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    background: rgba(12, 14, 18, 0.82);
+    backdrop-filter: var(--glass-backdrop);
+    -webkit-backdrop-filter: var(--glass-backdrop);
+
+    :global([data-theme='light']) & {
+      background: rgba(255, 255, 255, 0.88);
+    }
+  }
+
+  &:hover {
+    filter: brightness(1.08);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    transition-duration: 80ms;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(var(--brand-primary-rgb) / 0.5);
+    outline-offset: 2px;
+  }
+}
+
+.settingsIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+
+  :global([data-theme='light']) & {
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settingsButton,
+  .settingsIcon {
+    transition: none;
+  }
+}
