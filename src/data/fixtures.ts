@@ -21,6 +21,15 @@ export interface WireOpenRole {
   note?: string;
 }
 
+export interface WireTicketTier {
+  id: string;
+  name: string;
+  description?: string;
+  priceCents: number;
+  currency: string;
+  available: number;
+}
+
 export interface WireEvent {
   id: string;
   name: string;
@@ -33,6 +42,8 @@ export interface WireEvent {
   description?: string;
   guidelines?: string[];
   faqs?: { question: string; answer: string }[];
+  // Ticket tiers for the "Get tickets" bottom-sheet (prices in cents).
+  tickets?: WireTicketTier[];
   // Run-of-show agenda for the schedule timeline (24h "HH:MM" times).
   schedule?: ScheduleItem[];
   // The people running the event, host first, for the "Meet the team" widget.
@@ -64,6 +75,40 @@ export const wireEvents: WireEvent[] = [
         answer: 'Tickets are refundable up to 48 hours before the event.',
       },
       { question: 'Is re-entry allowed?', answer: 'Yes, keep your wristband on and you can come and go.' },
+    ],
+    tickets: [
+      {
+        id: 'tt-ga',
+        name: 'General Admission',
+        description: 'Entry all night, access to the main floor.',
+        priceCents: 2500,
+        currency: 'usd',
+        available: 120,
+      },
+      {
+        id: 'tt-vip',
+        name: 'VIP',
+        description: 'Skip the line, plus open bar for the first hour.',
+        priceCents: 7500,
+        currency: 'usd',
+        available: 8,
+      },
+      {
+        id: 'tt-early',
+        name: 'Early bird',
+        description: 'Discounted entry, limited batch.',
+        priceCents: 1500,
+        currency: 'usd',
+        available: 0,
+      },
+      {
+        id: 'tt-rsvp',
+        name: 'RSVP',
+        description: 'Free entry before 9 PM.',
+        priceCents: 0,
+        currency: 'usd',
+        available: 50,
+      },
     ],
     schedule: [
       { time: '19:00', title: 'Doors open', description: 'Grab a drink and find your people.' },
