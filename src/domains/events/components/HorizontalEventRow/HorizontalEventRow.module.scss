@@ -11,6 +11,7 @@
 
 .scrollTrack {
   display: flex;
+  align-items: flex-start;
   padding: 2px;
   gap: 16px;
   overflow-x: auto;
@@ -34,11 +35,23 @@
 }
 
 .cardWrap {
-  flex: 0 0 220px;
+  flex: 0 0 300px;
+  width: 300px;
+  min-width: 0;
+  max-width: 300px;
+  height: 480px;
+  overflow: hidden;
   scroll-snap-align: start;
 
+  > * {
+    height: 100%;
+  }
+
   @media (max-width: 480px) {
-    flex: 0 0 180px;
+    flex: 0 0 260px;
+    width: 260px;
+    max-width: 260px;
+    height: 480px;
   }
 }
 
@@ -63,14 +76,15 @@
 }
 
 .skeletonCard {
-  flex: 0 0 220px;
-  height: 200px;
-  border-radius: 12px;
+  flex: 0 0 300px;
+  height: 480px;
+  border-radius: 24px;
   background: var(--precedent-color-surface-subtle);
   animation: shimmer 1.4s ease-in-out infinite;
 
   @media (max-width: 480px) {
-    flex: 0 0 180px;
+    flex: 0 0 260px;
+    height: 480px;
   }
 }
 

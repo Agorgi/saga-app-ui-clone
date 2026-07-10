@@ -1,0 +1,93 @@
+@use '../../../../styles/glass' as *;
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto;
+  max-width: 560px;
+  border: none;
+  padding: 0;
+  min-inline-size: 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.chip {
+  @extend %glassPill;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 8px 14px;
+  border-radius: var(--precedent-radius-fully-rounded);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--precedent-color-text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 120ms ease;
+
+  &:hover {
+    background: var(--glass-pill-hover-bg);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-primary);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:active {
+      transform: none;
+    }
+  }
+}
+
+.chipActive {
+  color: var(--precedent-color-primary);
+  border-color: rgba(var(--brand-primary-rgb) / 0.45);
+  background: rgba(var(--brand-primary-rgb) / 0.08);
+}
+
+.chipIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: var(--precedent-color-border);
+  margin: 0 2px;
+}
