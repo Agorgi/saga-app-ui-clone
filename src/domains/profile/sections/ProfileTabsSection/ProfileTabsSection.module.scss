@@ -15,3 +15,12 @@
 .profile__tabs {
   max-width: 100%;
 }
+
+// Library sub-tab toolbar. The source feeds this toggle to PostFeed as
+// `toolbarStart`; the wireframe feed has no toolbar slot, so it sits above the
+// feed instead — visually the same Saved / Liked switch over the post list.
+.libraryToolbar {
+  display: flex;
+  justify-content: flex-start;
+  padding: 16px 0 8px;
+}

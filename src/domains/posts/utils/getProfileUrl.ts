@@ -1,5 +1,6 @@
 export const PROFILE_TAB_IDS = {
   created: 'created',
+  library: 'library',
   saved: 'saved',
   liked: 'liked',
   events: 'events',
@@ -18,6 +19,7 @@ export function resolveProfileTab(
 ): ProfileTabId {
   switch (requestedTab) {
     case PROFILE_TAB_IDS.created:
+    case PROFILE_TAB_IDS.library:
     case PROFILE_TAB_IDS.saved:
     case PROFILE_TAB_IDS.liked:
     case PROFILE_TAB_IDS.events:

@@ -12,7 +12,11 @@ export interface WireUserProfile {
   id: string;
   displayName: string;
   userName: string;
-  properties?: { description?: string; profilePictureFilename?: string };
+  properties?: {
+    description?: string;
+    profilePictureFilename?: string;
+    socialLinks?: ReadonlyArray<{ url: string }>;
+  };
   banner?: string;
 }
 
@@ -54,7 +58,7 @@ export function ProfileProvider({ children, username, userId: propUserId }: Prof
       id: propUserId ?? 'demo-user',
       displayName: wireProfile.displayName,
       userName: username ?? wireProfile.username,
-      properties: { description: wireProfile.bio },
+      properties: { description: wireProfile.bio, socialLinks: wireProfile.socialLinks },
       banner: undefined,
     }),
     [username, propUserId],

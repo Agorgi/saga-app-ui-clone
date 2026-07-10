@@ -51,6 +51,13 @@ export type {
   SectionSidebarProps,
 } from './components/SectionSidebar/SectionSidebar';
 export { SectionSidebar } from './components/SectionSidebar/SectionSidebar';
+export type {
+  SegmentedToggleProps,
+  SegmentedToggleSegment,
+} from './components/SegmentedToggle/SegmentedToggle';
+export { SegmentedToggle } from './components/SegmentedToggle/SegmentedToggle';
+export type { SocialPlatformIconProps } from './components/SocialPlatformIcon/SocialPlatformIcon';
+export { SocialPlatformIcon } from './components/SocialPlatformIcon/SocialPlatformIcon';
 export type { StackProps } from './components/Stack/Stack';
 export { Stack } from './components/Stack/Stack';
 export type { StatusMessageProps } from './components/StatusMessage/StatusMessage';

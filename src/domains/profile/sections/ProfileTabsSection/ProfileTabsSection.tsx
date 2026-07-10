@@ -11,29 +11,33 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useProfile } from '../../context/ProfileContext';
 import { CommissionsTabContent } from './CommissionsTabContent';
+import { LibraryTabContent } from './LibraryTabContent';
 import styles from './ProfileTabsSection.module.scss';
 
 export type TabKey = ProfileTabId;
 
-// Wireframe clone: the production tabs wire per-tab feeds over live data
-// (created/saved/liked posts, RSVP'd events, commissions). Here the same tab
-// chrome + URL-driven active tab is preserved, but each tab renders placeholder
-// fixtures. The clone PostFeed has no view toggle or feed-type fetching, so the
-// `feedType` is passed straight through as the active tab id.
+// Wireframe clone: the production tabs wire per-tab feeds over live data. Here
+// the same tab chrome + URL-driven active tab is preserved, but each tab renders
+// placeholder fixtures. Matching the redesign, the old Saved / Liked tabs are
+// folded into one owner-only "Library" tab with an internal Saved / Liked
+// segmented toggle. (The source also renders an own-only "Tickets" tab; that
+// belongs to the tickets domain and is out of scope for this profile pass.)
 export function ProfileTabsSection() {
   const { profile, isOwnProfile } = useProfile();
   const [searchParams] = useSearchParams();
 
-  const visibleTabs = useMemo<Array<Tab<TabKey>>>(
-    () => [
-      { id: PROFILE_TAB_IDS.created, label: 'Posts' },
-      { id: PROFILE_TAB_IDS.saved, label: 'Saved' },
-      { id: PROFILE_TAB_IDS.liked, label: 'Liked' },
-      { id: PROFILE_TAB_IDS.events, label: 'Events' },
-      { id: PROFILE_TAB_IDS.commissions, label: 'Commissions' },
-    ],
-    [],
-  );
+  const visibleTabs = useMemo<Array<Tab<TabKey>>>(() => {
+    const tabs: Array<Tab<TabKey>> = [{ id: PROFILE_TAB_IDS.created, label: 'Posts' }];
+
+    if (isOwnProfile) {
+      tabs.push({ id: PROFILE_TAB_IDS.library, label: 'Library' });
+    }
+
+    tabs.push({ id: PROFILE_TAB_IDS.events, label: 'Events' });
+    tabs.push({ id: PROFILE_TAB_IDS.commissions, label: 'Commissions' });
+
+    return tabs;
+  }, [isOwnProfile]);
 
   const [activeTab, setActiveTab] = useState<TabKey>(() =>
     resolveProfileTab(
@@ -88,9 +92,11 @@ export function ProfileTabsSection() {
             );
           case 'commissions':
             return <CommissionsTabContent profileUserId={profile.id} isOwnProfile={isOwnProfile} />;
-          case 'created':
+          case 'library':
           case 'saved':
           case 'liked':
+            return <LibraryTabContent profileUserId={profile.id} />;
+          case 'created':
             return (
               <PostFeed
                 feedType={tab}
