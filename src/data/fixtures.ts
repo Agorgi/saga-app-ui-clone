@@ -9,7 +9,9 @@ import {
   type CrowdCommission,
   CrowdCommissionStatus,
 } from '@saga/crowd-commission-middleware';
+import type { TeamRow } from '@domains/events/components/EventTeamWidget/EventTeamWidget';
 import type { InterestCheck, InterestCheckPledge } from '@domains/events/interestCheck/types';
+import type { ScheduleItem } from '@saga/events-middleware';
 
 export interface WireOpenRole {
   id: string;
@@ -30,6 +32,10 @@ export interface WireEvent {
   description?: string;
   guidelines?: string[];
   faqs?: { question: string; answer: string }[];
+  // Run-of-show agenda for the schedule timeline (24h "HH:MM" times).
+  schedule?: ScheduleItem[];
+  // The people running the event, host first, for the "Meet the team" widget.
+  team?: TeamRow[];
   // Open Roles: roles the host needs filled, and whether they take general
   // crew applications even with no specific role listed.
   openRoles?: WireOpenRole[];
@@ -57,6 +63,20 @@ export const wireEvents: WireEvent[] = [
         answer: 'Tickets are refundable up to 48 hours before the event.',
       },
       { question: 'Is re-entry allowed?', answer: 'Yes, keep your wristband on and you can come and go.' },
+    ],
+    schedule: [
+      { time: '19:00', title: 'Doors open', description: 'Grab a drink and find your people.' },
+      { time: '20:00', title: 'First act', description: 'Opening set to warm up the room.' },
+      { time: '21:30', title: 'Headliner' },
+      { time: '23:00', title: 'Late set', description: 'House and afrobeats until close.' },
+      { time: '23:45', title: 'Last call' },
+    ],
+    team: [
+      { userId: 'u-host', userName: 'member', displayName: 'Member name', roleLabel: 'Host' },
+      { userId: 'u-cohost', userName: 'cohost', displayName: 'Co-host name', roleLabel: 'Co-host' },
+      { userId: 'u-staff1', userName: 'staffone', displayName: 'Staff one', roleLabel: 'Door' },
+      { userId: 'u-staff2', userName: 'stafftwo', displayName: 'Staff two', roleLabel: 'Sound' },
+      { userId: 'u-staff3', userName: 'staffthree', displayName: 'Staff three', roleLabel: 'Bar' },
     ],
     openRoles: [
       { id: 'role-1a', title: 'Photographer', count: 1, note: 'Candid plus portraits through the night' },

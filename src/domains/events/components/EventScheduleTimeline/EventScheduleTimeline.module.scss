@@ -1,0 +1,226 @@
+@use '../../../../styles/typography' as *;
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timelineItem {
+  display: flex;
+  gap: var(--precedent-space-md);
+  position: relative;
+}
+
+.timelineMark {
+  flex-shrink: 0;
+  width: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dot {
+  position: relative;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--precedent-radius-fully-rounded);
+  border: 2px solid var(--precedent-color-border);
+  background: var(--precedent-color-surface);
+  transition:
+    background 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+.connector {
+  flex: 1;
+  width: 2px;
+  min-height: calc(var(--precedent-space-lg) + 8px);
+  margin-top: 4px;
+  border-radius: 999px;
+  background: var(--precedent-color-border);
+  transition: background 400ms ease;
+}
+
+.connectorPast {
+  background: var(--precedent-color-primary);
+}
+
+.connectorActive {
+  background: linear-gradient(
+    to bottom,
+    var(--precedent-color-primary) 0%,
+    var(--precedent-color-primary) 45%,
+    var(--precedent-color-border) 100%
+  );
+  background-size: 100% 200%;
+  animation: connectorProgress 2.4s ease-in-out infinite;
+}
+
+.connectorUpcoming {
+  background: var(--precedent-color-border);
+}
+
+.connectorMore {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--precedent-color-border) 0,
+    var(--precedent-color-border) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  min-height: 20px;
+}
+
+.statusPast {
+  .dot {
+    border-color: var(--precedent-color-primary);
+    background: var(--precedent-color-primary);
+    box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb) / 0.15);
+  }
+
+  .time,
+  .itemTitle,
+  .description {
+    color: var(--precedent-color-text-muted);
+  }
+}
+
+.statusActive {
+  .dot {
+    border-color: var(--precedent-color-primary);
+    background: var(--precedent-color-primary);
+    box-shadow:
+      0 0 0 4px rgba(var(--brand-primary-rgb) / 0.2),
+      0 0 16px rgba(var(--brand-primary-rgb) / 0.45);
+    animation: activeDotPulse 2s ease-in-out infinite;
+  }
+
+  .time {
+    color: var(--precedent-color-primary);
+  }
+
+  .itemTitle {
+    color: var(--precedent-color-text);
+  }
+}
+
+.statusUpcoming {
+  .dot {
+    border-color: rgba(var(--brand-primary-rgb) / 0.35);
+    background: var(--precedent-color-surface);
+  }
+}
+
+.content {
+  flex: 1;
+  padding: 0 0 var(--precedent-space-lg);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.timelineItem:last-child .content {
+  padding-bottom: 0;
+}
+
+.time {
+  @extend %type-caption-caps;
+  color: var(--precedent-color-text-muted);
+  margin-bottom: 4px;
+  transition: color 300ms ease;
+}
+
+.itemTitle {
+  @extend %type-subhead;
+  font-weight: var(--precedent-font-weight-semibold);
+  color: var(--precedent-color-text);
+  margin: 0 0 4px 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  transition: color 300ms ease;
+}
+
+.descriptionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.description {
+  @extend %type-caption;
+  color: var(--precedent-color-text-muted);
+  margin: 0;
+  line-height: var(--precedent-line-height-relaxed, 1.55);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: pre-wrap;
+  transition: color 300ms ease;
+}
+
+.trailingMore {
+  display: flex;
+  gap: var(--precedent-space-md);
+  align-items: flex-start;
+  padding-top: 2px;
+}
+
+.trailingMoreMark {
+  flex-shrink: 0;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.trailingMoreDots {
+  @extend %type-caption;
+  color: var(--precedent-color-text-muted);
+  letter-spacing: 0.2em;
+}
+
+@keyframes activeDotPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 4px rgba(var(--brand-primary-rgb) / 0.2),
+      0 0 16px rgba(var(--brand-primary-rgb) / 0.45);
+  }
+
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 6px rgba(var(--brand-primary-rgb) / 0.14),
+      0 0 22px rgba(var(--brand-primary-rgb) / 0.55);
+  }
+}
+
+@keyframes connectorProgress {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot,
+  .connector,
+  .time,
+  .itemTitle,
+  .description {
+    transition: none;
+  }
+
+  .statusActive .dot {
+    animation: none;
+  }
+
+  .connectorActive {
+    animation: none;
+    background: var(--precedent-color-primary);
+  }
+}
