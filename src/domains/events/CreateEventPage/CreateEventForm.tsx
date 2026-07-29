@@ -1,5 +1,7 @@
 import { CommunitySelector } from '@components/CommunitySelector/CommunitySelector';
 import { DateTimePicker } from '@components/DateTimePicker/DateTimePicker';
+import { OpenRolesField } from '@domains/events/openRoles/OpenRolesField';
+import type { OpenRole } from '@domains/events/openRoles/types';
 import { PersonnelInviteSection } from '@domains/events/sections/PersonnelInviteSection';
 import { fromDateTimeLocalToISO } from '@domains/events/utils/eventFormUtils';
 import type {
@@ -96,6 +98,8 @@ export function CreateEventForm({ mode }: CreateEventFormProps) {
   const [timezone, setTimezone] = useState(localTimezone);
   const [selectedCoHostIds, setSelectedCoHostIds] = useState<string[]>([]);
   const [selectedStaffIds, setSelectedStaffIds] = useState<string[]>([]);
+  const [openRoles, setOpenRoles] = useState<OpenRole[]>([]);
+  const [openToApplications, setOpenToApplications] = useState(false);
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
   const [openExtras, setOpenExtras] = useState<Record<ExtraKey, boolean>>({
@@ -255,6 +259,15 @@ export function CreateEventForm({ mode }: CreateEventFormProps) {
             />
           </div>
         )}
+
+        <div className={styles.section}>
+          <OpenRolesField
+            roles={openRoles}
+            onChange={setOpenRoles}
+            openToApplications={openToApplications}
+            onOpenToApplicationsChange={setOpenToApplications}
+          />
+        </div>
 
         <div className={styles.actions}>
           <Button

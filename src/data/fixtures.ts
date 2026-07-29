@@ -11,12 +11,23 @@ import {
 } from '@saga/crowd-commission-middleware';
 import type { InterestCheck, InterestCheckPledge } from '@domains/events/interestCheck/types';
 
+export interface WireOpenRole {
+  id: string;
+  title: string;
+  count?: number;
+  note?: string;
+}
+
 export interface WireEvent {
   id: string;
   name: string;
   dateText: string;
   location?: string;
   goingText?: string;
+  // Open Roles: roles the host needs filled, and whether they take general
+  // crew applications even with no specific role listed.
+  openRoles?: WireOpenRole[];
+  openToApplications?: boolean;
 }
 
 export const wireEvents: WireEvent[] = [
@@ -26,6 +37,12 @@ export const wireEvents: WireEvent[] = [
     dateText: 'Sat, Jan 10 · 7:00 PM',
     location: 'Venue name, City',
     goingText: '128 going · 210 total',
+    openRoles: [
+      { id: 'role-1a', title: 'Photographer', count: 1, note: 'Candid plus portraits through the night' },
+      { id: 'role-1b', title: 'DJ', note: 'Two sets, house and afrobeats' },
+      { id: 'role-1c', title: 'Door / check-in', count: 2 },
+    ],
+    openToApplications: true,
   },
   {
     id: 'evt-2',
@@ -33,6 +50,8 @@ export const wireEvents: WireEvent[] = [
     dateText: 'Sun, Jan 18 · 2:00 PM',
     location: 'Venue name, City',
     goingText: '64 going',
+    // No specific roles listed, but open to general crew applications.
+    openToApplications: true,
   },
   {
     id: 'evt-3',
@@ -75,6 +94,104 @@ export const wireEvents: WireEvent[] = [
     dateText: 'Sun, Mar 15 · 1:00 PM',
     location: 'Venue name, City',
     goingText: '38 going',
+  },
+];
+
+export interface WireApplicant {
+  id: string;
+  name: string;
+  handle: string;
+  message: string;
+}
+
+// Applicants to open roles, keyed by role id (WireEvent.openRoles[].id). The host
+// review reads these. The apply flow on the event page is inert, so these stand in
+// for "who applied."
+export const wireRoleApplicants: Record<string, WireApplicant[]> = {
+  'role-1a': [
+    {
+      id: 'app-1a-1',
+      name: 'Placeholder Member One',
+      handle: 'member_one',
+      message:
+        'I shoot a lot of nightlife events and would love to capture this one. Portfolio is in my profile.',
+    },
+    {
+      id: 'app-1a-2',
+      name: 'Placeholder Member Two',
+      handle: 'member_two',
+      message: 'Available all night, happy to do candids plus a few setups.',
+    },
+  ],
+  'role-1b': [
+    {
+      id: 'app-1b-1',
+      name: 'Placeholder Member Three',
+      handle: 'member_three',
+      message: 'House and afrobeats are my main sets. I can bring my own controller.',
+    },
+  ],
+  'role-1c': [
+    {
+      id: 'app-1c-1',
+      name: 'Placeholder Member Four',
+      handle: 'member_four',
+      message: 'Done door and check-in for a few shows, fast with a guest list.',
+    },
+    {
+      id: 'app-1c-2',
+      name: 'Placeholder Member Five',
+      handle: 'member_five',
+      message: 'Reliable and on time, happy to cover the whole night.',
+    },
+  ],
+};
+
+// General "open to crew" applicants, not tied to a specific role.
+export const wireGeneralApplicants: WireApplicant[] = [
+  {
+    id: 'app-gen-1',
+    name: 'Placeholder Member Six',
+    handle: 'member_six',
+    message:
+      'No specific role in mind, but I help produce events often and would love to pitch in.',
+  },
+];
+
+export interface WireCrewMember {
+  id: string;
+  name: string;
+  handle: string;
+  fromRole?: string;
+  fromEvent?: string;
+  note?: string;
+}
+
+// The host's saved crew (the "crew database"). People saved from past open-role
+// applications collect here for reuse on future events.
+export const wireCrew: WireCrewMember[] = [
+  {
+    id: 'crew-1',
+    name: 'Placeholder Member Seven',
+    handle: 'member_seven',
+    fromRole: 'Photographer',
+    fromEvent: 'Placeholder event title three',
+    note: 'Great in low light, fast turnaround.',
+  },
+  {
+    id: 'crew-2',
+    name: 'Placeholder Member Eight',
+    handle: 'member_eight',
+    fromRole: 'DJ',
+    fromEvent: 'Placeholder event title five',
+  },
+  {
+    id: 'crew-3',
+    name: 'Placeholder Member Nine',
+    handle: 'member_nine',
+    fromRole: 'Open to crew',
+    fromEvent: 'Placeholder event title two',
+    note: 'Reliable all-rounder, helped with setup and door.',
   },
 ];
 

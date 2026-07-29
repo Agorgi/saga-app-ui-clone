@@ -16,6 +16,8 @@ import { InterestCheckForm } from '@domains/events/CreateEventPage/InterestCheck
 import InterestCheckDetailPage from '@domains/events/interestCheck/InterestCheckDetailPage';
 import { EventPage } from '@domains/events/EventPage/EventPage';
 import { EventsListPage } from '@domains/events/EventsListPage/EventsListPage';
+import { CrewProvider } from '@domains/events/openRoles/CrewContext';
+import { MyCrewPage } from '@domains/events/openRoles/MyCrewPage';
 import { NotificationsPage } from '@domains/notifications';
 import CreatePostPage from '@domains/post-creation/CreatePost';
 import FollowingFeedPage from '@domains/posts/FollowingFeed';
@@ -33,6 +35,7 @@ export default function App() {
       <AvatarProvider defaultAvatars={placeholderAvatars}>
         <ThemeProvider>
           <AuthProvider>
+            <CrewProvider>
             <BrowserRouter>
               <GlobalOverlay>
                 <Routes>
@@ -58,6 +61,7 @@ export default function App() {
                     </>
                   )}
                   <Route path="/events/:eventId" element={<EventPage />} />
+                  <Route path="/crew" element={<MyCrewPage />} />
                   <Route path="/create-post" element={<CreatePostPage />} />
                   <Route path="/crowd-commissions/new" element={<CrowdCommissionCreatePage />} />
                   <Route path="/crowd-commissions/:id/edit" element={<CrowdCommissionEditPage />} />
@@ -70,6 +74,7 @@ export default function App() {
               </GlobalOverlay>
               <Toast />
             </BrowserRouter>
+            </CrewProvider>
           </AuthProvider>
         </ThemeProvider>
       </AvatarProvider>
