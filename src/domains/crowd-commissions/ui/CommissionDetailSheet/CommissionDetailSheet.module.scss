@@ -1,0 +1,463 @@
+// ─── CommissionDetailSheet ────────────────────────────────────────────────────
+// Bottom-sheet overlay for standard commissions.
+// Visual language mirrors PollModal exactly — same tokens, same animation curve.
+
+@keyframes slideUpModal {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes fadeScaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ─── BaseModal overlay overrides ─────────────────────────────────────────────
+
+.overlay {
+  align-items: flex-end;
+  padding: 0;
+  background-color: rgba(15, 23, 42, 0.5);
+  animation: fadeIn 200ms ease both;
+
+  @media (min-width: 768px) {
+    align-items: center;
+    padding: var(--precedent-space-2xl);
+  }
+}
+
+.dialog {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  max-height: none;
+  overflow: visible;
+  margin: 0;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: auto;
+  }
+}
+
+// ─── Modal sheet ──────────────────────────────────────────────────────────────
+
+.modal {
+  width: 100%;
+  max-height: 92dvh;
+  background: var(--color-surface);
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUpModal 280ms var(--easing-spring) both;
+  container-type: inline-size;
+
+  @media (min-width: 768px) {
+    width: min(560px, 92vw);
+    max-height: 90dvh;
+    border-radius: 24px;
+    animation: fadeScaleIn 220ms var(--easing-spring) both;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.20);
+  }
+}
+
+// ─── Drag handle ─────────────────────────────────────────────────────────────
+
+.dragHandle {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: var(--precedent-space-md) 0 0;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+
+  &::after {
+    content: '';
+    width: 36px;
+    height: 4px;
+    border-radius: var(--precedent-radius-xs);
+    background: var(--color-border);
+    display: block;
+  }
+}
+
+// ─── Hero zone ───────────────────────────────────────────────────────────────
+
+.heroZone {
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  max-height: 220px;
+
+  @media (min-width: 768px) {
+    max-height: 260px;
+  }
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  min-height: 120px;
+  max-height: inherit;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 15%, rgba(0, 0, 0, 0.65) 100%);
+  pointer-events: none;
+}
+
+.closeHero {
+  position: absolute;
+  top: 14px;
+  right: var(--precedent-space-xl);
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--precedent-color-on-primary);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+
+  &:hover { background: rgba(0, 0, 0, 0.45); }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-on-primary);
+    outline-offset: 2px;
+  }
+}
+
+.heroText {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 var(--precedent-space-2xl) var(--precedent-space-xl);
+  z-index: 1;
+
+  @media (min-width: 768px) {
+    padding: 0 24px var(--precedent-space-2xl);
+  }
+}
+
+.creatorLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+  cursor: default;
+  margin-bottom: 4px;
+
+  &[href] {
+    cursor: pointer;
+    &:hover .heroCreator { text-decoration: underline; }
+  }
+}
+
+.heroCreator {
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+.heroTitle {
+  font-size: var(--precedent-font-size-text-xl);
+  font-weight: 800;
+  color: var(--precedent-color-on-primary);
+  margin: 0;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    font-size: var(--precedent-font-size-text-2xl);
+  }
+}
+
+// ─── Plain header (no image) ──────────────────────────────────────────────────
+
+.plainHeader {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--precedent-space-lg);
+  padding: var(--precedent-space-xl) var(--precedent-space-2xl) var(--precedent-space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.plainHeaderInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.plainHeaderCreator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--color-text-muted);
+  font-size: var(--precedent-font-size-text-sm);
+  margin-bottom: 5px;
+  cursor: default;
+
+  &[href] {
+    cursor: pointer;
+    &:hover span { text-decoration: underline; }
+  }
+}
+
+.plainHeaderTitle {
+  font-size: var(--precedent-font-size-text-xl);
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    font-size: var(--precedent-font-size-text-xl);
+  }
+}
+
+.closePlain {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-surface-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-surface-muted) 80%, var(--color-text-muted));
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ─── Meta row ────────────────────────────────────────────────────────────────
+
+.metaRow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: var(--precedent-space-md) var(--precedent-space-2xl);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--color-text-muted);
+  flex-wrap: wrap;
+
+  @media (min-width: 768px) {
+    padding: var(--precedent-space-lg) 24px;
+  }
+}
+
+.metaStats {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.metaDot { opacity: 0.35; }
+
+.metaRaised {
+  font-weight: 700;
+  color: var(--brand-primary);
+  background: rgba(var(--brand-primary-rgb) / 0.1);
+  padding: 2px 9px;
+  border-radius: 20px;
+  box-shadow: var(--glow-sm);
+}
+
+.metaRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metaDeadline {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+// ─── Scrollable body ──────────────────────────────────────────────────────────
+
+.body {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px var(--precedent-space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  background-color: var(--color-surface);
+  background-image:
+    linear-gradient(to bottom, var(--color-surface), transparent),
+    linear-gradient(to top,    var(--color-surface), transparent),
+    radial-gradient(farthest-side at 50% 0%,   rgba(0, 0, 0, 0.07), transparent),
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.07), transparent);
+  background-repeat: no-repeat;
+  background-size: 100% 32px, 100% 32px, 100% 14px, 100% 14px;
+  background-position: top, bottom, top, bottom;
+  background-attachment: local, local, scroll, scroll;
+
+  @media (min-width: 768px) {
+    padding: var(--precedent-space-xl) 24px;
+    gap: 14px;
+  }
+}
+
+// ─── Description section ──────────────────────────────────────────────────────
+
+.descriptionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.descriptionHeading {
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--precedent-font-size-text-md);
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  word-break: break-word;
+
+  p { margin: 0 0 0.75em; }
+  p:last-child { margin-bottom: 0; }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--precedent-radius-md);
+    margin: 0.5em 0;
+    object-fit: contain;
+  }
+}
+
+// ─── Owner panel slot ─────────────────────────────────────────────────────────
+
+.ownerPanelWrap {
+  flex-shrink: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.ownerPanelTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 11px var(--precedent-space-xl);
+  background: rgba(var(--brand-primary-rgb) / 0.03);
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  transition: background 150ms ease;
+
+  &:hover { background: rgba(var(--brand-primary-rgb) / 0.07); }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: -2px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 11px 24px;
+  }
+}
+
+.ownerPanelTriggerLabel {
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.01em;
+}
+
+.ownerPanelChevron {
+  color: var(--color-text-muted);
+  transition: transform 280ms var(--easing-spring);
+
+  &--open { transform: rotate(180deg); }
+}
+
+.ownerPanelContent {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 280ms var(--easing-spring),
+    opacity 200ms ease;
+
+  &--open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition:
+      grid-template-rows 280ms var(--easing-spring),
+      opacity 200ms ease 20ms;
+  }
+}
+
+.ownerPanelContentInner { overflow: hidden; }
+
+// ─── Reduced motion ───────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .modal {
+    animation: none;
+  }
+
+  .ownerPanelContent,
+  .ownerPanelChevron {
+    transition: none;
+  }
+}

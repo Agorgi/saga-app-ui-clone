@@ -13,6 +13,7 @@
   "dependencies": {
     "@fontsource/inter": "^5.1.1",
     "@untitledui/icons": "^0.0.21",
+    "date-fns": "^4.4.0",
     "embla-carousel": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "react": "^19.2.0",

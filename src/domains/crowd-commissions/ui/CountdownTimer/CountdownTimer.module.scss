@@ -1,0 +1,16 @@
+.timer {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.ended {
+  color: inherit;
+  font-weight: inherit;
+}
+
+.label {
+  font-weight: 400;
+  color: var(--precedent-color-text-muted);
+}

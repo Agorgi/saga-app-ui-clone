@@ -1,0 +1,115 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.progress {
+  width: 100%;
+}
+
+.pledgeArea {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.presetRow {
+  display: flex;
+  gap: 10px;
+}
+
+.presetBtn {
+  flex: 1;
+  height: 44px;
+  border-radius: 10px;
+  border: 1.5px solid var(--precedent-color-border);
+  background: var(--precedent-color-surface);
+  font-size: var(--precedent-font-size-text-lg);
+  font-weight: 600;
+  color: var(--precedent-color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  animation: chipIn 0.3s var(--easing-spring) both;
+
+  &:hover:not(:disabled) {
+    background: var(--precedent-color-primary);
+    border-color: var(--precedent-color-primary);
+    color: var(--precedent-color-on-primary);
+    transform: scale(1.04);
+    box-shadow: 0 4px 14px rgba(var(--brand-primary-rgb) / 0.35);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.hint {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--precedent-color-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.unavailable {
+  padding: 16px;
+  border-radius: 6px;
+  background: var(--precedent-color-surface-subtle);
+  border: 1px solid var(--precedent-color-border);
+}
+
+.unavailableMessage {
+  font-size: var(--precedent-font-size-text-md);
+  color: var(--precedent-color-text-muted);
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+}
+
+@keyframes chipIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .presetBtn {
+    animation: none;
+    transition: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
+}
