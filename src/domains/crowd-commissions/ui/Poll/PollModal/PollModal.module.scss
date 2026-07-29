@@ -1,0 +1,1072 @@
+// ─── PollModal ────────────────────────────────────────────────────────────────
+
+@keyframes slideUpModal {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes fadeScaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ─── BaseModal overlay overrides (mobile bottom-sheet layout) ─────────────────
+
+// Applied via overlayClassName — overrides BaseModal's centered alignment
+// so the sheet slides up from the bottom on mobile, centered on desktop.
+.pollOverlay {
+  align-items: flex-end;
+  padding: 0;
+  background-color: rgba(15, 23, 42, 0.5);
+  animation: fadeIn 200ms ease both;
+
+  @media (min-width: 768px) {
+    align-items: center;
+    padding: var(--precedent-space-2xl);
+  }
+}
+
+// Applied via className — resets BaseModal's dialog wrapper so .modal owns
+// all visual styling (background, radius, shadow, overflow).
+.pollDialog {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  max-height: none;
+  overflow: visible;
+  // Override <dialog> UA stylesheet's margin: auto, which fights align-items: flex-end
+  // on the overlay and floats the sheet away from the bottom edge on mobile.
+  margin: 0;
+  // Mobile: full-width so the bottom sheet spans the screen edge-to-edge.
+  // Desktop: shrink to .modal's own width so the overlay's justify-content: center
+  // can center it correctly.
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: auto;
+  }
+}
+
+// ─── Modal sheet ──────────────────────────────────────────────────────────────
+
+.modal {
+  width: 100%;
+  max-height: 92dvh;
+  background: var(--color-surface);
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUpModal 280ms var(--easing-spring) both;
+  container-type: inline-size;
+
+  @media (min-width: 768px) {
+    width: min(560px, 92vw);
+    max-height: 90dvh;
+    border-radius: 24px;
+    animation: fadeScaleIn 220ms var(--easing-spring) both;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.20);
+  }
+}
+
+// ─── Drag handle (mobile only) ────────────────────────────────────────────────
+
+.dragHandle {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: var(--precedent-space-md) 0 0;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+
+  &::after {
+    content: '';
+    width: 36px;
+    height: 4px;
+    border-radius: var(--precedent-radius-xs);
+    background: var(--color-border);
+    display: block;
+  }
+}
+
+// ─── Hero zone (when image present) ──────────────────────────────────────────
+
+.heroZone {
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  max-height: 220px;
+
+  @media (min-width: 768px) {
+    max-height: 260px;
+  }
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  min-height: 120px;
+  max-height: inherit;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 15%, rgba(0, 0, 0, 0.65) 100%);
+  pointer-events: none;
+}
+
+.closeHero {
+  position: absolute;
+  top: 14px;
+  right: var(--precedent-space-xl);
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--precedent-color-on-primary);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--precedent-color-on-primary);
+    outline-offset: 2px;
+  }
+}
+
+.heroText {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 var(--precedent-space-2xl) var(--precedent-space-xl);
+  z-index: 1;
+
+  @media (min-width: 768px) {
+    padding: 0 24px var(--precedent-space-2xl);
+  }
+}
+
+// ─── Creator row (shared by hero + plain header) ──────────────────────────────
+
+.creatorLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+  cursor: default;
+  margin-bottom: 4px;
+
+  &[href] {
+    cursor: pointer;
+
+    &:hover .heroCreator,
+    &:hover span {
+      text-decoration: underline;
+    }
+  }
+}
+
+.heroCreator {
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+.heroTitleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.heroTitle {
+  font-size: var(--precedent-font-size-text-xl);
+  font-weight: 800;
+  color: var(--precedent-color-on-primary);
+  margin: 0;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  &--expanded {
+    display: block;
+    overflow: visible;
+  }
+
+  @media (min-width: 768px) {
+    font-size: var(--precedent-font-size-text-2xl);
+  }
+}
+
+// ─── Plain header (no image) ──────────────────────────────────────────────────
+
+.header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--precedent-space-lg);
+  padding: var(--precedent-space-xl) var(--precedent-space-2xl) var(--precedent-space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.headerInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.headerTitleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  margin-bottom: 4px;
+}
+
+.headerTitle {
+  font-size: var(--precedent-font-size-text-xl);
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  &--expanded {
+    display: block;
+    overflow: visible;
+  }
+
+  @media (min-width: 768px) {
+    font-size: var(--precedent-font-size-text-xl);
+  }
+}
+
+.headerMeta {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--color-text-muted);
+}
+
+.closePlain {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-surface-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-surface-muted) 80%, var(--color-text-muted));
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ─── Meta row ─────────────────────────────────────────────────────────────────
+
+.metaRow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: var(--precedent-space-md) var(--precedent-space-2xl);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--color-text-muted);
+  flex-wrap: wrap;
+
+  @media (min-width: 768px) {
+    padding: var(--precedent-space-lg) 24px;
+  }
+}
+
+// ── Left: voter count + raised amount ─────────────────────────────────────────
+.metaStats {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.metaDot {
+  opacity: 0.35;
+}
+
+.metaPrice {
+  font-weight: 700;
+  color: var(--brand-primary);
+  background: rgba(var(--brand-primary-rgb) / 0.1);
+  padding: 2px 9px;
+  border-radius: 20px;
+  box-shadow: var(--glow-sm);
+}
+
+// ── Right: deadline + status badge ────────────────────────────────────────────
+.metaRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metaDeadline {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+// ─── Caption (inside scroll body) ─────────────────────────────────────────────
+// Caption is the first child of .body so long captions scroll with the content
+// rather than squeezing the options area. Horizontal padding comes from .body.
+
+.captionWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding-bottom: var(--precedent-space-md);
+
+  @media (min-width: 768px) {
+    padding-bottom: var(--precedent-space-lg);
+  }
+}
+
+.captionSection {
+  padding: 0;
+  margin: 0;
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.55;
+
+  @media (min-width: 768px) {
+    font-size: var(--precedent-font-size-text-md);
+  }
+}
+
+// Applied when not expanded — clamps to 3 lines.
+.captionSection--clamped {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// ─── Show more / Show less toggle ─────────────────────────────────────────────
+
+.showMoreBtn {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 1px 0;
+  margin: 0;
+  font: inherit;
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  color: var(--brand-primary);
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.4;
+  transition: opacity 140ms ease;
+
+  &:hover { opacity: 0.72; }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+}
+
+// Variant for use over the dark hero image — uses white instead of brand colour.
+.showMoreBtnHero {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 1px 0;
+  margin: 0;
+  font: inherit;
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.70);
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.4;
+  transition: color 140ms ease;
+
+  &:hover { color: rgba(255, 255, 255, 0.95); }
+
+  &:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+}
+
+// ─── Scrollable body ──────────────────────────────────────────────────────────
+// flex: 0 1 auto; min-height: 0 — content-adaptive: the modal fits its content
+// naturally and only scrolls when the sum of all flex children would exceed
+// the modal's max-height cap. (flex: 1 was the bug: flex-basis 0 + overflow-y: auto
+// sets automatic min-size to 0, so the body grew to fill all available space up
+// to max-height even when body content was just a single gate CTA button.)
+
+.body {
+  position: relative;
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px var(--precedent-space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  // CSS scroll shadow — gradient fades indicate hidden content above/below.
+  // Layers 1 & 2 (local): cover shadows when scrolled to edge.
+  // Layers 3 & 4 (scroll): fixed shadows visible when content extends off-screen.
+  background-color: var(--color-surface);
+  background-image:
+    linear-gradient(to bottom, var(--color-surface), transparent),
+    linear-gradient(to top,    var(--color-surface), transparent),
+    radial-gradient(farthest-side at 50% 0%,   rgba(0, 0, 0, 0.07), transparent),
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.07), transparent);
+  background-repeat: no-repeat;
+  background-size: 100% 32px, 100% 32px, 100% 14px, 100% 14px;
+  background-position: top, bottom, top, bottom;
+  background-attachment: local, local, scroll, scroll;
+
+  @media (min-width: 768px) {
+    padding: var(--precedent-space-xl) 24px;
+    gap: 9px;
+  }
+}
+
+// ─── Footer ───────────────────────────────────────────────────────────────────
+
+.footer {
+  flex-shrink: 0;
+  padding: var(--precedent-space-lg) var(--precedent-space-xl);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--color-text-muted);
+  gap: 8px;
+  flex-wrap: wrap;
+
+  @media (min-width: 768px) {
+    padding: 14px 24px;
+  }
+}
+
+.userVoteNote {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--brand-primary);
+  font-weight: 600;
+}
+
+// ─── Tie banner ───────────────────────────────────────────────────────────────
+
+.tieBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: var(--precedent-space-md) var(--precedent-space-lg);
+  border-radius: var(--precedent-space-md);
+  background: var(--color-tie-bg);
+  color: var(--color-tie-text);
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: 500;
+}
+
+// ─── Pending payment banner ───────────────────────────────────────────────────
+
+@keyframes bannerSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.pendingBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--precedent-space-md);
+  padding: var(--precedent-space-md) var(--precedent-space-lg);
+  border-radius: var(--precedent-space-lg);
+  background: rgba(var(--brand-primary-rgb) / 0.07);
+  border: 1px solid rgba(var(--brand-primary-rgb) / 0.2);
+  margin-bottom: 4px;
+  animation: bannerSlideIn 240ms var(--easing-spring) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.pendingBannerIcon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-warning);
+}
+
+.pendingBannerBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.pendingBannerTitle {
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.3;
+  margin: 0 0 2px;
+}
+
+.pendingBannerSub {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.pendingLink {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border-radius: 9px;
+  background: var(--brand-primary);
+  color: var(--precedent-color-on-primary);
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 140ms ease,
+    transform 120ms var(--easing-spring),
+    box-shadow 140ms ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--brand-primary) 88%, #000);
+    transform: translateY(-1px);
+    box-shadow: var(--glow-md);
+  }
+
+  &:active {
+    transform: scale(0.97);
+    transition: transform 80ms ease;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ─── Donation panel ───────────────────────────────────────────────────────────
+
+@keyframes donationMorphIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes donationChipIn {
+  from {
+    opacity: 0;
+    transform: translateX(-6px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes donationSpin {
+  to { transform: rotate(360deg); }
+}
+
+.donationPanel {
+  border-radius: var(--precedent-radius-lg);
+  border: 1.5px solid rgba(var(--brand-primary-rgb) / 0.22);
+  background: rgba(var(--brand-primary-rgb) / 0.05);
+  box-shadow: var(--glow-sm);
+  padding: var(--precedent-space-2xl) var(--precedent-space-xl) var(--precedent-space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--precedent-space-xl);
+  animation: donationMorphIn 240ms var(--easing-spring) both;
+
+  @media (min-width: 768px) {
+    padding: 24px var(--precedent-space-2xl) 18px;
+    border-radius: 18px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.donationHeader {
+  text-align: center;
+}
+
+.donationTitle {
+  font-size: var(--precedent-font-size-text-lg);
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0 0 5px;
+  line-height: 1.2;
+
+  @media (min-width: 768px) {
+    font-size: var(--precedent-font-size-text-xl);
+  }
+}
+
+.donationSub {
+  font-size: var(--precedent-font-size-text-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.4;
+
+  @media (min-width: 768px) {
+    font-size: var(--precedent-font-size-text-md);
+  }
+}
+
+.donationPresets {
+  display: flex;
+  gap: var(--precedent-space-md);
+
+  @media (min-width: 768px) {
+    gap: var(--precedent-space-lg);
+  }
+}
+
+.donationBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex: 1;
+  height: 52px;
+  border-radius: 14px;
+  border: 1.5px solid var(--brand-primary);
+  background: transparent;
+  color: var(--brand-primary);
+  font-size: var(--precedent-font-size-text-xl);
+  font-weight: 800;
+  cursor: pointer;
+  animation: donationChipIn 230ms var(--easing-spring) both;
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    transform 140ms var(--easing-spring),
+    box-shadow 180ms ease;
+
+  &:nth-child(1) { animation-delay: 40ms; }
+  &:nth-child(2) { animation-delay: 100ms; }
+  &:nth-child(3) { animation-delay: 160ms; }
+
+  &:hover:not(:disabled) {
+    background: var(--brand-primary);
+    color: var(--precedent-color-on-primary);
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: var(--glow-md);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+    transition: transform 80ms ease;
+  }
+
+  &:disabled:not(.donationBtn--loading) {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &--loading {
+    background: var(--brand-primary);
+    color: var(--precedent-color-on-primary);
+    pointer-events: none;
+    box-shadow: 0 3px 12px rgba(var(--brand-primary-rgb) / 0.3);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 768px) {
+    height: 56px;
+    border-radius: var(--precedent-radius-lg);
+    font-size: var(--precedent-font-size-text-2xl);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transition: none;
+  }
+}
+
+.donationBack {
+  align-self: center;
+  background: none;
+  border: none;
+  font-size: var(--precedent-font-size-text-md);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 4px var(--precedent-space-md);
+  border-radius: var(--precedent-radius-md);
+  transition: color 140ms ease, background 140ms ease;
+
+  &:hover:not(:disabled) {
+    color: var(--color-text);
+    background: var(--precedent-color-border-subtle);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+  }
+}
+
+.donationSpinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: var(--precedent-color-on-primary);
+  border-radius: 50%;
+  animation: donationSpin 0.55s linear infinite;
+  flex-shrink: 0;
+}
+
+// ─── Gate ↔ Donation cross-morph (exit animations) ────────────────────────────
+// Exit animations play for 140ms (≈58% of the 240ms entrance duration),
+// satisfying the exit-faster-than-enter UX principle. pointer-events: none
+// prevents double-taps during the leaving window.
+
+@keyframes gateCtaExit {
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-5px);
+  }
+}
+
+@keyframes donationPanelExit {
+  to {
+    opacity: 0;
+    transform: scale(0.97) translateY(5px);
+  }
+}
+
+// Applied via styles['gateCta--leaving'] bracket notation (CSS Modules).
+.gateCta--leaving {
+  animation: gateCtaExit 140ms var(--easing-spring) forwards;
+  pointer-events: none;
+}
+
+.donationPanel--leaving {
+  animation: donationPanelExit 140ms var(--easing-spring) forwards;
+  pointer-events: none;
+}
+
+// ─── Owner panel slot ─────────────────────────────────────────────────────────
+
+.ownerPanelWrap {
+  flex-shrink: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+// Trigger button — always-visible strip; shows "Creator controls" + rotating chevron.
+.ownerPanelTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 11px var(--precedent-space-xl);
+  background: rgba(var(--brand-primary-rgb) / 0.03);
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: rgba(var(--brand-primary-rgb) / 0.07);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: -2px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 11px 24px;
+  }
+}
+
+.ownerPanelTriggerLabel {
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.01em;
+}
+
+// Chevron rotates 180° when panel is open.
+.ownerPanelChevron {
+  color: var(--color-text-muted);
+  transition: transform 280ms var(--easing-spring);
+
+  &--open {
+    transform: rotate(180deg);
+  }
+}
+
+// Collapsible region — uses grid-template-rows: 0fr → 1fr for smooth height animation
+// without needing a fixed max-height value.
+.ownerPanelContent {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 280ms var(--easing-spring),
+    opacity 200ms ease;
+
+  &--open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    // Slight delay on opacity so height starts moving first.
+    transition:
+      grid-template-rows 280ms var(--easing-spring),
+      opacity 200ms ease 20ms;
+  }
+}
+
+// overflow: hidden on direct child is required for the grid-template-rows trick.
+.ownerPanelContentInner {
+  overflow: hidden;
+}
+
+// ─── Gate CTA pill ────────────────────────────────────────────────────────────
+
+.gateCta {
+  appearance: none;
+  font: inherit;
+  width: 100%;
+  // min-height + auto height allows the sub-label to expand the pill naturally.
+  min-height: 52px;
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: var(--precedent-space-md);
+  padding: 8px 14px;
+  border-radius: var(--precedent-space-md);
+  border: none;
+  background: linear-gradient(
+    110deg,
+    var(--brand-primary) 0%,
+    rgba(var(--brand-primary-rgb) / 0.82) 100%
+  );
+  color: var(--precedent-color-on-primary);
+  cursor: pointer;
+  transition:
+    transform 180ms var(--easing-spring),
+    box-shadow 180ms ease,
+    filter 160ms ease;
+
+  @media (min-width: 480px) {
+    min-height: 56px;
+    padding: 10px var(--precedent-space-xl);
+    border-radius: var(--precedent-space-lg);
+    gap: var(--precedent-space-lg);
+  }
+
+  @media (min-width: 768px) {
+    min-height: 60px;
+    border-radius: var(--precedent-space-lg);
+    padding: 10px var(--precedent-space-2xl);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow-lg);
+    filter: brightness(1.06);
+  }
+
+  &:active {
+    transform: scale(0.97);
+    transition-duration: 80ms;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.gateCtaIcon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 480px) {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+// Flex column to stack the main label and the sub-label vertically.
+.gateCtaLabel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+  font-size: var(--precedent-font-size-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-align: left;
+  line-height: 1.2;
+
+  @media (min-width: 480px) {
+    font-size: var(--precedent-font-size-text-md);
+  }
+
+  @media (min-width: 768px) {
+    font-size: var(--precedent-font-size-text-lg);
+  }
+}
+
+// Sub-label beneath the main "Unlock poll" text.
+.gateCtaDesc {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.65;
+  line-height: 1.2;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  letter-spacing: 0;
+
+  @media (min-width: 480px) {
+    font-size: 11px;
+  }
+}
+
+.gateCtaHint {
+  // Hidden on narrow viewports — revealed at 480px where there is plenty of room
+  display: none;
+  flex-shrink: 0;
+  font-size: var(--precedent-font-size-text-xs, 11px);
+  font-weight: 500;
+  opacity: 0.72;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+
+  @media (min-width: 480px) {
+    display: block;
+    font-size: var(--precedent-font-size-text-sm);
+  }
+
+  @media (min-width: 768px) {
+    font-size: var(--precedent-font-size-text-md);
+  }
+}
+
+// ─── Reduced motion ───────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .pollOverlay,
+  .modal,
+  .donationPanel,
+  .pendingBanner,
+  .donationBtn,
+  .gateCta--leaving,
+  .donationPanel--leaving {
+    animation: none;
+  }
+
+  .ownerPanelContent,
+  .ownerPanelChevron {
+    transition: none;
+  }
+}

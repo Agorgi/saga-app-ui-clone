@@ -1,6 +1,7 @@
 import type { CrowdCommission } from '@saga/crowd-commission-middleware';
 
 import { CrowdCommissionCard } from '../CrowdCommissionCard/CrowdCommissionCard';
+import { CrowdCommissionPollCard } from '../CrowdCommissionPollCard/CrowdCommissionPollCard';
 
 interface CommissionFeedCardProps {
   commission: CrowdCommission;
@@ -33,11 +34,7 @@ export function CommissionFeedCard({
   userHasBacked,
 }: CommissionFeedCardProps) {
   if (commission.commissionType === 'poll') {
-    // Wireframe clone: poll commission cards (CrowdCommissionPollCard) land with the
-    // poll / voting sub-system in a later PR. Standard commissions render today; poll
-    // fixtures are not introduced yet, so this branch is intentionally inert.
-    void variant;
-    return null;
+    return <CrowdCommissionPollCard commission={commission} variant={variant} />;
   }
   return (
     <CrowdCommissionCard
