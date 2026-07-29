@@ -4,6 +4,7 @@ import { type Ref, useCallback, useId, useImperativeHandle, useState } from 'rea
 import { DragDropZone } from '../DragDropZone/DragDropZone';
 import sharedStyles from '../shared/MediaSection.module.scss';
 import { PostButton } from '../shared/PostButton/PostButton';
+import styles from './PostImageSection.module.scss';
 
 const CAROUSEL_OPTIONS = { loop: false };
 
@@ -79,12 +80,14 @@ export function PostImageSection({
         {images.length === 0 && (
           <div className={sharedStyles.mediaUploadSection}>
             <p className={sharedStyles.mediaUploadLabel}>Upload Images</p>
-            <DragDropZone
-              onFilesSelected={handleImageUpload}
-              accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
-              multiple
-              disabled={false}
-            />
+            <div className={styles.dropSquare}>
+              <DragDropZone
+                onFilesSelected={handleImageUpload}
+                accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
+                multiple
+                disabled={false}
+              />
+            </div>
           </div>
         )}
 
