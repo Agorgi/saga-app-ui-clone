@@ -3,6 +3,7 @@ import { CreatorLink } from '@components/CreatorLink';
 import { POST } from '@saga/records-middleware';
 import type React from 'react';
 import { memo } from 'react';
+import { CommissionBadgeModal } from '../CommissionBadge/CommissionBadgeModal';
 import { CollabCountButton } from '../CollabCountButton/CollabCountButton';
 import { CommentButton } from '../CommentButton/CommentButton';
 import { CommunityRoleBadge } from '../CommunityRoleBadge/CommunityRoleBadge';
@@ -57,6 +58,9 @@ export const PostEnlargedView: React.FC<PostEnlargedViewProps> = memo(
         <div className={styles.enlargedInfo}>
           <div className={styles.titleSection}>
             {post.title && <h2 className={styles.enlargedTitle}>{post.title}</h2>}
+            {post.crowdCommissionId && (
+              <CommissionBadgeModal crowdCommissionId={post.crowdCommissionId} variant="inline" />
+            )}
           </div>
           <div className={styles.footerSection}>
             <div className={styles.creatorRow}>

@@ -2,6 +2,7 @@ import type { WirePost } from '@/data/fixtures';
 import { CreatorLink } from '@components/CreatorLink';
 import { ClickableLabel } from '@saga/global-web';
 import type React from 'react';
+import { CommissionBadgeModal } from '../CommissionBadge/CommissionBadgeModal';
 import { CommunityRoleBadge } from '../CommunityRoleBadge/CommunityRoleBadge';
 import { PostActions } from '../PostActions/PostActions';
 import { PostMedia } from '../PostMedia/PostMedia';
@@ -38,9 +39,12 @@ const PostContent: React.FC<PostContentProps> = ({ post, likeCount, saveCount })
             <div className={styles.postDate}>{post.timeAgo}</div>
           </div>
         </div>
-        {post.title && (
+        {(post.title || post.crowdCommissionId) && (
           <div className={styles.postNameRow}>
-            <h2 className={styles.postName}>{post.title}</h2>
+            {post.title && <h2 className={styles.postName}>{post.title}</h2>}
+            {post.crowdCommissionId && (
+              <CommissionBadgeModal crowdCommissionId={post.crowdCommissionId} variant="inline" />
+            )}
           </div>
         )}
         <div className={styles.postContentBody}>

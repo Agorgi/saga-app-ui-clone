@@ -1,0 +1,74 @@
+// Shared glassmorphism base — mirrors StatusBadge's blur/saturate treatment
+%glassBase {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  font-family: inherit;
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  background: rgba(119, 121, 237, 0.14);
+  border: 1px solid rgba(119, 121, 237, 0.32);
+  color: #a5b4fc;
+  transition: background 150ms ease, border-color 150ms ease;
+
+  svg { display: block; flex-shrink: 0; }
+
+  &:hover {
+    background: rgba(119, 121, 237, 0.22);
+    border-color: rgba(119, 121, 237, 0.48);
+  }
+}
+
+// Overlay variant: icon-only by default; expand when the image container is wide enough.
+.badgeOverlay .label,
+.badgeOverlay .chevron {
+  display: none;
+}
+
+@container (min-width: 200px) {
+  .badgeOverlay .label,
+  .badgeOverlay .chevron {
+    display: inline;
+  }
+}
+
+// Inline variant: icon-only by default; expand when the container is wide enough.
+.badgeInline .label,
+.badgeInline .chevron {
+  display: none;
+}
+
+@container (min-width: 280px) {
+  .badgeInline .label,
+  .badgeInline .chevron {
+    display: inline;
+  }
+}
+
+.badgeOverlay {
+  @extend %glassBase;
+  padding: 5px;
+
+  @container (min-width: 200px) {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+}
+
+.badgeInline {
+  @extend %glassBase;
+  padding: 4px;
+  vertical-align: middle;
+
+  @container (min-width: 280px) {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+}
